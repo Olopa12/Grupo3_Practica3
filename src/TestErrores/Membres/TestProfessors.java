@@ -67,7 +67,7 @@ public class TestProfessors {
     static void testToString() {
         Professsors professor = new Professsors("Maria456", "maria@etse.com", new Data(10, 1, 2024), "DEIM", "D123");
 
-        String expected = "Membre => alias=Maria456, correuElectronic=maria@etse.com, dataAlta=10-01-2024, dataBaixa=Actiu Professsors departament=DEIM, numDespatx=D123";
+        String expected = "Membre => alias=Maria456, correuElectronic=maria@etse.com, dataAlta=10-01-2024, dataBaixa=Actiu, rol=Membre Professsors departament=DEIM, numDespatx=D123";
         TestUtils.assertEqual(expected, professor.toString(), "testToString - format correcte");
     }
 }
