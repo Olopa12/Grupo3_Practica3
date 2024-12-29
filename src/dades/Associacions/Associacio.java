@@ -8,8 +8,8 @@ import dades.Membres.*;
 
 public class Associacio {
     private final int MAXMEMBRES = 100;
-    private String nomAsociacio = null;
-    private String correuAsociacio = null;
+    private String nomAssociacio = null;
+    private String correuAssociacio = null;
 
     private Membres[] llistaM;
     private Membres[] llistaA;
@@ -25,8 +25,8 @@ public class Associacio {
     private String tresorer;
 
     public Associacio (String nom, String correu, String carrera){
-        nomAsociacio = nom;
-        correuAsociacio = correu;
+        nomAssociacio = nom;
+        correuAssociacio = correu;
         nMembresM = 0;
         president = null;
         secretari = null;
@@ -56,15 +56,15 @@ public class Associacio {
     }
     @Override
     public String toString() {
-        return "\nAsociacio: \n\tNom: " + nomAsociacio + "\n\tCorreu: " + correuAsociacio + "\n\tCarrera: " + carrera;
+        return "\nAsociacio: \n\tNom: " + nomAssociacio + "\n\tCorreu: " + correuAssociacio + "\n\tCarrera: " + carrera;
     }
 
     public String getNomAsociacio() {
-        return nomAsociacio;
+        return nomAssociacio;
     }
 
     public String getCorreuAsociacio() {
-        return correuAsociacio;
+        return correuAssociacio;
     }
 
     public String getCarrera() {
