@@ -54,6 +54,38 @@ public class Associacio {
                 this.carrera = "¡Carrera Inexistente!" + aux;
         }
     }
+
+    public Associacio (String nom, String correu, String carrera, String president, String secretari, String tresorer){
+        nomAssociacio = nom;
+        correuAssociacio = correu;
+        nMembresM = 0;
+        this.president = president;
+        this.secretari = secretari;
+        this.tresorer = tresorer;
+        llistaM = new Membres[MAXMEMBRES];
+        llistaA = new Membres[MAXMEMBRES];
+        int i = 0;
+        boolean trobat = false;
+        while(i < carreras.length && !trobat){
+            if(carrera.equalsIgnoreCase(carreras[i])){
+                this.carrera = carrera;
+                trobat = true;
+            }
+            i++;
+        }
+        if(!trobat){
+            String aux = ", posibles carreres: ";
+                for(int j = 0; j < carreras.length; j++){
+                    if(j == carreras.length-1){
+                        aux += carreras[j] + ".";
+                    }else{
+                        aux += carreras[j] + ", ";
+                    }
+                }
+                this.carrera = "¡Carrera Inexistente!" + aux;
+        }
+    }
+
     @Override
     public String toString() {
         return "\nAsociacio: \n\tNom: " + nomAssociacio + "\n\tCorreu: " + correuAssociacio + "\n\tCarrera: " + carrera;
