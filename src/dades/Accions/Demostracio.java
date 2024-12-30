@@ -1,41 +1,54 @@
 package dades.Accions;
 
-/**
- * Subclasse Demonstració.
- */
-public class Demostracio extends Accio{
-    private String dataDisseny; // Data en què es va dissenyar la demostració
-    private boolean activa; // Si la demostració encara és vàlida
-    private int vegadesOfertes; // Nombre de vegades que s'ha ofert
-    private double costMaterials; // Cost per crear els materials de la demostració
+import dades.Associacions.*;
+import dades.Membres.*;
 
-    public Demostracio(String titol, String[] associacions, String responsable, String dataDisseny,
-                        boolean activa, double costMaterials) {
-        super(titol, associacions, responsable);
+/**
+ * La classe Demostracio és una subclasse de Accio i representa una demostració d'una acció.
+ * i fa el següent:
+ * - Guarda la data en què es va dissenyar i si encara és una acció que es considera vàlida i per tant es continua oferint.
+ * - Comptabilitza quantes vegades s’ha ofert aquesta demostració, guarda aquesta informació i registra el cost associat a la creació dels materials per a la demostració.
+ *
+ * @author Sara Tribak, Nermin Tribak
+ * @version 1.0
+ */
+
+public class Demostracio extends Accio {
+    private String dataDisseny;
+    private boolean esValida;
+    private int vegadesOferida;
+    private double costMaterials;
+
+    public Demostracio(String titol, Associacio associacio, Membres responsable, String dataDisseny, boolean esValida, double costMaterials) {
+        super(titol, associacio, responsable);
         this.dataDisseny = dataDisseny;
-        this.activa = activa;
-        this.vegadesOfertes = 0;
+        this.esValida = esValida;
+        this.vegadesOferida = 0;
         this.costMaterials = costMaterials;
+    }
+
+    public void incrementarVegadesOferida() {
+        vegadesOferida++;
     }
 
     public String getDataDisseny() {
         return dataDisseny;
     }
 
-    public boolean isActiva() {
-        return activa;
+    public boolean isEsValida() {
+        return esValida;
     }
 
-    public int getVegadesOfertes() {
-        return vegadesOfertes;
+    public int getVegadesOferida() {
+        return vegadesOferida;
     }
 
     public double getCostMaterials() {
         return costMaterials;
     }
 
-    public void incrementarVegadesOfertes() {
-        vegadesOfertes++;
+    @Override
+    public String toString() {
+        return super.toString() + ", Data Disseny=" + dataDisseny + ", És Vàlida=" + esValida + ", Vegades Oferida=" + vegadesOferida + ", Cost Materials=" + costMaterials;
     }
-
 }
