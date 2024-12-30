@@ -8,7 +8,7 @@ import Utilitats.Data;
 /**
  * Aquí es comprova que el constructor de la classe Demostracio funciona correctament.
  * 
- * @author Nermin Tribak y Sara Tribak
+ * @author Nermin Tribak, Sara Tribak
  * @version 1.0
  */
 
