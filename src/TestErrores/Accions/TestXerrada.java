@@ -9,7 +9,7 @@ import Utilitats.Data;
  * En aquesta classe testejem la classe Xerrada. 
  * Testejem si es pot crear una xerrada amb els seus atributs i si es pot afegir membres impartidors, valoracions i assistents.
  * 
- * @author Nermin Tribak y Sara Tribak
+ * @author Nermin Tribak, Sara Tribak
  * @version 1.0
  */
 
