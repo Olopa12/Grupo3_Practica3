@@ -1,39 +1,37 @@
 package dades.Accions;
 
+import dades.Associacions.*;
+import dades.Membres.*;
+
 /**
- * Classe base de acció.
+ * La classe compta amb els atributs d'una accion, que són:
+ * - Codi
+ * - Titol
+ * - Associacio
+ * - Responsable
+ * El codi es genera automàticament a partir de les tres primeres lletres del nom de l'associació, seguides d'un número (començant per 100).
+ * 
+ * @author Sara Tribak, Nermin Tribak
+ * @version 1.0
  */
+
 public abstract class Accio {
-    private static int codiIni = 100;
+    private static int codiCounter = 100;
+    private String codi;
+    private String titol;
+    private Associacio associacio;
+    private Membres responsable;
 
-    private String codi; // Codi identificador de l'acció
-    private String titol; // Títol de l'acció
-    private String[] associacionsOrganitzadores; // Associacions que organitzen l'acció
-    private String responsable; // Responsable de l'acció
-
-
-    public Accio(String titol, String[] associacions, String responsable) {
-        if (associacions != null && associacions.length > 0) {
-            this.titol = titol;
-            this.associacionsOrganitzadores = associacions.clone();
-            this.responsable = responsable;
-            this.codi = generarCodi(associacions[0]);
-        } 
+    public Accio(String titol, Associacio associacio, Membres responsable) {
+        this.titol = titol;
+        this.associacio = associacio;
+        this.responsable = responsable;
+        this.codi = generarCodi(associacio);
     }
 
-    /**
-     * Generació codi per a l'acció.
-     *
-     * @param nomAssociacio Nom de l'associació principal.
-     * @return 
-     */
-    private String generarCodi(String nomAssociacio) {
-        String curt = nomAssociacio.substring(0, Math.min(3, nomAssociacio.length())).toUpperCase();
-        return curt + codiIni++;
-    } // Emplem Math.min per agafar només 3 caràcters
-
-   
-    // Els getters
+    private String generarCodi(Associacio associacio) {
+        return associacio.getNomAsociacio().substring(0, 3).toUpperCase() + (codiCounter++);
+    }
 
     public String getCodi() {
         return codi;
@@ -43,12 +41,19 @@ public abstract class Accio {
         return titol;
     }
 
-    public String[] getAssociacionsOrganitzadores() {
-        return associacionsOrganitzadores.clone();
+    public Associacio getAssociacio() {
+        return associacio;
     }
 
-    public String getResponsable() {
+    public Membres getResponsable() {
         return responsable;
     }
-   
+
+    @Override
+    public String toString() {
+        return "Acció [Codi=" + codi + ", Títol=" + titol + ", Associació=" + associacio.getNomAsociacio() + ", Responsable=" + responsable.getAlias() + "]";
+    }
 }
+
+
+// TODO 1 revisar los test, y corregir errores del código 
