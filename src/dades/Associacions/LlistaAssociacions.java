@@ -1,78 +1,117 @@
 package dades.Associacions;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Locale;
-import java.util.Scanner;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-import dades.Associacions.Associacio;
-import dades.Membres.Membres;
-
+/**
+ * Classe LlistaAssociacions que representa una llista de associacions.
+ * Permet afegir-ne noves associacions i crear un fitxer serialitzat on
+ * guardarem la llista i d'on la podrem llegir de volta amb una trucada al metode.
+ * 
+ * @author Alex Radu
+ * @version 1.0
+ */
 public class LlistaAssociacions {
     private Associacio[] llista;
     private int numAssociacions;
     
+    /**
+     * Constructor de la clase LlistaAssociacions.
+     * @param mida Mida de la taula de associacions.
+     * @author Alex Radu
+     */
     public LlistaAssociacions(int mida){
         llista = new Associacio[mida];
         numAssociacions = 0;
     }
 
-    public void afegirAssociacio(Associacio a){
-        int i = 0;
-        boolean trobat = false;
-        while(i < numAssociacions && !trobat){
-            // Comprueba si ya existe esta associacio en la llista.
-            if(a.getNomAsociacio().equalsIgnoreCase(llista[i].getNomAsociacio()) && a.getCorreuAsociacio().equalsIgnoreCase(llista[i].getCorreuAsociacio())){
-                trobat = true;
-            } else{
-                // Si no esta la añade
-                llista[i] = a;
-            }
+    @Override
+    public String toString() {
+        String aux = "";
+        for(int i = 0; i < numAssociacions; i++){
+            aux += "\n" + llista[i].toString();
         }
+        return aux;
     }
 
-    private void llegirBufferedReader(String nomFitxer) throws IOException {
-        BufferedReader fitxer = new BufferedReader(new FileReader(nomFitxer));
+    public Associacio[] copia(){
+        return llista;
+    }
 
-        String nomAssociacio, correuAssociacio, carrera, president, secretari, tresorer;
-        String linia;
-        Scanner trossos;
+    /**
+     * Metode que afegix una associacio a la llista de associacions.
+     * @param a Associacio que s'afegix.
+     * @throws ArrayIndexOutOfBoundsException Si no hi ha espai suficient a la llista per afegir la nova associacio.
+     * @author Alex Radu
+     */
+    public void afegirAssociacio(Associacio a){
+        try{
+            int i = 0;
+            boolean trobat = false;
+            while(i < numAssociacions && !trobat){
+                // Comprueba si ya existe esta associacio en la llista.
+                if(llista[i] != null && a.getNomAsociacio().equalsIgnoreCase(llista[i].getNomAsociacio()) && a.getCorreuAsociacio().equalsIgnoreCase(llista[i].getCorreuAsociacio())){
+                    trobat = true;
+                }
+                i++;
+            }
+            if(!trobat){
+                llista[numAssociacions] = a;
+                numAssociacions++;
+            }
+        } catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("\nNo hay espacio suficiente en la lista");
+        }
+        
+    }
 
-        linia = fitxer.readLine();
-        while (linia != null) {
-            trossos = new Scanner(linia);
-            trossos.useDelimiter(";");
-            trossos.useLocale(Locale.ENGLISH);
-            nomAssociacio = trossos.next();
-            correuAssociacio = trossos.next();
-            carrera = trossos.next();
-            president = trossos.next();
-            secretari = trossos.next();
-            tresorer = trossos.next();
-
-            Associacio l = new Associacio(nomAssociacio, correuAssociacio, carrera, president, secretari, tresorer);
-            llista[numAssociacions] = l;
-            
-            System.out.println("BufferedReader " + nomAssociacio + ", " + correuAssociacio + ", " + carrera + ", " + president + ", " + secretari + ", " + tresorer);
-            
-            numAssociacions++;
-
-            linia = fitxer.readLine();
+    /**
+     * Metode que llegeix el fitxer binari i el deserialitza i almaçena l'informacio.
+     * @param nomFitxer Nom del fitxer que estem llegint.
+     * @throws IOException Si es produeix un error en llegir o escriure al fitxer.
+     * @throws ClassNotFoundException Si no es pot trobar la classe per deserialitzar l'objecte.
+     * @author Alex Radu
+     */
+    public void llegirFitxerBinari(String nomFitxer) throws IOException {
+        ObjectInputStream fitxer = null;
+        try {
+            fitxer = new ObjectInputStream(new FileInputStream(nomFitxer));
+        } catch (FileNotFoundException e) {
+            System.out.println("\nArchivo " + nomFitxer + " no encontrado");
         }
 
+        boolean totLlegit = false;
+
+        while (!totLlegit) {
+            try {
+                Associacio as = (Associacio) fitxer.readObject();
+                afegirAssociacio(as);
+            } catch (EOFException e) {
+                totLlegit=true;
+            } catch (ClassNotFoundException | IOException e) {
+                e.printStackTrace();
+            } 
+        }
         fitxer.close();
     }
 
-    private void escriureBufferReader(String nomFitxer) throws IOException {
-        BufferedWriter fSort = new BufferedWriter((new FileWriter("LlistaAssociacions.txt", false)));
 
+
+    /**
+     * Crea un fitxer binari que enmagatzema les associacions mediant serialitzacio.
+     * @param fitxerOut El nom del fitxer binari creat.
+     * @throws IOException Salta si es produeix un error durant la creació del fitxer / l'escriptura d'aquest.
+     * @author Alex Radu
+     */
+    public void crearFitxerBinari(String fitxerOut) throws IOException {
+        ObjectOutputStream fSort = new ObjectOutputStream(new FileOutputStream((fitxerOut)));
         for(int i = 0; i < numAssociacions; i++){
-            fSort.write(llista[i].getNomAsociacio() + ";" + llista[i].getCorreuAsociacio() + ";" + llista[i].getCarrera() + ";" + llista[i].getPresident() + ";" + llista[i].getSecretari() + ";" + llista[i].getTresorer() + "/n");
+            fSort.writeObject(llista[i]);
         }
-
         fSort.close();
-
     }
 }
