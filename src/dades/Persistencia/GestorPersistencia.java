@@ -14,6 +14,48 @@ import dades.Associacions.LlistaAssociacions;
  */
 public class GestorPersistencia {
     /**
+     * Carrega les dades d'associacions i membres des dels fitxers especificats.
+     * 
+     * @param fitxerAssociacions Nom del fitxer binari amb les associacions.
+     * @param fitxerMembres Nom del fitxer de text amb els membres.
+     * @param llistaAssociacions Objecte LlistaAssociacions on carregar les associacions.
+     * @param llistaMembres Objecte LlistaMembres on carregar els membres.
+     * @throws IOException Si hi ha un error en la lectura dels fitxers.
+     */
+    public static void carregarDades(String fitxerAssociacions, String fitxerMembres, 
+                                     LlistaAssociacions llistaAssociacions, LlistaMembres llistaMembres) throws IOException {
+        try {
+            carregarAssociacions(fitxerAssociacions, llistaAssociacions);
+            carregarMembres(fitxerMembres, llistaMembres);
+            System.out.println("Totes les dades s'han carregat correctament.");
+        } catch (IOException e) {
+            System.err.println("Error carregant les dades: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
+     * Guarda les dades d'associacions i membres als fitxers especificats.
+     * 
+     * @param fitxerAssociacions Nom del fitxer binari on guardar les associacions.
+     * @param fitxerMembres Nom del fitxer de text on guardar els membres.
+     * @param llistaAssociacions Objecte LlistaAssociacions que conté les associacions.
+     * @param llistaMembres Objecte LlistaMembres que conté els membres.
+     * @throws IOException Si hi ha un error en l'escriptura dels fitxers.
+     */
+    public static void guardarDades(String fitxerAssociacions, String fitxerMembres, 
+                                    LlistaAssociacions llistaAssociacions, LlistaMembres llistaMembres) throws IOException {
+        try {
+            guardarAssociacions(fitxerAssociacions, llistaAssociacions);
+            guardarMembres(fitxerMembres, llistaMembres);
+            System.out.println("Totes les dades s'han guardat correctament.");
+        } catch (IOException e) {
+            System.err.println("Error guardant les dades: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
      * Llegeix i carrega les associacions des d'un fitxer binari.
      * 
      * @param fitxerAssociacions Nom del fitxer binari amb les associacions.
