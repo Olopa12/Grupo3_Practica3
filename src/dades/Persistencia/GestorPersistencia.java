@@ -1,4 +1,4 @@
-package Persistencia;
+package dades.Persistencia;
 
 import java.io.IOException;
 import dades.Membres.LlistaMembres;
