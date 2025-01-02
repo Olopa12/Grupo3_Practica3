@@ -1,6 +1,12 @@
 package aplicacio;
 
+import java.io.IOException;
 import java.util.Scanner;
+
+import dades.Associacions.LlistaAssociacions;
+import dades.Persistencia.GestorPersistencia;
+
+import dades.Membres.LlistaMembres;
 
 /**
  * Classe principal de l'aplicació que implementa un menú per gestionar associacions,
@@ -12,15 +18,59 @@ import java.util.Scanner;
  */
 public class App {
     static Scanner teclat = new Scanner(System.in);
+    static LlistaAssociacions llistaAssociacions = new LlistaAssociacions(50);
+    static LlistaMembres llistaMembres = new LlistaMembres("General", 100);
+
     /**
      * Punt d'entrada principal de l'aplicació.
      * Mostra el menú i executa les opcions seleccionades per l'usuari.
      * 
      * @param args Arguments de línia de comandes (no utilitzats).
-     * @throws Exception Si es produeix un error inesperat durant l'execució.
+     * @throws IOException Si es produeix un error inesperat durant l'execució.
      * @author Paolo
      */
     public static void main(String[] args) throws Exception {
+        String fitxerAssociacions = "associacions.dat";
+        String fitxerMembres = "membres.txt";
+
+        try {
+            // Comprovar si els fitxers existeixen i crear-los si no és així
+            java.io.File fileAssociacions = new java.io.File(fitxerAssociacions);
+            if (!fileAssociacions.exists()) {
+                System.out.println("El fitxer d'associacions no existeix. Creant un nou fitxer...");
+                LlistaAssociacions associacionsInicials = new LlistaAssociacions(50);
+                GestorPersistencia.guardarAssociacions(fitxerAssociacions, associacionsInicials);
+            }
+
+            java.io.File fileMembres = new java.io.File(fitxerMembres);
+            if (!fileMembres.exists()) {
+                System.out.println("El fitxer de membres no existeix. Creant un nou fitxer...");
+                LlistaMembres membresInicials = new LlistaMembres("General", 100);
+                GestorPersistencia.guardarMembres(fitxerMembres, membresInicials);
+            }
+
+            // Càrrega inicial de les dades
+            System.out.println("Carregant dades...");
+            GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, llistaAssociacions, llistaMembres);
+
+            // Executar el menú principal
+            menuPrincipal();
+
+        } catch (IOException e) {
+            System.err.println("Error carregant o creant els fitxers inicials: " + e.getMessage());
+        } finally {
+            teclat.close();
+        }
+    }
+
+    /**
+     * Mostra el menú i executa les opcions seleccionades per l'usuari.
+     * 
+     * @throws Exception Si es produeix un error inesperat durant l'execució.
+     * @throws NumberFormatException Si l'usuari introdueix un valor no vàlid per a una opció numèrica.
+     * @author Paolo
+     */
+    public static void menuPrincipal() {
         int opcio = 0;
 
         do {
@@ -83,7 +133,7 @@ public class App {
                         opcio17(); // Donar de baixa demostracions no actives
                         break;
                     case 18://S'ortir
-                        System.out.println("Sortint de l'aplicació. Fins aviat!");
+                        sortirAplicacio();
                         break;
                     default:
                         System.out.println("Opció no vàlida. Si us plau, tria una opció entre 1 i 18.");
@@ -209,4 +259,26 @@ public class App {
         // TODO: Implementar funcionalitat
     }
     
+    /**
+     * Mètode per gestionar la sortida de l'aplicació.
+     * Aquest mètode ofereix l'opció de guardar els canvis abans de tancar l'aplicació.
+     * Si l'usuari indica que vol guardar, les dades de les associacions i membres es guarden
+     * en fitxers utilitzant el gestor de persistència.
+     *
+     * @throws IOException Si hi ha un error durant el procés de guardat de les dades.
+     * @author Paolo
+    */
+    public static void sortirAplicacio() {
+        System.out.print("Desitja guardar els canvis abans de sortir? (y/n): ");
+        String resposta = teclat.nextLine();
+        if (resposta.equalsIgnoreCase("y")) {
+            try {
+                GestorPersistencia.guardarDades("associacions.dat", "membres.txt", llistaAssociacions, llistaMembres);
+                System.out.println("Dades guardades correctament.");
+            } catch (IOException e) {
+                System.err.println("Error guardant les dades: " + e.getMessage());
+            }
+        }
+        System.out.println("Sortint de l'aplicació.");
+    }
 }
