@@ -12,6 +12,12 @@ import dades.Membres.Membres;
  * @version 1.0
  */
 public class TestMembres {
+    /**
+     * Punt d'entrada del programa de proves.
+     * Crida a les funcions de test per validar el comportament de la classe Membres.
+     * 
+     * @param args Arguments de línia de comandes (no utilitzats).
+     */
     public static void main(String[] args) {
         testGetters();
         testSetters();

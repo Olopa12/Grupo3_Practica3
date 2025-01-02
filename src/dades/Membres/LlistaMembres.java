@@ -37,6 +37,8 @@ public class LlistaMembres {
 
     /**
      * Ordena la llista de membres per alias.
+     * 
+     * @throws RuntimeException Si es produeix un error durant l'ordenació.
      */
     private void ordenarLlista() {
         try {
@@ -51,6 +53,7 @@ public class LlistaMembres {
      * Es fa una còpia del membre abans d'afegir-lo.
      * 
      * @param m - Membre que es vol afegir a la llista.
+     * @throws IllegalStateException Si la llista està plena.
      */
     public void afegirMembre(Membres m) {
         try {
@@ -83,6 +86,7 @@ public class LlistaMembres {
      * 
      * @param m - Membre que es vol comprovar.
      * @return Cert si el membre ja està a la llista, fals en cas contrari.
+     * @throws RuntimeException Si es produeix un error durant la comprovació.
      */
     public boolean esta(Membres m) {
         try {
@@ -207,6 +211,7 @@ public class LlistaMembres {
      * 
      * @param atributs - Atributs separats de la línia del fitxer.
      * @return Una instància d'Alumnes o null si hi ha un error.
+     * @throws IllegalArgumentException Si els atributs no són suficients o hi ha errors en el format.
      */
     private Membres carregarAlumne(String[] atributs) {
         try {
@@ -232,6 +237,7 @@ public class LlistaMembres {
      * 
      * @param atributs - Atributs separats de la línia del fitxer.
      * @return Una instància de Professsors o null si hi ha un error.
+     * @throws IllegalArgumentException Si els atributs no són suficients o hi ha errors en el format.
      */
     private Membres carregarProfessor(String[] atributs) {
         try {

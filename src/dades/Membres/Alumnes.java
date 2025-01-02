@@ -27,6 +27,7 @@ public class Alumnes extends Membres{
      * @param ensenyament     - Ensenyament de l'alumne.
      * @param antiguitat      - Nombre d'anys que l'alumne porta a l'ETSE.
      * @param graduat         - Indica si l'alumne està graduat.
+     * @throws IllegalArgumentException Si l'ensenyament és nul o buit, o si l'antiguitat és negativa.
      */
     public Alumnes(String alias, String correuElectronic, Data dataAlta, 
     String ensenyament, int antiguitat, boolean graduat) {
@@ -78,6 +79,7 @@ public class Alumnes extends Membres{
      * Setter per modificar l'ensenyament de l'alumne.
      * 
      * @param ensenyament - El nou valor de l'ensenyament.
+     * @throws IllegalArgumentException Si l'ensenyament és nul o buit.
      */
     public void setEnsenyament(String ensenyament) {
         try {
@@ -94,6 +96,7 @@ public class Alumnes extends Membres{
      * Setter per modificar l'antiguitat de l'alumne.
      * 
      * @param antiguitat - El nou valor d'antiguitat.
+     * @throws IllegalArgumentException Si l'antiguitat és negativa.
      */
     public void setAntiguitat(int antiguitat) {
         try {
@@ -122,7 +125,8 @@ public class Alumnes extends Membres{
     /**
      * Retorna una representació textual de l'objecte Alumnes.
      * 
-     * @return Una cadena de text amb els detalls de l'alumne.
+     * @return Una cadena de text amb els detalls de l'alumne.ç
+     * @throws RuntimeException Si es produeix un error en generar la representació.
      */
     @Override
     public String toString() {
@@ -139,6 +143,7 @@ public class Alumnes extends Membres{
      * Crea una còpia de l'objecte Alumnes actual.
      * 
      * @return Una nova instància de l'objecte Alumnes amb els mateixos valors.
+     * @throws RuntimeException Si es produeix un error durant la còpia.
      */
     @Override
     public Alumnes copia() {

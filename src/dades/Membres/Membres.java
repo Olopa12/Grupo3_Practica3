@@ -27,6 +27,7 @@ public abstract class Membres {
      * @param alias            - Identificador únic del membre.
      * @param correuElectronic - Correu electrònic del membre.
      * @param dataAlta         - Data en què el membre s'ha donat d'alta.
+     * @throws IllegalArgumentException Si qualsevol dels paràmetres és invàlid.
      */
     public Membres(String alias, String correuElectronic, Data dataAlta) {
         try {
@@ -46,6 +47,7 @@ public abstract class Membres {
      * Assigna el valor rebut per paràmetre.
      * 
      * @param alias - Nou valor per a l'alias del membre.
+     * @throws IllegalArgumentException Si l'alias és buit o nul.
      */
     public void setAlias(String alias) {
         try {
@@ -63,6 +65,7 @@ public abstract class Membres {
      * Assigna el valor rebut per paràmetre.
      * 
      * @param correuElectronic - Nou valor per al correu electrònic del membre.
+     * @throws IllegalArgumentException Si el correu electrònic és buit o nul.
      */
     public void setCorreuElectronic(String correuElectronic) {
         try {
@@ -80,6 +83,7 @@ public abstract class Membres {
      * Assigna el valor rebut per paràmetre.
      * 
      * @param dataAlta - Nou valor per a la data d'alta del membre.
+     * @throws IllegalArgumentException Si la data d'alta és nul·la.
      */
     public void setDataAlta(Data dataAlta) {
         try {
@@ -97,6 +101,7 @@ public abstract class Membres {
      * Si el valor és nul o buit, es manté el rol actual.
      * 
      * @param rol - Nou valor per al rol del membre.
+     * @throws IllegalArgumentException Si el rol és buit o nul.
      */
     public void setRol(String rol) {
         try {
@@ -114,6 +119,7 @@ public abstract class Membres {
      * Assigna el valor rebut per paràmetre.
      * 
      * @param dataBaixa - Nou valor per a la data de baixa del membre.
+     * @throws IllegalArgumentException Si la data de baixa és anterior a la data d'alta.
      */
     public void setDataBaixa(Data dataBaixa) {
         try {
@@ -175,6 +181,7 @@ public abstract class Membres {
      * Retorna una representació textual del membre.
      * 
      * @return Una cadena de text amb els detalls del membre.
+     * @throws RuntimeException Si es produeix un error durant la generació del text.
      */
     @Override
     public String toString() {

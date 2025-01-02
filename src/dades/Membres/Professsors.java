@@ -24,6 +24,7 @@ public class Professsors extends Membres{
      * @param dataAlta        - Data d'alta del membre.
      * @param departament     - Departament al qual pertany el professor.
      * @param numDespatx      - Número de despatx del professor.
+     * @throws IllegalArgumentException Si el departament no és vàlid o si el número de despatx és nul o buit.
      */
     public Professsors(String alias, String correuElectronic, Data dataAlta, 
     String departament, String numDespatx) {
@@ -47,6 +48,7 @@ public class Professsors extends Membres{
      * Setter per modificar el departament del professor.
      * 
      * @param departament - El nou valor del departament.
+     * @throws IllegalArgumentException Si el departament no és vàlid.
      */
     public void setDepartament(String departament) {
         try {
@@ -63,6 +65,7 @@ public class Professsors extends Membres{
      * Setter per modificar el número de despatx del professor.
      * 
      * @param numDespatx - El nou valor del número de despatx.
+     * @throws IllegalArgumentException Si el número de despatx és nul o buit.
      */
     public void setNumDespatx(String numDespatx) {
         try {
@@ -97,6 +100,7 @@ public class Professsors extends Membres{
      * Retorna una representació textual de l'objecte Professsors.
      * 
      * @return Una cadena de text amb els detalls del professor.
+     * @throws RuntimeException Si es produeix un error durant la generació del text.
      */
     @Override
     public String toString() {
@@ -113,6 +117,7 @@ public class Professsors extends Membres{
      * Crea una còpia de l'objecte Professsors actual.
      * 
      * @return Una nova instància de l'objecte Professsors amb els mateixos valors.
+     * @throws RuntimeException Si es produeix un error durant la còpia.
      */
     @Override
     public Professsors copia() {
