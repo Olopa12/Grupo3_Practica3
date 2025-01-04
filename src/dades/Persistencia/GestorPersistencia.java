@@ -3,6 +3,7 @@ package dades.Persistencia;
 import java.io.IOException;
 import dades.Membres.LlistaMembres;
 import dades.Associacions.LlistaAssociacions;
+import dades.Accions.*;
 
 /**
  * Classe GestorPersistencia.
@@ -20,13 +21,16 @@ public class GestorPersistencia {
      * @param fitxerMembres Nom del fitxer de text amb els membres.
      * @param llistaAssociacions Objecte LlistaAssociacions on carregar les associacions.
      * @param llistaMembres Objecte LlistaMembres on carregar els membres.
+     * @param llistaAccions Objecte LlistaAccions on carregar les accions.
+     * @param fitxerAccions Nom del fitxer de text amb les accions.
      * @throws IOException Si hi ha un error en la lectura dels fitxers.
      */
-    public static void carregarDades(String fitxerAssociacions, String fitxerMembres, 
-                                     LlistaAssociacions llistaAssociacions, LlistaMembres llistaMembres) throws IOException {
+    public static void carregarDades(String fitxerAssociacions, String fitxerMembres, String fitxerAccions,
+                                     LlistaAssociacions llistaAssociacions, LlistaMembres llistaMembres, LlistaAccions llistaAccions) throws IOException {
         try {
             carregarAssociacions(fitxerAssociacions, llistaAssociacions);
             carregarMembres(fitxerMembres, llistaMembres);
+            carregarAccions(fitxerAccions, llistaAccions);
             System.out.println("Totes les dades s'han carregat correctament.");
         } catch (IOException e) {
             System.err.println("Error carregant les dades: " + e.getMessage());
@@ -39,15 +43,18 @@ public class GestorPersistencia {
      * 
      * @param fitxerAssociacions Nom del fitxer binari on guardar les associacions.
      * @param fitxerMembres Nom del fitxer de text on guardar els membres.
+     * @param fitxerAccions Nom del fitxer de text on guardar les accions.
      * @param llistaAssociacions Objecte LlistaAssociacions que conté les associacions.
      * @param llistaMembres Objecte LlistaMembres que conté els membres.
+     * @param llistaAccions Objecte LlistaAccions que conté les accions.
      * @throws IOException Si hi ha un error en l'escriptura dels fitxers.
      */
-    public static void guardarDades(String fitxerAssociacions, String fitxerMembres, 
-                                    LlistaAssociacions llistaAssociacions, LlistaMembres llistaMembres) throws IOException {
+    public static void guardarDades(String fitxerAssociacions, String fitxerMembres, String fitxerAccions,
+                                    LlistaAssociacions llistaAssociacions, LlistaMembres llistaMembres, LlistaAccions llistaAccions) throws IOException {
         try {
             guardarAssociacions(fitxerAssociacions, llistaAssociacions);
             guardarMembres(fitxerMembres, llistaMembres);
+            guardarAccions(fitxerAccions, llistaAccions);
             System.out.println("Totes les dades s'han guardat correctament.");
         } catch (IOException e) {
             System.err.println("Error guardant les dades: " + e.getMessage());
@@ -118,4 +125,40 @@ public class GestorPersistencia {
             System.err.println("Error guardant membres: " + e.getMessage());
         }
     }
+    /**
+     * Carrega les accions des d'un fitxer.
+     * 
+     * @param fitxerAccions Nom del fitxer de text amb les accions.
+     * @param llistaAccions Objecte LlistaAccions on carregar les accions.
+     * @throws IOException Si hi ha un error en la lectura del fitxer.
+     * 
+     * @author Nermin, Sara
+     */
+    public static void carregarAccions(String fitxerAccions, LlistaAccions llistaAccions) throws IOException {
+        try {
+            llistaAccions.carregarAccions(fitxerAccions);
+            System.out.println("Accions carregades correctament des de: " + fitxerAccions);
+        } catch (IOException e) {
+            System.err.println("Error carregant accions: " + e.getMessage());
+            throw e;
+        }
+    }
+    /**
+     * Guarda les accions en un fitxer.
+     * 
+     * @param fitxerAccions Nom del fitxer de text on guardar les accions.
+     * @param llistaAccions Objecte LlistaAccions que conté les accions.
+     * @throws IOException Si hi ha un error en l'escriptura del fitxer.
+     * 
+     * @author Nermin, Sara
+     */
+    public static void guardarAccions(String fitxerAccions, LlistaAccions llistaAccions) throws IOException {
+        try {
+            llistaAccions.guardarAccions(fitxerAccions);
+            System.out.println("Accions guardades correctament en: " + fitxerAccions);
+        } catch (IOException e) {
+            System.err.println("Error guardant accions: " + e.getMessage());
+            throw e;
+        }
+     } 
 }
