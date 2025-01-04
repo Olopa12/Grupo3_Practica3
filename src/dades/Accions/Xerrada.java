@@ -2,6 +2,7 @@ package dades.Accions;
 
 import dades.Associacions.*;
 import dades.Membres.*;
+import Utilitats.Data;
 
 /**
  * La classe Xerrada és una subclasse de la classe Accio.
@@ -13,55 +14,80 @@ import dades.Membres.*;
  */
 
 public class Xerrada extends Accio {
-    private String data; // La data en què es farà la xerrada
-    private Membres[] membresImpartidors; // Membres impartidors de la xerrada
-    private int numAssistents; // Nombre d'assistents
-    private int[] valoracions; //  Valoració dels assistents
-    private int valoracionsCount; // Valoracions fins a la data
-    private static final int MAX_MEMBRES = 3; //Nombre màxim de membres que puguin impartir xerrada
-    private static final int MAX_VALORACIONS = 100; // Màxim de valoracions 
+    private Data data; 
+    private Membres[] membresImpartidors; 
+    private int numAssistents; 
+    private int[] valoracions; 
+    private int valoracionsCount; 
+    private static final int MAX_MEMBRES = 3; 
+    private static final int MAX_VALORACIONS = 100; 
 
-    public Xerrada(String titol, Associacio associacio, Membres responsable, String data) {
+    /**
+     * Constructor per a la classe Xerrada.
+     * 
+     * @param titol El títol de la xerrada.
+     * @param associacio L'associació que organitza la xerrada.
+     * @param responsable El membre responsable de la xerrada.
+     * @param data La data en què es farà la xerrada.
+     */
+    public Xerrada(String titol, Associacio associacio, Membres responsable, Data data) {
         super(titol, associacio, responsable);
         this.data = data;
         this.membresImpartidors = new Membres[MAX_MEMBRES];
         this.numAssistents = 0;
-        this.valoracions = new int[MAX_VALORACIONS]; // Estableixem un màxim de 100 valoracions
+        this.valoracions = new int[MAX_VALORACIONS]; 
         this.valoracionsCount = 0;
     }
 
-    // Mètode per afegir un membre impartidor
+    /**
+     * Afegeix un membre impartidor a la xerrada.
+     * 
+     * @param membre El membre a afegir.
+     * @return true si el membre s'ha afegit correctament, false en cas contrari.
+     */
     public boolean afegirMembreImpartidor(Membres membre) {
         if (membre == null) {
-            return false; // Si el membre és null, no s'afegeix
+            return false; 
         }
         for (int i = 0; i < membresImpartidors.length; i++) {
             if (membresImpartidors[i] == null) {
                 membresImpartidors[i] = membre;
-                return true; // Membre afegit correctament
+                return true; 
             }
         }
-        return false; // Si ja hi ha 3 membres, no s'afegeix més
+        return false; 
     }
 
-    // Mètode per afegir assistents
+    /**
+     * Afegeix assistents a la xerrada.
+     * 
+     * @param nombre El nombre d'assistents a afegir.
+     */
     public void afegirAssistents(int nombre) {
         if (nombre >= 0) {
-            numAssistents += nombre; // Afegim el nombre d'assistents
+            numAssistents += nombre; 
         }
     }
 
-    // Mètode per afegir valoracions
+    /**
+     * Afegeix una valoració a la xerrada.
+     * 
+     * @param valoracio La valoració a afegir (ha de ser entre 0 i 10).
+     */
     public void afegirValoracio(int valoracio) {
         if (valoracio >= 0 && valoracio <= 10 && valoracionsCount < valoracions.length) {
-            valoracions[valoracionsCount++] = valoracio; // Afegim la valoració a l'array
+            valoracions[valoracionsCount++] = valoracio; 
         }
     }
 
-    // Mètode per calcular la valoració mitjana
+    /**
+     * Calcula la valoració mitjana de la xerrada.
+     * 
+     * @return La valoració mitjana de la xerrada.
+     */
     public double getValoracioMitjana() {
         if (valoracionsCount == 0) {
-            return 0; // Si no hi ha valoracions, retornem 0
+            return 0; 
         }
         int suma = 0;
         for (int i = 0; i < valoracionsCount; i++) {
@@ -70,29 +96,57 @@ public class Xerrada extends Accio {
         return (double) suma / valoracionsCount;
     }
 
-    // Getter per obtenir la data de la xerrada
-    public String getData() {
+    public int valoracionsSuma() {
+        int suma = 0;
+        for (int i = 0; i < valoracionsCount; i++) {
+            suma += valoracions[i];
+        }
+        return suma;
+    }
+
+    /**
+     * Obté la data de la xerrada.
+     * 
+     * @return La data de la xerrada.
+     */
+    public Data getData() {
         return data;
     }
 
-    // Getter per obtenir els membres impartidors
+    /**
+     * Obté els membres impartidors de la xerrada.
+     * 
+     * @return Un array amb els membres impartidors de la xerrada.
+     */
     public Membres[] getMembresImpartidors() {
         return membresImpartidors;
     }
 
-    // Getter per obtenir el nombre d'assistents
+    /**
+     * Obté el nombre d'assistents a la xerrada.
+     * 
+     * @return El nombre d'assistents a la xerrada.
+     */
     public int getNumAssistents() {
         return numAssistents;
     }
 
-    // Getter per obtenir les valoracions fetes
+    /**
+     * Obté les valoracions fetes a la xerrada.
+     * 
+     * @return Un array amb les valoracions fetes a la xerrada.
+     */
     public int[] getValoracions() {
         int[] valoracionsCopies = new int[valoracionsCount];
         System.arraycopy(valoracions, 0, valoracionsCopies, 0, valoracionsCount);
         return valoracionsCopies;
     }
 
-    // Mètode toString per representar la xerrada
+    /**
+     * Retorna una representació en forma de cadena de la xerrada.
+     * 
+     * @return Una cadena que representa la xerrada.
+     */
     @Override
     public String toString() {
         String impartidors = "";
@@ -106,5 +160,4 @@ public class Xerrada extends Accio {
                ", Assistents=" + numAssistents +
                ", Valoració Mitjana=" + getValoracioMitjana();
     }
-    
 }
