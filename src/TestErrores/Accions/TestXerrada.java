@@ -16,10 +16,12 @@ import Utilitats.Data;
 public class TestXerrada {
     public static void main(String[] args) {
         try {
-            // Crear una instància d'Associacio
-            Associacio associacio1 = new Associacio("EX B", "B@infogei.com", "GEI");
             
-            // Crear instàncies anònimes de Membres
+            /**
+             * Testejem si es pot crear una xerrada amb els seus atributs.
+             */
+            System.out.println("Testejem si es pot crear una xerrada amb els seus atributs.");
+            Associacio associacio1 = new Associacio("EX B", "B@infogei.com", "GEI");
             Membres membre1 = new Membres("EX A", "1@gmail.com", new Data(2023, 12, 30)) {
                 @Override
                 public Membres copia() {
@@ -32,29 +34,29 @@ public class TestXerrada {
                     return this;
                 }
             };
-
-            // Crear una instància de Xerrada
-            Xerrada xerrada1 = new Xerrada("Xerrada", associacio1, membre2, "2024-11-15");
+   
+            Data dataXerrada = new Data(2024, 11, 15);
+            Xerrada xerrada1 = new Xerrada("Xerrada", associacio1, membre2, dataXerrada);
             
-            // Afegir membres impartidors
+            /**
+             * Testejem si es pot afegir membres impartidors a la xerrada
+             * i si es pot afegir assistents i valoracions
+             */
             xerrada1.afegirMembreImpartidor(membre1);
             xerrada1.afegirMembreImpartidor(membre2);
-            
-            // Afegir assistents i valoracions
             xerrada1.afegirAssistents(50);
             xerrada1.afegirValoracio(8);
             xerrada1.afegirValoracio(9);
             xerrada1.afegirValoracio(10);
             
-            // Imprimir la informació de la xerrada
+            /**
+             * Testejem si es pot imprimir la xerrada amb els seus atributs
+             */
             System.out.println(xerrada1);
         } catch (Exception e) {
             System.err.println("Error en el test de Xerrada: " + e.getMessage());
         }
     }
 
-    // TODO: Treballar més en les excepcions en la clase xerrada
+   
 }
-
-
-
