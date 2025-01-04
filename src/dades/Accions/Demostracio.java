@@ -19,6 +19,16 @@ public class Demostracio extends Accio {
     private int vegadesOferida;
     private double costMaterials;
 
+    /**
+     * Constructor per a la classe Demostracio.
+     * 
+     * @param titol             Títol de la demostració.
+     * @param associacio        L'associació que organitza la demostració.
+     * @param responsable       Membre responsable de la demostració.
+     * @param dataDisseny       Data en què es va dissenyar la demostració.
+     * @param esValida          Indica si la demostració encara és vàlida.
+     * @param costMaterials     Cost dels materials per a la demostració.
+     */
     public Demostracio(String titol, Associacio associacio, Membres responsable, String dataDisseny, boolean esValida, double costMaterials) {
         super(titol, associacio, responsable);
         this.dataDisseny = dataDisseny;
@@ -27,26 +37,54 @@ public class Demostracio extends Accio {
         this.costMaterials = costMaterials;
     }
 
+    /**
+     * Incrementa el nombre de vegades que s'ha ofert la demostració.
+     */
     public void incrementarVegadesOferida() {
         vegadesOferida++;
     }
 
+    /**
+     * Obté la data en què es va dissenyar la demostració.
+     * 
+     * @return La data de disseny de la demostració.
+     */
     public String getDataDisseny() {
         return dataDisseny;
     }
 
-    public boolean isEsValida() {
-        return esValida;
-    }
+    /**
+     * Indica si la demostració encara és vàlida.
+     * 
+     * @return true si la demostració és vàlida, false en cas contrari.
+     */
+    public boolean isEsValida() { 
+        return this.costMaterials >= 0;
+     }
 
+    /**
+     * Obté el nombre de vegades que s'ha ofert la demostració.
+     * 
+     * @return El nombre de vegades que s'ha ofert la demostració.
+     */
     public int getVegadesOferida() {
         return vegadesOferida;
     }
 
+    /**
+     * Obté el cost dels materials per a la demostració.
+     * 
+     * @return El cost dels materials per a la demostració.
+     */
     public double getCostMaterials() {
         return costMaterials;
     }
 
+    /**
+     * Retorna una representació en forma de cadena de la demostració.
+     * 
+     * @return Una cadena que representa la demostració.
+     */
     @Override
     public String toString() {
         return super.toString() + ", Data Disseny=" + dataDisseny + ", És Vàlida=" + esValida + ", Vegades Oferida=" + vegadesOferida + ", Cost Materials=" + costMaterials;
