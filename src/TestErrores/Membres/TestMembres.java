@@ -22,6 +22,7 @@ public class TestMembres {
         testGetters();
         testSetters();
         testToString();
+        testCopia();
     }
 
     /**
@@ -35,7 +36,7 @@ public class TestMembres {
         TestUtils.assertEqual("joan@etse.com", membre.getCorreuElectronic(), "testGetters - correuElectronic");
         TestUtils.assertEqual(new Data(10, 1, 2024), membre.getDataAlta(), "testGetters - dataAlta");
         TestUtils.assertEqual(null, membre.getDataBaixa(), "testGetters - dataBaixa inicial");
-        TestUtils.assertEqual("Membre", membre.getRol(), "testGetters - rol");
+        TestUtils.assertEqual(0, membre.getParticipacions(), "testGetters - participacions");
     }
 
     /**
@@ -49,12 +50,13 @@ public class TestMembres {
         membre.setCorreuElectronic("anna@etse.com");
         membre.setDataAlta(new Data(1, 9, 2023));
         membre.setDataBaixa(new Data(15, 5, 2024));
+        membre.setParticipacions(3);
 
         TestUtils.assertEqual("Anna456", membre.getAlias(), "testSetters - alias");
         TestUtils.assertEqual("anna@etse.com", membre.getCorreuElectronic(), "testSetters - correuElectronic");
         TestUtils.assertEqual(new Data(1, 9, 2023), membre.getDataAlta(), "testSetters - dataAlta");
         TestUtils.assertEqual(new Data(15, 5, 2024), membre.getDataBaixa(), "testSetters - dataBaixa");
-        TestUtils.assertEqual("Membre", membre.getRol(), "testSetters - rol");
+        TestUtils.assertEqual(3, membre.getParticipacions(), "testSetters - participacions");
     }
 
     /**
@@ -64,9 +66,36 @@ public class TestMembres {
     static void testToString() {
         Membres membre = new TestMembre("Joan123", "joan@etse.com", new Data(10, 1, 2024));
         membre.setDataBaixa(new Data(1, 6, 2024));
+        membre.setParticipacions(5);
 
-        String expected = "Membre => alias=Joan123, correuElectronic=joan@etse.com, dataAlta=10-01-2024, dataBaixa=1-06-2024, rol=Membre";
+        String expected = "Membre => alias=Joan123, correuElectronic=joan@etse.com, dataAlta=10-01-2024, dataBaixa=1-06-2024, participacions=5";
         TestUtils.assertEqual(expected, membre.toString(), "testToString - format correcte");
+    }
+
+    /**
+     * Test per verificar el mètode copia de la classe Membres.
+     * Es comprova que la còpia sigui una nova instància amb els mateixos valors.
+     */
+    static void testCopia() {
+        Membres membreOriginal = new TestMembre("Joan123", "joan@etse.com", new Data(10, 1, 2024));
+        membreOriginal.setDataBaixa(new Data(15, 6, 2024));
+        membreOriginal.setParticipacions(7);
+
+        Membres membreCopia = membreOriginal.copia();
+
+        // Verificar que els valors són iguals
+        TestUtils.assertEqual(membreOriginal.getAlias(), membreCopia.getAlias(), "testCopia - alias");
+        TestUtils.assertEqual(membreOriginal.getCorreuElectronic(), membreCopia.getCorreuElectronic(), "testCopia - correuElectronic");
+        TestUtils.assertEqual(membreOriginal.getDataAlta(), membreCopia.getDataAlta(), "testCopia - dataAlta");
+        TestUtils.assertEqual(membreOriginal.getDataBaixa(), membreCopia.getDataBaixa(), "testCopia - dataBaixa");
+        TestUtils.assertEqual(membreOriginal.getParticipacions(), membreCopia.getParticipacions(), "testCopia - participacions");
+
+        // Verificar que són instàncies diferents
+        if (membreOriginal == membreCopia) {
+            System.err.println("testCopia - Error: La còpia apunta a la mateixa instància.");
+        } else {
+            System.out.println("testCopia - Passat: La còpia és una instància diferent.");
+        }
     }
 
     /**
@@ -80,7 +109,10 @@ public class TestMembres {
 
         @Override
         public Membres copia() {
-            return new TestMembre(this.getAlias(), this.getCorreuElectronic(), this.getDataAlta());
+            Membres copia = new TestMembre(this.getAlias(), this.getCorreuElectronic(), this.getDataAlta());
+            copia.setDataBaixa(this.getDataBaixa());
+            copia.setParticipacions(this.getParticipacions());
+            return copia;
         }
     }
 }

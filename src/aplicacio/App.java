@@ -3,10 +3,10 @@ package aplicacio;
 import java.io.IOException;
 import java.util.Scanner;
 
+import dades.Associacions.Associacio;
 import dades.Associacions.LlistaAssociacions;
 import dades.Persistencia.GestorPersistencia;
-
-import dades.Membres.LlistaMembres;
+import dades.Membres.*;
 
 /**
  * Classe principal de l'aplicació que implementa un menú per gestionar associacions,
@@ -179,14 +179,148 @@ public class App {
         // TODO: Implementar funcionalitat
     }
 
+    /**
+     * Mostra les dades dels membres d'una associació aplicant un filtre específic (professors, alumnes o ambdós).
+     * 
+     * Aquest mètode permet a l'usuari introduir el nom d'una associació, seleccionar un filtre 
+     * i mostrar els membres que compleixin el criteri seleccionat.
+     * 
+     * @throws NumberFormatException Si l'usuari introdueix un valor no numèric per al filtre.
+     * @throws Exception Si es produeix un error inesperat durant l'execució.
+     * @author Paolo
+     */
     public static void opcio2() {
         System.out.println("2. Mostrar les dades de la llista de membres d'una associació (filtre: professors, alumnes o ambdós)");
-        // TODO: Implementar funcionalitat
+        try {
+            System.out.print("Introdueix el nom de l'associació: ");
+            String nomAssociacio = teclat.nextLine();
+
+            Associacio associacio = llistaAssociacions.buscarAssociacio(nomAssociacio);
+            if (associacio == null) {
+                System.out.println("No s'ha trobat cap associació amb el nom proporcionat.");
+                return;
+            }
+
+            System.out.println("Selecciona un filtre:");
+            System.out.println("1. Professors");
+            System.out.println("2. Alumnes");
+            System.out.println("3. Ambdós");
+            System.out.print("Opció: ");
+            int filtre = Integer.parseInt(teclat.nextLine());
+
+            Membres[] membres = associacio.getLlistaMembres();
+            boolean membresTrobats = false;
+
+            System.out.println("\nMembres de l'associació: " + nomAssociacio);
+            switch (filtre) {
+                case 1: // Professors
+                    for (Membres membre : membres) {
+                        if (membre instanceof Professors) {
+                            System.out.println(membre);
+                            membresTrobats = true;
+                        }
+                    }
+                    break;
+
+                case 2: // Alumnes
+                    for (Membres membre : membres) {
+                        if (membre instanceof Alumnes) {
+                            System.out.println(membre);
+                            membresTrobats = true;
+                        }
+                    }
+                    break;
+
+                case 3: // Ambdós
+                    for (Membres membre : membres) {
+                        if (membre != null) {
+                            System.out.println(membre);
+                            membresTrobats = true;
+                        }
+                    }
+                    break;
+
+                default:
+                    System.out.println("Opció no vàlida. Si us plau, selecciona 1, 2 o 3.");
+            }
+
+            if (!membresTrobats) {
+                System.out.println("No hi ha membres amb aquest filtre a l'associació.");
+            }
+        } catch (NumberFormatException e) {
+            System.err.println("Error: Has d'introduir un número vàlid per al filtre.");
+        } catch (Exception e) {
+            System.err.println("S'ha produït un error inesperat: " + e.getMessage());
+        }
     }
 
+    /**
+     * Mostra les dades dels membres actius de totes les associacions segons un filtre determinat.
+     * El filtre permet seleccionar entre professors, alumnes o ambdós tipus de membres.
+     * 
+     * @throws NumberFormatException Si l'usuari introdueix una entrada que no és un número vàlid.
+     * @throws Exception Si es produeix un error inesperat durant l'execució.
+     * @author Paolo
+     */
     public static void opcio3() {
         System.out.println("3. Mostrar les dades de la llista de membres actius (filtre: professors, alumnes o ambdós)");
-        // TODO: Implementar funcionalitat
+        try {
+            // Seleccionar filtro
+            System.out.println("Selecciona un filtre:");
+            System.out.println("1. Professors");
+            System.out.println("2. Alumnes");
+            System.out.println("3. Ambdós");
+            System.out.print("Opció: ");
+            int filtre = Integer.parseInt(teclat.nextLine());
+    
+            // Validar el filtro
+            if (filtre < 1 || filtre > 3) {
+                System.out.println("Opció no vàlida. Selecciona 1, 2 o 3.");
+                return;
+            }
+    
+            // Recorrer todas las asociaciones
+            boolean membresTrobats = false;
+            System.out.println("\nMembres actius segons el filtre seleccionat:");
+    
+            for (int i = 0; i < llistaAssociacions.getNumAssociacions(); i++) {
+                Associacio associacio = llistaAssociacions.copia()[i];
+                Membres[] membres = associacio.getLlistaMembres();
+    
+                for (Membres membre : membres) {
+                    if (membre == null) continue; // Saltar si el miembro es nulo
+                    if (membre.getDataBaixa() != null) continue; // Saltar si el miembro está inactivo
+    
+                    switch (filtre) {
+                        case 1: // Professors
+                            if (membre instanceof Professors) {
+                                System.out.println(membre);
+                                membresTrobats = true;
+                            }
+                            break;
+                        case 2: // Alumnes
+                            if (membre instanceof Alumnes) {
+                                System.out.println(membre);
+                                membresTrobats = true;
+                            }
+                            break;
+                        case 3: // Ambdós
+                            System.out.println(membre);
+                            membresTrobats = true;
+                            break;
+                    }
+                }
+            }
+    
+            // Mensaje si no se encontraron miembros según el filtro
+            if (!membresTrobats) {
+                System.out.println("No s'han trobat membres actius amb aquest filtre.");
+            }
+        } catch (NumberFormatException e) {
+            System.err.println("Error: Introdueix un número vàlid per al filtre.");
+        } catch (Exception e) {
+            System.err.println("S'ha produït un error inesperat: " + e.getMessage());
+        }
     }
 
     public static void opcio4() {
@@ -204,12 +338,12 @@ public class App {
         // TODO: Implementar funcionalitat
     }
 
-    public static void opcio7() {
+    public static void opcio7() {//no
         System.out.println("7. Afegir una nova associació");
         // TODO: Implementar funcionalitat
     }
 
-    public static void opcio8() {
+    public static void opcio8() {//no
         System.out.println("8. Alta d'un membre a una associació");
         // TODO: Implementar funcionalitat
     }
@@ -231,7 +365,35 @@ public class App {
 
     public static void opcio12() {
         System.out.println("12. Calcular la persona més activa");
-        // TODO: Implementar funcionalitat
+
+        // Comprovar si hi ha membres a la llista
+        if (llistaMembres.numMembres() == 0) {
+            System.out.println("No hi ha membres a la llista.");
+            return;
+        }
+
+        Membres membreMesActiu = null; // Per guardar el membre amb més participacions
+        int maxParticipacions = -1;    // Per guardar el màxim de participacions trobat
+
+        // Recorrem la llista interna
+        for (int i = 0; i < llistaMembres.numMembres(); i++) {
+            Membres membreActual = llistaMembres.copia()[i]; // Utilitzem el mètode copia per accedir al membre
+
+            // Comprovar si el membre actual és més actiu
+            if (membreActual != null && membreActual.getParticipacions() > maxParticipacions) {
+                membreMesActiu = membreActual; // Ac  tualitzem el membre més actiu
+                maxParticipacions = membreActual.getParticipacions();
+            }
+        }
+
+        // Mostrem el membre més actiu
+        if (membreMesActiu != null) {
+            System.out.println("La persona més activa és:");
+            System.out.println(membreMesActiu);
+            System.out.println("Participacions: " + maxParticipacions);
+        } else {
+            System.out.println("No hi ha membres actius.");
+        }
     }
 
     public static void opcio13() {

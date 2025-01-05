@@ -148,14 +148,22 @@ public class Alumnes extends Membres{
     @Override
     public Alumnes copia() {
         try {
-            return new Alumnes(
-                this.getAlias(),
+            Alumnes copia = new Alumnes(
+                this.getAlias(), 
                 this.getCorreuElectronic(),
                 this.getDataAlta(),
                 this.ensenyament,
-                this.antiguitat,
+                this.antiguitat, 
                 this.graduat
             );
+        
+            if (this.getDataBaixa() != null) {
+                copia.setDataBaixa(this.getDataBaixa());
+            }
+        
+            copia.setParticipacions(this.getParticipacions());
+        
+            return copia;
         } catch (Exception e) {
             System.err.println("Error copiant l'objecte Alumnes: " + e.getMessage());
             return null;

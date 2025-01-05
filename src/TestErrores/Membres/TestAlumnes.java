@@ -64,10 +64,24 @@ public class TestAlumnes {
      */
     static void testCopia() {
         Alumnes alumne = new Alumnes("Joan123", "joan@etse.com", new Data(10, 1, 2024), "GEI", 2, false);
+        alumne.setDataBaixa(new Data(15, 7, 2025));
+        alumne.setParticipacions(5);
+    
+        // Crear còpia
         Alumnes copia = alumne.copia();
-
+    
+        // Comprovar que són objectes diferents
         TestUtils.assertTrue(alumne != copia, "testCopia - referencia distinta");
-        TestUtils.assertEqual(alumne.toString(), copia.toString(), "testCopia - contenido igual");
+    
+        // Comprovar que tenen el mateix contingut
+        TestUtils.assertEqual(alumne.getAlias(), copia.getAlias(), "testCopia - alias igual");
+        TestUtils.assertEqual(alumne.getCorreuElectronic(), copia.getCorreuElectronic(), "testCopia - correu");
+        TestUtils.assertEqual(alumne.getDataAlta(), copia.getDataAlta(), "testCopia - dataAlta");
+        TestUtils.assertEqual(alumne.getDataBaixa(), copia.getDataBaixa(), "testCopia - dataBaixa");
+        TestUtils.assertEqual(alumne.getEnsenyament(), copia.getEnsenyament(), "testCopia - ensenyament");
+        TestUtils.assertEqual(alumne.getAntiguitat(), copia.getAntiguitat(), "testCopia - antiguitat");
+        TestUtils.assertEqual(alumne.isGraduat(), copia.isGraduat(), "testCopia - graduat");
+        TestUtils.assertEqual(alumne.getParticipacions(), copia.getParticipacions(), "testCopia - participacions");
     }
 
     /**
@@ -76,8 +90,9 @@ public class TestAlumnes {
      */
     static void testToString() {
         Alumnes alumne = new Alumnes("Joan123", "joan@etse.com", new Data(10, 1, 2024), "GEI", 2, false);
+        alumne.setParticipacions(3);
 
-        String expected = "Membre => alias=Joan123, correuElectronic=joan@etse.com, dataAlta=10-01-2024, dataBaixa=Actiu, rol=Membre Alumnes => ensenyament=GEI, antiguitat=2, graduat=false";
-        TestUtils.assertEqual(expected, alumne.toString(), "testToString - formato correcto");
+        String expected = "Membre => alias=Joan123, correuElectronic=joan@etse.com, dataAlta=10-01-2024, dataBaixa=Actiu, participacions=3 Alumnes => ensenyament=GEI, antiguitat=2, graduat=false";
+        TestUtils.assertEqual(expected, alumne.toString(), "testToString - format correcte");
     }
 }

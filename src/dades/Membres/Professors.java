@@ -3,7 +3,7 @@ package dades.Membres;
 import Utilitats.Data;
 
 /**
- * Classe Professsors que representa un membre del tipus professor.
+ * Classe Professors que representa un membre del tipus professor.
  * Inclou informació específica com el departament i el número de despatx.
  * 
  * Hereta de la classe abstracta Membres.
@@ -11,12 +11,12 @@ import Utilitats.Data;
  * @author Paolo
  * @version 1.0
  */
-public class Professsors extends Membres{
+public class Professors extends Membres{
     private String departament; // Departament al qual pertany el professor (DEIM o DEEEA)
     private String numDespatx;  // Número de despatx del professor
 
     /**
-     * Constructor que inicialitza un objecte de tipus Professsors amb els valors
+     * Constructor que inicialitza un objecte de tipus Professors amb els valors
      * especificats.
      * 
      * @param alias           - Alias del membre.
@@ -26,7 +26,7 @@ public class Professsors extends Membres{
      * @param numDespatx      - Número de despatx del professor.
      * @throws IllegalArgumentException Si el departament no és vàlid o si el número de despatx és nul o buit.
      */
-    public Professsors(String alias, String correuElectronic, Data dataAlta, 
+    public Professors(String alias, String correuElectronic, Data dataAlta, 
     String departament, String numDespatx) {
         super(alias, correuElectronic, dataAlta);
         try {
@@ -97,7 +97,7 @@ public class Professsors extends Membres{
     }
 
     /**
-     * Retorna una representació textual de l'objecte Professsors.
+     * Retorna una representació textual de l'objecte Professors.
      * 
      * @return Una cadena de text amb els detalls del professor.
      * @throws RuntimeException Si es produeix un error durant la generació del text.
@@ -105,7 +105,7 @@ public class Professsors extends Membres{
     @Override
     public String toString() {
         try {
-            return (super.toString() +" Professsors departament=" + departament + 
+            return (super.toString() +" Professors departament=" + departament + 
             ", numDespatx=" + numDespatx);
         } catch (Exception e) {
             System.err.println("Error generant la representació textual: " + e.getMessage());
@@ -114,23 +114,26 @@ public class Professsors extends Membres{
     }
 
     /**
-     * Crea una còpia de l'objecte Professsors actual.
+     * Crea una còpia de l'objecte Professors actual.
      * 
-     * @return Una nova instància de l'objecte Professsors amb els mateixos valors.
+     * @return Una nova instància de l'objecte Professors amb els mateixos valors.
      * @throws RuntimeException Si es produeix un error durant la còpia.
      */
     @Override
-    public Professsors copia() {
+    public Professors copia() {
         try {
-            return new Professsors(
+            Professors copia = new Professors(
                 this.getAlias(),
                 this.getCorreuElectronic(),
                 this.getDataAlta(),
                 this.departament,
                 this.numDespatx
             );
+            copia.setDataBaixa(this.getDataBaixa()); // Copiem la data de baixa si n'hi ha
+            copia.setParticipacions(this.getParticipacions()); // Copiem el nombre de participacions
+            return copia;
         } catch (Exception e) {
-            System.err.println("Error copiant l'objecte Professsors: " + e.getMessage());
+            System.err.println("Error copiant l'objecte Professors: " + e.getMessage());
             return null;
         }
     }

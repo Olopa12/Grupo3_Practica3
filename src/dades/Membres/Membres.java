@@ -18,7 +18,7 @@ public abstract class Membres {
     private String correuElectronic; // Correu electrònic del membre
     private Data dataAlta; // Data d'alta del membre a l'associació
     private Data dataBaixa; // Data de baixa del membre
-    private String rol; //Rol del membre
+    private int participacions; // Nombre de participacions del membre
 
     /**
      * Constructor que inicialitza un membre amb alias, correu electrònic i data d'alta.
@@ -35,7 +35,7 @@ public abstract class Membres {
             this.correuElectronic = correuElectronic;
             this.dataAlta = dataAlta;
             dataBaixa = null;
-            this.rol = "Membre";
+            this.participacions = 0;
         } catch (Exception e) {
             System.err.println("Error inicialitzant el membre: " + e.getMessage());
             throw new IllegalArgumentException("Dades inicials no vàlides");
@@ -97,20 +97,20 @@ public abstract class Membres {
     }
 
     /**
-     * Setter per modificar el rol del membre.
+     * Setter per modificar el nombre de participacions del membre.
      * Si el valor és nul o buit, es manté el rol actual.
      * 
-     * @param rol - Nou valor per al rol del membre.
+     * @param participacions - Nou valor per al rol del membre.
      * @throws IllegalArgumentException Si el rol és buit o nul.
      */
-    public void setRol(String rol) {
+    public void setParticipacions(int participacions) {
         try {
-            if (rol == null || rol.isEmpty()) {
-                throw new IllegalArgumentException("El rol no pot ser nul o buit.");
+            if (participacions < 0) {
+                throw new IllegalArgumentException("El nombre de participacions no pot ser negatiu.");
             }
-            this.rol = rol;
+            this.participacions = participacions;
         } catch (Exception e) {
-            System.err.println("Error assignant el rol: " + e.getMessage());
+            System.err.println("Error assignant el nombre de participacions: " + e.getMessage());
         }
     }
 
@@ -169,12 +169,12 @@ public abstract class Membres {
     }
 
     /**
-     * Getter per obtenir el rol del membre.
+     * Getter per obtenir el nombre de participacions del membre.
      * 
-     * @return El valor del rol.
+     * @return El valor del nombre de participacions.
      */
-    public String getRol() {
-        return rol;
+    public int getParticipacions() {
+        return participacions;
     }
 
     /**
@@ -189,7 +189,7 @@ public abstract class Membres {
             return "Membre => alias=" + alias + ", correuElectronic=" + 
             correuElectronic + ", dataAlta=" + dataAlta + 
             ", dataBaixa=" + (dataBaixa != null ? dataBaixa : "Actiu") + 
-            ", rol=" + rol;
+            ", participacions=" + participacions;
         } catch (Exception e) {
             System.err.println("Error generant la representació textual: " + 
             e.getMessage());

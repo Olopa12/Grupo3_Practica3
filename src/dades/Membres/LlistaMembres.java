@@ -133,23 +133,27 @@ public class LlistaMembres {
                     if (membre instanceof Alumnes) {
                         Alumnes alumne = (Alumnes) membre;
                         bw.write(String.format(
-                            "Alumne;%s;%s;%s;%s;%d;%b",
+                            "Alumne;%s;%s;%s;%s;%d;%b;%d;%s",
                             alumne.getAlias(),
                             alumne.getCorreuElectronic(),
                             alumne.getDataAlta(),
                             alumne.getEnsenyament(),
                             alumne.getAntiguitat(),
-                            alumne.isGraduat()
+                            alumne.isGraduat(),
+                            alumne.getParticipacions(),
+                            alumne.getDataBaixa() != null ? alumne.getDataBaixa() : "Actiu"
                         ));
-                    } else if (membre instanceof Professsors) {
-                        Professsors professor = (Professsors) membre;
+                    } else if (membre instanceof Professors) {
+                        Professors professor = (Professors) membre;
                         bw.write(String.format(
-                            "Professor;%s;%s;%s;%s;%s",
+                            "Professor;%s;%s;%s;%s;%s;%d;%s",
                             professor.getAlias(),
                             professor.getCorreuElectronic(),
                             professor.getDataAlta(),
                             professor.getDepartament(),
-                            professor.getNumDespatx()
+                            professor.getNumDespatx(),
+                            professor.getParticipacions(),
+                            professor.getDataBaixa() != null ? professor.getDataBaixa() : "Actiu"
                         ));
                     }
                     bw.newLine();
@@ -215,7 +219,7 @@ public class LlistaMembres {
      */
     private Membres carregarAlumne(String[] atributs) {
         try {
-            if (atributs.length != 7) {
+            if (atributs.length != 9) {
                 throw new IllegalArgumentException("Atributs insuficients per carregar un alumne.");
             }
             String alias = atributs[1];
@@ -224,8 +228,14 @@ public class LlistaMembres {
             String ensenyament = atributs[4];
             int antiguitat = Integer.parseInt(atributs[5]);
             boolean graduat = Boolean.parseBoolean(atributs[6]);
+            int participacions = Integer.parseInt(atributs[7]);
+            Data dataBaixa = atributs[8].equals("Actiu") ? null : Data.parseData(atributs[8]);
 
-            return new Alumnes(alias, correuElectronic, dataAlta, ensenyament, antiguitat, graduat);
+            Alumnes alumne = new Alumnes(alias, correuElectronic, dataAlta, ensenyament, antiguitat, graduat);
+            alumne.setParticipacions(participacions);
+            alumne.setDataBaixa(dataBaixa);
+
+            return alumne;
         } catch (Exception e) {
             System.err.println("Error carregant Alumne: " + Arrays.toString(atributs) + " - " + e.getMessage());
             return null;
@@ -241,7 +251,7 @@ public class LlistaMembres {
      */
     private Membres carregarProfessor(String[] atributs) {
         try {
-            if (atributs.length != 6) {
+            if (atributs.length != 8) {
                 throw new IllegalArgumentException("Atributs insuficients per carregar un professor.");
             }
             String alias = atributs[1];
@@ -249,12 +259,32 @@ public class LlistaMembres {
             Data dataAlta = Data.parseData(atributs[3]);
             String departament = atributs[4];
             String numDespatx = atributs[5];
+            int participacions = Integer.parseInt(atributs[6]);
+            Data dataBaixa = atributs[7].equals("Actiu") ? null : Data.parseData(atributs[7]);
 
-            return new Professsors(alias, correuElectronic, dataAlta, departament, numDespatx);
+            Professors professor = new Professors(alias, correuElectronic, dataAlta, departament, numDespatx);
+            professor.setParticipacions(participacions);
+            professor.setDataBaixa(dataBaixa);
+
+            return professor;
         } catch (Exception e) {
             System.err.println("Error carregant Professor: " + Arrays.toString(atributs) + " - " + e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * Retorna una còpia de l'array intern de membres.
+     * Inclou només els membres actualment presents a la llista (exclou els espais buits).
+     * 
+     * @return Una còpia de l'array de membres actual.
+     */
+    public Membres[] copia() {
+        Membres[] copia = new Membres[nMembres];
+        for (int i = 0; i < nMembres; i++) {
+            copia[i] = llista[i]; // Copia les referències dels membres
+        }
+        return copia;
     }
 
     /**

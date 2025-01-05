@@ -99,8 +99,6 @@ public class LlistaAssociacions {
         fitxer.close();
     }
 
-
-
     /**
      * Crea un fitxer binari que enmagatzema les associacions mediant serialitzacio.
      * @param fitxerOut El nom del fitxer binari creat.
@@ -114,4 +112,32 @@ public class LlistaAssociacions {
         }
         fSort.close();
     }
+
+    /**
+     * Busca una associació a la llista pel seu nom.
+     * 
+     * @param nom El nom de l'associació que es vol cercar.
+     * @return L'objecte `Associacio` que coincideix amb el nom especificat, 
+     *         o `null` si no es troba cap coincidència.
+     * @author Paolo
+     */
+    public Associacio buscarAssociacio(String nom) {
+        for (Associacio associacio : llista) {
+            if (associacio != null && associacio.getNomAsociacio().equalsIgnoreCase(nom)) {
+                return associacio;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Obté el nombre actual d'associacions a la llista.
+     * 
+     * @return El nombre total d'associacions actualment emmagatzemades.
+     * @author Paolo
+     */
+    public int getNumAssociacions() {
+        return numAssociacions;
+    }
+
 }
