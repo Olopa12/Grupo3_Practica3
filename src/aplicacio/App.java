@@ -2,10 +2,13 @@ package aplicacio;
 
 import java.io.IOException;
 import java.util.Scanner;
+
+import Utilitats.Data;
 import dades.Accions.*;
 
 import dades.Associacions.Associacio;
 import dades.Associacions.LlistaAssociacions;
+import dades.Excepcions.AccioJaExisteix;
 import dades.Persistencia.GestorPersistencia;
 import dades.Membres.*;
 
