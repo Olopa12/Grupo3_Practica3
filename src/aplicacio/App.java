@@ -11,6 +11,9 @@ import dades.Membres.Alumnes;
 import dades.Membres.LlistaMembres;
 import dades.Membres.Membres;
 import dades.Membres.Professsors;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener; 
 
 /**
  * Classe principal de l'aplicació que implementa un menú per gestionar associacions,
@@ -20,20 +23,28 @@ import dades.Membres.Professsors;
  * @author Paolo, Nermin, Sara, Alexandru
  * @version 1.0
  */
-public class App {
+public class App extends JFrame implements ActionListener{
+    private static final long serialVersionUID=1L;
+    private JButton[] botons; // Array per guardar els botons.
     static Scanner teclat = new Scanner(System.in);
     static LlistaAssociacions associacionsInicials = new LlistaAssociacions(50);
     static LlistaMembres llistaMembres = new LlistaMembres("General", 100);
 
     /**
      * Punt d'entrada principal de l'aplicació.
-     * Mostra el menú i executa les opcions seleccionades per l'usuari.
+     * Paolo: Mostra el menú i executa les opcions seleccionades per l'usuari.
+     * Alex: Apartat de finestra.
      * 
      * @param args Arguments de línia de comandes (no utilitzats).
      * @throws IOException Si es produeix un error inesperat durant l'execució.
-     * @author Paolo
+     * @author Paolo i Alexandru
      */
     public static void main(String[] args) throws Exception {
+        App finestra = new App();
+        finestra.setTitle("PRAC3");
+        finestra.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        finestra.setVisible(true);
+        
         String fitxerAssociacions = "associacions.dat";
         String fitxerMembres = "membres.txt";
 
@@ -57,6 +68,56 @@ public class App {
             System.out.println("Carregant dades...");
             GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, llistaAssociacions, llistaMembres);
 
+            // Creacio de botons
+            finestra.iniBotonsAccions();
+
+            /**
+             * Afegix cada opcio al seu boto corresponen.
+             * @author Alex Radu
+             */
+            for (int i = 0; i < finestra.botons.length; i++) {
+                int opcio = i + 1;
+                finestra.botons[i].addActionListener(e -> {
+                    System.out.println("Boto " + opcio + " clickat");
+                    if (opcio == 1) {
+                        opcio1(associacionsInicials, "associacions.dat");
+                    } else if(opcio == 2){
+                        opcio2();
+                    } else if(opcio == 3){
+                        opcio3();
+                    } else if(opcio == 4){
+                        opcio4();
+                    } else if(opcio == 5){
+                        opcio5();
+                    } else if(opcio == 6){
+                        opcio6();
+                    } else if(opcio == 7){
+                        opcio7(associacionsInicials);
+                    } else if(opcio == 8){
+                        opcio8(associacionsInicials, fitxerAssociacions);
+                    } else if(opcio == 9){
+                        opcio9();
+                    } else if(opcio == 10){
+                        opcio10();
+                    } else if(opcio == 11){
+                        opcio11();
+                    } else if(opcio == 12){
+                        opcio12();
+                    } else if(opcio == 13){
+                        opcio13();
+                    } else if(opcio == 14){
+                        opcio14();
+                    } else if(opcio == 15){
+                        opcio15();
+                    } else if(opcio == 16){
+                        opcio16();
+                    } else if(opcio == 17){
+                        opcio17();
+                    } else{
+                        sortirAplicacio();
+                    }
+                });
+            }
             // Executar el menú principal
             menuPrincipal(fitxerAssociacions);
 
@@ -65,6 +126,24 @@ public class App {
         } finally {
             teclat.close();
         }
+    }
+    
+    /**
+     * Crea un array amb 18 botos, un per a cada opcio.
+     * @author Alex Radu
+     */
+    public void iniBotonsAccions() { 
+        int nfil = 3, ncol = 6;
+        botons = new JButton[nfil * ncol];
+        this.setLayout(new GridLayout(nfil, ncol, 10, 10));
+
+        for (int i = 0; i < nfil * ncol; i++) {
+            botons[i] = new JButton("Opció " + (i + 1));
+            this.add(botons[i]);
+        }
+
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setVisible(true);
     }
 
     /**
@@ -180,6 +259,12 @@ public class App {
     }
 
     // Funciones de las opciones
+    /**
+     * Mostra les dades de la llista de associacions amb el toString().
+     * @param associacionsInicials Llista de associacions.
+     * @param fitxerAssociacions Fitxer del que es llegix la informacio de les llistes ed'associacions.
+     * @author Alex Radu
+     */
     public static void opcio1(LlistaAssociacions associacionsInicials, String fitxerAssociacions) {
         System.out.println("1. Mostrar les dades de la llista d'associacions");
         associacionsInicials.llegirFitxerBinari(fitxerAssociacions);
@@ -210,7 +295,11 @@ public class App {
         System.out.println("6. Mostrar les xerrades en una franja de dates");
         // TODO: Implementar funcionalitat
     }
-
+    /**
+     * Permet afegir una associacio a la llista de associacions pedint al usuaris la informació.
+     * @param associacionsInicials Llista de associacions.
+     * @author Alex Radu
+     */
     public static void opcio7(LlistaAssociacions associacionsInicials) {
         System.out.println("7. Afegir una nova associació");
         System.out.println("\nIntrodueix les seguents dades:");
@@ -291,12 +380,20 @@ public class App {
             Alumnes tresorer = new Alumnes(nomTresorer, correuTresorer, new Data(diaTresorer, mesTresorer, anyTresorer), ensenyamentTresorer, antiguitatTresorer, graduatTresorer);
             Associacio a = new Associacio(nom, correu, carrera, president, secretari, tresorer);
             associacionsInicials.afegirAssociacio(a);
+            associacionsInicials.crearFitxerBinari(graduatStringTresorer);
         } else{
             Associacio a = new Associacio(nom, correu, carrera);
             associacionsInicials.afegirAssociacio(a);
+            associacionsInicials.crearFitxerBinari(resposta);
         }
     }
 
+    /**
+     * Afegix un membre a una associacio concreta.
+     * @param associacionsInicials Llista d'associacions.
+     * @param fitxerAssociacions Fitxer al que guardem les associacions.
+     * @author Alex Radu
+     */
     public static void opcio8(LlistaAssociacions associacionsInicials, String fitxerAssociacions) {
         System.out.println("8. Alta d'un membre a una associació");
         System.out.println("\nNom de l'associacio a la que afegim el membre: ");
@@ -350,6 +447,8 @@ public class App {
                         associacionsInicials.buscarAssociacio(nomAssociacio).assignarMembresALlistaMembres(p);
                         associacionsInicials.crearFitxerBinari(fitxerAssociacions);
                     }
+
+                    associacionsInicials.crearFitxerBinari(fitxerAssociacions);
                 } else{
                     throw new InstanciaNoTrobada(nomAssociacio);
                 }
