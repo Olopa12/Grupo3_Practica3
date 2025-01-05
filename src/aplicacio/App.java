@@ -531,9 +531,60 @@ public class App {
         }
     }
 
+    /**
+     * Mostra les xerrades impartides per una persona concreta identificada pel seu alias.
+     * 
+     * Aquest mètode permet cercar totes les xerrades (accions de tipus Xerrada) registrades en la llista d'accions 
+     * on el membre especificat aparegui com a impartidor. Si no es troben xerrades o el membre no és un impartidor 
+     * de cap d'elles, es notifica a l'usuari.
+     * 
+     * @throws Exception Si es produeix un error inesperat durant l'execució.
+     * @author Paolo
+     */
     public static void opcio16() {
         System.out.println("16. Mostrar les xerrades d'una persona concreta");
-        // TODO: Implementar funcionalitat
+        try {
+            // Solicitar el alias de la persona
+            System.out.print("Introdueix l'alias de la persona: ");
+            String alias = teclat.nextLine();
+    
+            // Obtener todas las acciones
+            Accio[] accions = llistaAccions.getAccions(); // Suponemos que `llistaAccions` es una instancia de `LlistaAccions`
+    
+            // Verificar si hay acciones registradas
+            if (accions.length == 0) {
+                System.out.println("No hi ha xerrades registrades.");
+                return;
+            }
+    
+            boolean xerradesTrobades = false;
+            System.out.println("\nXerrades impartides per: " + alias);
+    
+            // Recorrer todas las acciones
+            for (Accio accio : accions) {
+                if (accio instanceof Xerrada) { // Verificar si es una Xerrada
+                    Xerrada xerrada = (Xerrada) accio;
+                    Membres[] impartidors = xerrada.getMembresImpartidors();
+    
+                    // Verificar si el alias está en los impartidores
+                    for (Membres membre : impartidors) {
+                        if (membre != null && membre.getAlias().equalsIgnoreCase(alias)) {
+                            System.out.println(xerrada);
+                            xerradesTrobades = true;
+                            break;
+                        }
+                    }
+                }
+            }
+    
+            // Si no se encontraron charlas
+            if (!xerradesTrobades) {
+                System.out.println("No s'han trobat xerrades impartides per aquesta persona.");
+            }
+    
+        } catch (Exception e) {
+            System.err.println("S'ha produït un error: " + e.getMessage());
+        }
     }
 
     public static void opcio17() {
