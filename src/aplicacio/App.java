@@ -342,10 +342,24 @@ public class App {
     }
 
     public static void opcio5() {
-        System.out.println("5. Mostrar la llista d'accions d'una associació concreta");
-        // TODO: Implementar funcionalitat
-    }
+        System.out.print("Introdueixi el nom de l'associació que desitges trobar: ");
+        Accio[] accions = llistaAccions.getAccions();
+        String nomAssociacio = teclat.nextLine();
+        boolean trobat = false;
+        
 
+        System.out.println("Accions corresponents a l'associació " + nomAssociacio + ":");
+        for (Accio accio : accions) {
+            if (accio.getAssociacio().getNomAsociacio().equalsIgnoreCase(nomAssociacio)) {
+                System.out.println(accio);
+                trobat = true;
+            }
+        }
+
+        if (!trobat) {
+            System.out.println("No s'ha trobat cap acció per a l'associació " + nomAssociacio);
+        }
+    }
     public static void opcio6() {
         System.out.println("6. Mostrar les xerrades en una franja de dates");
         // TODO: Implementar funcionalitat
