@@ -278,7 +278,6 @@ public class App {
     public static void opcio3() {
         System.out.println("3. Mostrar les dades de la llista de membres actius (filtre: professors, alumnes o ambdós)");
         try {
-            // Seleccionar filtro
             System.out.println("Selecciona un filtre:");
             System.out.println("1. Professors");
             System.out.println("2. Alumnes");
@@ -286,13 +285,11 @@ public class App {
             System.out.print("Opció: ");
             int filtre = Integer.parseInt(teclat.nextLine());
     
-            // Validar el filtro
             if (filtre < 1 || filtre > 3) {
                 System.out.println("Opció no vàlida. Selecciona 1, 2 o 3.");
                 return;
             }
     
-            // Recorrer todas las asociaciones
             boolean membresTrobats = false;
             System.out.println("\nMembres actius segons el filtre seleccionat:");
     
@@ -301,31 +298,30 @@ public class App {
                 Membres[] membres = associacio.getLlistaMembres();
     
                 for (Membres membre : membres) {
-                    if (membre == null) continue; // Saltar si el miembro es nulo
-                    if (membre.getDataBaixa() != null) continue; // Saltar si el miembro está inactivo
-    
-                    switch (filtre) {
-                        case 1: // Professors
-                            if (membre instanceof Professors) {
+                    // Verificar si el membre és nul o inactiu
+                    if (membre != null && membre.getDataBaixa() == null) {
+                        switch (filtre) {
+                            case 1: // Professors
+                                if (membre instanceof Professors) {
+                                    System.out.println(membre);
+                                    membresTrobats = true;
+                                }
+                                break;
+                            case 2: // Alumnes
+                                if (membre instanceof Alumnes) {
+                                    System.out.println(membre);
+                                    membresTrobats = true;
+                                }
+                                break;
+                            case 3: // Ambdós
                                 System.out.println(membre);
                                 membresTrobats = true;
-                            }
-                            break;
-                        case 2: // Alumnes
-                            if (membre instanceof Alumnes) {
-                                System.out.println(membre);
-                                membresTrobats = true;
-                            }
-                            break;
-                        case 3: // Ambdós
-                            System.out.println(membre);
-                            membresTrobats = true;
-                            break;
+                                break;
+                        }
                     }
                 }
             }
     
-            // Mensaje si no se encontraron miembros según el filtro
             if (!membresTrobats) {
                 System.out.println("No s'han trobat membres actius amb aquest filtre.");
             }
@@ -464,30 +460,32 @@ public class App {
         // TODO: Implementar funcionalitat
     }
 
+    /**
+     * Mètode per calcular i mostrar la persona més activa (amb el màxim de participacions) de la llista de membres.
+     *
+     * @throws NullPointerException Si llistaMembres o els seus membres són nuls.
+     * @author Paolo
+     */
     public static void opcio12() {
         System.out.println("12. Calcular la persona més activa");
 
-        // Comprovar si hi ha membres a la llista
         if (llistaMembres.numMembres() == 0) {
             System.out.println("No hi ha membres a la llista.");
             return;
         }
 
-        Membres membreMesActiu = null; // Per guardar el membre amb més participacions
-        int maxParticipacions = -1;    // Per guardar el màxim de participacions trobat
+        Membres membreMesActiu = null; 
+        int maxParticipacions = -1;   
 
-        // Recorrem la llista interna
         for (int i = 0; i < llistaMembres.numMembres(); i++) {
-            Membres membreActual = llistaMembres.copia()[i]; // Utilitzem el mètode copia per accedir al membre
+            Membres membreActual = llistaMembres.copia()[i]; 
 
-            // Comprovar si el membre actual és més actiu
             if (membreActual != null && membreActual.getParticipacions() > maxParticipacions) {
-                membreMesActiu = membreActual; // Ac  tualitzem el membre més actiu
+                membreMesActiu = membreActual; 
                 maxParticipacions = membreActual.getParticipacions();
             }
         }
 
-        // Mostrem el membre més actiu
         if (membreMesActiu != null) {
             System.out.println("La persona més activa és:");
             System.out.println(membreMesActiu);
@@ -544,14 +542,11 @@ public class App {
     public static void opcio16() {
         System.out.println("16. Mostrar les xerrades d'una persona concreta");
         try {
-            // Solicitar el alias de la persona
             System.out.print("Introdueix l'alias de la persona: ");
             String alias = teclat.nextLine();
     
-            // Obtener todas las acciones
-            Accio[] accions = llistaAccions.getAccions(); // Suponemos que `llistaAccions` es una instancia de `LlistaAccions`
+            Accio[] accions = llistaAccions.getAccions();
     
-            // Verificar si hay acciones registradas
             if (accions.length == 0) {
                 System.out.println("No hi ha xerrades registrades.");
                 return;
@@ -560,13 +555,11 @@ public class App {
             boolean xerradesTrobades = false;
             System.out.println("\nXerrades impartides per: " + alias);
     
-            // Recorrer todas las acciones
             for (Accio accio : accions) {
-                if (accio instanceof Xerrada) { // Verificar si es una Xerrada
+                if (accio instanceof Xerrada) { 
                     Xerrada xerrada = (Xerrada) accio;
                     Membres[] impartidors = xerrada.getMembresImpartidors();
     
-                    // Verificar si el alias está en los impartidores
                     for (Membres membre : impartidors) {
                         if (membre != null && membre.getAlias().equalsIgnoreCase(alias)) {
                             System.out.println(xerrada);
@@ -577,7 +570,6 @@ public class App {
                 }
             }
     
-            // Si no se encontraron charlas
             if (!xerradesTrobades) {
                 System.out.println("No s'han trobat xerrades impartides per aquesta persona.");
             }
