@@ -6,7 +6,7 @@ import java.util.Scanner;
 import Utilitats.Data;
 import dades.Associacions.*;
 import dades.Persistencia.GestorPersistencia;
-
+import dades.Membres.Alumnes;
 import dades.Membres.LlistaMembres;
 import dades.Membres.Membres;
 
@@ -56,7 +56,7 @@ public class App {
             GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, llistaAssociacions, llistaMembres);
 
             // Executar el menú principal
-            menuPrincipal();
+            menuPrincipal(fitxerAssociacions);
 
         } catch (IOException e) {
             System.err.println("Error carregant o creant els fitxers inicials: " + e.getMessage());
@@ -72,8 +72,10 @@ public class App {
      * @throws NumberFormatException Si l'usuari introdueix un valor no vàlid per a una opció numèrica.
      * @author Paolo
      */
-    public static void menuPrincipal() {
+    public static void menuPrincipal(String associacionsInicials) {
         int opcio = 0;
+
+        associacionsInicials.llegirFitxerBinari(associacionsInicials);
 
         do {
             try {
@@ -102,7 +104,7 @@ public class App {
                         opcio6(); // Mostrar xerrades en una franja de dates
                         break;
                     case 7:
-                        opcio7(); // Afegir una nova associació
+                        opcio7(associacionsInicials); // Afegir una nova associació
                         break;
                     case 8:
                         opcio8(); // Alta d'un membre a una associació
@@ -176,7 +178,7 @@ public class App {
     }
 
     // Funciones de las opciones
-    public static void opcio1() {
+    public static void opcio1(LlistaAssociacions associacionsInicials, String fitxerAssociacions) {
         System.out.println("1. Mostrar les dades de la llista d'associacions");
         associacionsInicials.llegirFitxerBinari(fitxerAssociacions);
         llistaAssociacions.toString();
@@ -185,7 +187,7 @@ public class App {
     public static void opcio2() {
         System.out.println("2. Mostrar les dades de la llista de membres d'una associació (filtre: professors, alumnes o ambdós)");
         // TODO: Implementar funcionalitat
-    }
+    }   
 
     public static void opcio3() {
         System.out.println("3. Mostrar les dades de la llista de membres actius (filtre: professors, alumnes o ambdós)");
@@ -207,7 +209,7 @@ public class App {
         // TODO: Implementar funcionalitat
     }
 
-    public static void opcio7() {
+    public static void opcio7(LlistaAssociacions associacionsInicials) {
         System.out.println("7. Afegir una nova associació");
         System.out.println("\nIntrodueix les seguents dades:");
         System.out.println("\n\tNom associacio: ");
@@ -252,21 +254,21 @@ public class App {
             int mesTresorer = teclat.nextInt();
             System.out.println("\n\tAny: ");
             int anyTresorer = teclat.nextInt();
-            Membres president = new TestMembre(nomPresident, correuPresident, new Data(diaPresident, mesPresident, anyPresident));
-            Membres secretari = new TestMembre(nomSecretari, correuSecretari, new Data(diaSecretari, mesSecretari, anySecretari));
-            Membres tresorer = new TestMembre(nomPresident, correuTresorer, new Data(diaTresorer, mesTresorer, anyTresorer));
+            Alumnes president = new Alumnes(nomPresident, correuPresident, new Data(diaPresident, mesPresident, anyPresident));
+            Alumnes secretari = new Alumnes(nomSecretari, correuSecretari, new Data(diaSecretari, mesSecretari, anySecretari));
+            Alumnes tresorer = new Alumnes(nomPresident, correuTresorer, new Data(diaTresorer, mesTresorer, anyTresorer));
             Associacio a = new Associacio(nom, correu, carrera, president, secretari, tresorer);
-            llistaAssociacions.afegirAssociacio(a);
+            associacionsInicials.afegirAssociacio(a);
         } else{
             Associacio a = new Associacio(nom, correu, carrera);
-            llistaAssociacions.afegirAssociacio(a);
+            associacionsInicials.afegirAssociacio(a);
         }
     }
 
-    public static void opcio8() {
+    public static void opcio8(LlistaAssociacions associacionsInicials) {
         System.out.println("8. Alta d'un membre a una associació");
         try {
-            llistaAssociacions.
+            associacionsInicials.
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -338,25 +340,5 @@ public class App {
             }
         }
         System.out.println("Sortint de l'aplicació.");
-    }
-
-    /**
-     * Classe concreta per provar la classe abstracta Membres.
-     * Es proporciona una implementació mínima per al mètode abstracte `copia`.
-     * 
-     * Aixo es necessari per a que funcioni el codig degut a que necessita parts del codi d'un altre integrant
-     * del grup i per decisions de desenvolupament tinc aquest metode. Copiat de la seua part per a ser funcional.
-     * 
-     * @author Paolo
-     */
-    static class TestMembre extends Membres {
-        public TestMembre(String alias, String correuElectronic, Data dataAlta) {
-            super(alias, correuElectronic, dataAlta);
-        }
-
-        @Override
-        public Membres copia() {
-            return new TestMembre(this.getAlias(), this.getCorreuElectronic(), this.getDataAlta());
-        }
     }
 }

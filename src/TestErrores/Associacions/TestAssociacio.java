@@ -60,7 +60,7 @@ public class TestAssociacio{
 
     private static void validacioAssignarMembresALlistaMembres(){
         System.out.println("\n\nValidem assignar un membre a la llista de membres de Associacio que servira per comprovar si els presidents, secretaris i tresorers son alumnes i no profesors.\n");
-        Membres membre1 = new TestMembre("Joan123", "joan@etse.com", new Data(10, 1, 2024));
+        Alumnes membre1 = new TestMembre("Joan123", "joan@etse.com", new Data(10, 1, 2024));
         Membres membre2 = new TestMembre("Marc321", "correu@exemple.com", new Data(1, 5, 2022));
         Associacio associacioPaelles = new Associacio("PaellersURV", "paellersurv@urv.cat", "GEI", membre1.copia(), membre1.copia(), membre1.copia());
         String aux = "";
