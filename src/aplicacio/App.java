@@ -3,10 +3,12 @@ package aplicacio;
 import java.io.IOException;
 import java.util.Scanner;
 
-import dades.Associacions.LlistaAssociacions;
+import Utilitats.Data;
+import dades.Associacions.*;
 import dades.Persistencia.GestorPersistencia;
 
 import dades.Membres.LlistaMembres;
+import dades.Membres.Membres;
 
 /**
  * Classe principal de l'aplicació que implementa un menú per gestionar associacions,
@@ -39,7 +41,7 @@ public class App {
             if (!fileAssociacions.exists()) {
                 System.out.println("El fitxer d'associacions no existeix. Creant un nou fitxer...");
                 LlistaAssociacions associacionsInicials = new LlistaAssociacions(50);
-                GestorPersistencia.guardarAssociacions(fitxerAssociacions, associacionsInicials);
+                associacionsInicials.crearFitxerBinari(fitxerAssociacions);
             }
 
             java.io.File fileMembres = new java.io.File(fitxerMembres);
@@ -176,7 +178,8 @@ public class App {
     // Funciones de las opciones
     public static void opcio1() {
         System.out.println("1. Mostrar les dades de la llista d'associacions");
-        // TODO: Implementar funcionalitat
+        associacionsInicials.llegirFitxerBinari(fitxerAssociacions);
+        llistaAssociacions.toString();
     }
 
     public static void opcio2() {
@@ -206,12 +209,67 @@ public class App {
 
     public static void opcio7() {
         System.out.println("7. Afegir una nova associació");
-        // TODO: Implementar funcionalitat
+        System.out.println("\nIntrodueix les seguents dades:");
+        System.out.println("\n\tNom associacio: ");
+        String nom = teclat.next();
+        System.out.println("\n\tCorreu associacio: ");
+        String correu = teclat.next();
+        System.out.println("\n\tCarrera: ");
+        String carrera = teclat.next();
+        System.out.println("\nVols afegir directament president, tresorer i secretari, si si hauras d'introduir les dades dels tres membres per separat. (Si/No)");
+        String resposta = teclat.next();
+        if(resposta.equalsIgnoreCase("Si")){
+            System.out.println("\nDades president: ");
+            System.out.println("\n\tNom: ");
+            String nomPresident = teclat.next();
+            System.out.println("\n\tCorreu: ");
+            String correuPresident = teclat.next();
+            System.out.println("\n\tDia: ");            
+            int diaPresident = teclat.nextInt();
+            System.out.println("\n\tMes: ");
+            int mesPresident = teclat.nextInt();
+            System.out.println("\n\tAny: ");
+            int anyPresident = teclat.nextInt();
+            System.out.println("\n\nDades secretari: ");
+            System.out.println("\n\tNom: ");
+            String nomSecretari = teclat.next();
+            System.out.println("\n\tCorreu: ");
+            String correuSecretari = teclat.next();
+            System.out.println("\n\tDia: ");            
+            int diaSecretari = teclat.nextInt();
+            System.out.println("\n\tMes: ");
+            int mesSecretari = teclat.nextInt();
+            System.out.println("\n\tAny: ");
+            int anySecretari = teclat.nextInt();
+            System.out.println("\n\nDades tresorer: ");
+            System.out.println("\n\tNom: ");
+            String nomTresorer = teclat.next();
+            System.out.println("\n\tCorreu: ");
+            String correuTresorer = teclat.next();
+            System.out.println("\n\tDia: ");            
+            int diaTresorer = teclat.nextInt();
+            System.out.println("\n\tMes: ");
+            int mesTresorer = teclat.nextInt();
+            System.out.println("\n\tAny: ");
+            int anyTresorer = teclat.nextInt();
+            Membres president = new TestMembre(nomPresident, correuPresident, new Data(diaPresident, mesPresident, anyPresident));
+            Membres secretari = new TestMembre(nomSecretari, correuSecretari, new Data(diaSecretari, mesSecretari, anySecretari));
+            Membres tresorer = new TestMembre(nomPresident, correuTresorer, new Data(diaTresorer, mesTresorer, anyTresorer));
+            Associacio a = new Associacio(nom, correu, carrera, president, secretari, tresorer);
+            llistaAssociacions.afegirAssociacio(a);
+        } else{
+            Associacio a = new Associacio(nom, correu, carrera);
+            llistaAssociacions.afegirAssociacio(a);
+        }
     }
 
     public static void opcio8() {
         System.out.println("8. Alta d'un membre a una associació");
-        // TODO: Implementar funcionalitat
+        try {
+            llistaAssociacions.
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     public static void opcio9() {
@@ -280,5 +338,25 @@ public class App {
             }
         }
         System.out.println("Sortint de l'aplicació.");
+    }
+
+    /**
+     * Classe concreta per provar la classe abstracta Membres.
+     * Es proporciona una implementació mínima per al mètode abstracte `copia`.
+     * 
+     * Aixo es necessari per a que funcioni el codig degut a que necessita parts del codi d'un altre integrant
+     * del grup i per decisions de desenvolupament tinc aquest metode. Copiat de la seua part per a ser funcional.
+     * 
+     * @author Paolo
+     */
+    static class TestMembre extends Membres {
+        public TestMembre(String alias, String correuElectronic, Data dataAlta) {
+            super(alias, correuElectronic, dataAlta);
+        }
+
+        @Override
+        public Membres copia() {
+            return new TestMembre(this.getAlias(), this.getCorreuElectronic(), this.getDataAlta());
+        }
     }
 }

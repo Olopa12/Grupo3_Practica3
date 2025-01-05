@@ -22,7 +22,7 @@ public class Associacio implements Serializable{
     private Membres[] llistaM;
     private int nMembres;
 
-    private String[] carreras = {"GEB", "GEI", "GESST", "BioGEI", "DG GEB-GESST", "extern-ETSE"};
+    private static String[] carreras = {"GEB", "GEI", "GESST", "BioGEI", "DG GEB-GESST", "extern-ETSE"};
     private String carrera = null;
 
     
@@ -195,6 +195,10 @@ public class Associacio implements Serializable{
 
     public int getNumMembres(){
         return nMembres;
+    }
+
+    public static String[] getCarreras(){
+        return carreras;
     }
 
     /**
