@@ -27,6 +27,7 @@ public class TestLlistaMembres {
         testGuardarICarregar();
         testOrdenacio();
         testDuplicats();
+        testCopia();
     }
 
     /**
@@ -38,7 +39,10 @@ public class TestLlistaMembres {
         LlistaMembres llista = new LlistaMembres("Associació X", 10);
 
         Alumnes alumne = new Alumnes("Joan123", "joan@etse.com", new Data(10, 1, 2024), "GEI", 2, false);
-        Professsors professor = new Professsors("Maria456", "maria@etse.com", new Data(15, 9, 2023), "DEIM", "D123");
+        Professors professor = new Professors("Maria456", "maria@etse.com", new Data(15, 9, 2023), "DEIM", "D123");
+
+        alumne.setParticipacions(5);
+        professor.setParticipacions(3);
 
         llista.afegirMembre(alumne);
         llista.afegirMembre(professor);
@@ -54,8 +58,13 @@ public class TestLlistaMembres {
     static void testGuardarICarregar() {
         System.out.println("=== TEST: Guardar i Carregar Membres ===");
         LlistaMembres llista = new LlistaMembres("Associació Y", 10);
+
         Alumnes alumne = new Alumnes("Anna789", "anna@etse.com", new Data(20, 11, 2022), "GESST", 3, true);
-        Professsors professor = new Professsors("Pere111", "pere@etse.com", new Data(1, 1, 2024), "DEEEA", "D789");
+        Professors professor = new Professors("Pere111", "pere@etse.com", new Data(1, 1, 2024), "DEEEA", "D789");
+
+        alumne.setParticipacions(10);
+        alumne.setDataBaixa(new Data(15, 12, 2023));
+        professor.setParticipacions(7);
 
         llista.afegirMembre(alumne);
         llista.afegirMembre(professor);
@@ -63,16 +72,23 @@ public class TestLlistaMembres {
         String fitxer = "test_llista_membres.txt";
 
         try {
+            // Guardar la llista al fitxer
             llista.guardarEnFitxer(fitxer);
 
+            // Carregar la llista des del fitxer
             LlistaMembres llistaCarregada = new LlistaMembres("Associació Z", 10);
             llistaCarregada.carregarDeFitxer(fitxer);
 
+            // Comprovar que les dades són les mateixes
             TestUtils.assertEqual(2, llistaCarregada.numMembres(), "testGuardarICarregar - Nombre de membres carregats");
+
             System.out.println(llistaCarregada);
 
             // Eliminar el fitxer després del test
-            new File(fitxer).delete();
+            File fitxerTest = new File(fitxer);
+            if (fitxerTest.exists()) {
+                fitxerTest.delete();
+            }
         } catch (IOException e) {
             System.err.println("Error en guardar o carregar fitxer: " + e.getMessage());
         }
@@ -86,7 +102,7 @@ public class TestLlistaMembres {
         System.out.println("=== TEST: Ordenació de Membres ===");
         LlistaMembres llista = new LlistaMembres("Associació Z", 10);
 
-        Professsors professor = new Professsors("Pere111", "pere@etse.com", new Data(1, 1, 2024), "DEEEA", "D789");
+        Professors professor = new Professors("Pere111", "pere@etse.com", new Data(1, 1, 2024), "DEEEA", "D789");
         Alumnes alumne1 = new Alumnes("Anna789", "anna@etse.com", new Data(20, 11, 2022), "GESST", 3, true);
         Alumnes alumne2 = new Alumnes("Joan123", "joan@etse.com", new Data(10, 1, 2024), "GEI", 2, false);
 
@@ -112,5 +128,39 @@ public class TestLlistaMembres {
         llista.afegirMembre(alumne); // Intentar afegir el mateix membre
 
         TestUtils.assertEqual(1, llista.numMembres(), "testDuplicats - Nombre de membres després de duplicat");
+    }
+
+    /**
+     * Test per verificar el mètode copia de la classe LlistaMembres.
+     * Es comprova que la còpia sigui una nova instància i que els membres 
+     * copien les referències correctament.
+     */
+    static void testCopia() {
+        System.out.println("=== TEST: Còpia de Llista Membres ===");
+
+        // Crear una llista de membres
+        LlistaMembres llistaOriginal = new LlistaMembres("General", 10);
+
+        // Afegir membres
+        Alumnes alumne = new Alumnes("Joan123", "joan@etse.com", new Data(10, 1, 2024), "GEI", 2, false);
+        Professors professor = new Professors("Maria456", "maria@etse.com", new Data(15, 9, 2023), "DEIM", "D123");
+        llistaOriginal.afegirMembre(alumne);
+        llistaOriginal.afegirMembre(professor);
+
+        // Obtenir la còpia
+        Membres[] copia = llistaOriginal.copia();
+
+        // Comprovar la mida
+        TestUtils.assertEqual(2, copia.length, "testCopia - Mida de la còpia");
+
+        // Comprovar que els membres són els mateixos
+        TestUtils.assertEqual(alumne, copia[0], "testCopia - Primer membre");
+        TestUtils.assertEqual(professor, copia[1], "testCopia - Segon membre");
+
+        // Comprovar que no comparteixen referències amb l'array intern original
+        Membres[] originalArray = llistaOriginal.copia();
+        TestUtils.assertTrue(originalArray != copia, "testCopia - Arrays diferents");
+
+        System.out.println("=== TEST: Còpia de Llista Membres completat amb èxit ===");
     }
 }
