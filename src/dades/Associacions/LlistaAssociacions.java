@@ -38,8 +38,38 @@ public class LlistaAssociacions {
         return aux;
     }
 
+    public int getNumAssociacions(){
+        return numAssociacions;
+    }
+
     public Associacio[] copia(){
         return llista;
+    }
+
+    public Associacio buscarAssociacio(String nomAssociacio){
+        int i = 0;
+        boolean trobat = false;
+        Associacio a = null;
+        while(i < numAssociacions && !trobat){
+            if(llista[i].getNomAsociacio().equalsIgnoreCase(nomAssociacio)){
+                a = llista[i];
+                trobat = true;
+            }
+            i++;
+        }
+        return a;
+    }
+
+    public boolean existeixAssociacio(String nomAssociacio){
+        int i = 0;
+        boolean trobat = false;
+        while(i < numAssociacions && !trobat){
+            if(llista[i].getNomAsociacio().equalsIgnoreCase(nomAssociacio)){
+                trobat = true;
+            }
+            i++;
+        }
+        return trobat;
     }
 
     /**

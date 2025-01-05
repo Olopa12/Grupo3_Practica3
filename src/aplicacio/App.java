@@ -5,10 +5,12 @@ import java.util.Scanner;
 
 import Utilitats.Data;
 import dades.Associacions.*;
+import dades.Excepcions.InstanciaNoTrobada;
 import dades.Persistencia.GestorPersistencia;
 import dades.Membres.Alumnes;
 import dades.Membres.LlistaMembres;
 import dades.Membres.Membres;
+import dades.Membres.Professsors;
 
 /**
  * Classe principal de l'aplicació que implementa un menú per gestionar associacions,
@@ -20,7 +22,7 @@ import dades.Membres.Membres;
  */
 public class App {
     static Scanner teclat = new Scanner(System.in);
-    static LlistaAssociacions llistaAssociacions = new LlistaAssociacions(50);
+    static LlistaAssociacions associacionsInicials = new LlistaAssociacions(50);
     static LlistaMembres llistaMembres = new LlistaMembres("General", 100);
 
     /**
@@ -72,10 +74,10 @@ public class App {
      * @throws NumberFormatException Si l'usuari introdueix un valor no vàlid per a una opció numèrica.
      * @author Paolo
      */
-    public static void menuPrincipal(String associacionsInicials) {
+    public static void menuPrincipal(String fitxerAssociacions) {
         int opcio = 0;
 
-        associacionsInicials.llegirFitxerBinari(associacionsInicials);
+        associacionsInicials.llegirFitxerBinari(fitxerAssociacions);
 
         do {
             try {
@@ -86,7 +88,7 @@ public class App {
                 // Gestiona l'opció seleccionada amb un switch
                 switch (opcio) {
                     case 1:
-                        opcio1(); // Mostrar les dades de la llista d'associacions
+                        opcio1(associacionsInicials, fitxerAssociacions); // Mostrar les dades de la llista d'associacions
                         break;
                     case 2:
                         opcio2(); // Mostrar les dades de membres d'una associació
@@ -107,7 +109,7 @@ public class App {
                         opcio7(associacionsInicials); // Afegir una nova associació
                         break;
                     case 8:
-                        opcio8(); // Alta d'un membre a una associació
+                        opcio8(associacionsInicials, fitxerAssociacions); // Alta d'un membre a una associació
                         break;
                     case 9:
                         opcio9(); // Afegir una nova xerrada
@@ -181,7 +183,7 @@ public class App {
     public static void opcio1(LlistaAssociacions associacionsInicials, String fitxerAssociacions) {
         System.out.println("1. Mostrar les dades de la llista d'associacions");
         associacionsInicials.llegirFitxerBinari(fitxerAssociacions);
-        llistaAssociacions.toString();
+        associacionsInicials.toString();
     }
 
     public static void opcio2() {
@@ -232,6 +234,16 @@ public class App {
             int mesPresident = teclat.nextInt();
             System.out.println("\n\tAny: ");
             int anyPresident = teclat.nextInt();
+            System.out.println("\n\tEnsenyament de l'alumne: ");            
+            String ensenyamentPresident = teclat.next();
+            System.out.println("\n\tNombre d'anys en l'ETSE: ");
+            int antiguitatPresident = teclat.nextInt();
+            System.out.println("\n\tEsta graduat? (Si/No) ");
+            String graduatStringPresident = teclat.next();
+            boolean graduatPresident = false;
+            if(graduatStringPresident.equalsIgnoreCase("Si")){
+                graduatPresident = true;
+            }
             System.out.println("\n\nDades secretari: ");
             System.out.println("\n\tNom: ");
             String nomSecretari = teclat.next();
@@ -243,6 +255,16 @@ public class App {
             int mesSecretari = teclat.nextInt();
             System.out.println("\n\tAny: ");
             int anySecretari = teclat.nextInt();
+            System.out.println("\n\tEnsenyament de l'alumne: ");            
+            String ensenyamentSecretari = teclat.next();
+            System.out.println("\n\tNombre d'anys en l'ETSE: ");
+            int antiguitatSecretari = teclat.nextInt();
+            System.out.println("\n\tEsta graduat? (Si/No) ");
+            String graduatStringSecretari = teclat.next();
+            boolean graduatSecretari = false;
+            if(graduatStringSecretari.equalsIgnoreCase("Si")){
+                graduatSecretari = true;
+            }
             System.out.println("\n\nDades tresorer: ");
             System.out.println("\n\tNom: ");
             String nomTresorer = teclat.next();
@@ -254,9 +276,19 @@ public class App {
             int mesTresorer = teclat.nextInt();
             System.out.println("\n\tAny: ");
             int anyTresorer = teclat.nextInt();
-            Alumnes president = new Alumnes(nomPresident, correuPresident, new Data(diaPresident, mesPresident, anyPresident));
-            Alumnes secretari = new Alumnes(nomSecretari, correuSecretari, new Data(diaSecretari, mesSecretari, anySecretari));
-            Alumnes tresorer = new Alumnes(nomPresident, correuTresorer, new Data(diaTresorer, mesTresorer, anyTresorer));
+            System.out.println("\n\tEnsenyament de l'alumne: ");            
+            String ensenyamentTresorer = teclat.next();
+            System.out.println("\n\tNombre d'anys en l'ETSE: ");
+            int antiguitatTresorer= teclat.nextInt();
+            System.out.println("\n\tEsta graduat? (Si/No) ");
+            String graduatStringTresorer = teclat.next();
+            boolean graduatTresorer = false;
+            if(graduatStringTresorer.equalsIgnoreCase("Si")){
+                graduatTresorer = true;
+            }
+            Alumnes president = new Alumnes(nomPresident, correuPresident, new Data(diaPresident, mesPresident, anyPresident), ensenyamentPresident, antiguitatPresident, graduatPresident);
+            Alumnes secretari = new Alumnes(nomSecretari, correuSecretari, new Data(diaSecretari, mesSecretari, anySecretari), ensenyamentSecretari, antiguitatSecretari, graduatSecretari);
+            Alumnes tresorer = new Alumnes(nomTresorer, correuTresorer, new Data(diaTresorer, mesTresorer, anyTresorer), ensenyamentTresorer, antiguitatTresorer, graduatTresorer);
             Associacio a = new Associacio(nom, correu, carrera, president, secretari, tresorer);
             associacionsInicials.afegirAssociacio(a);
         } else{
@@ -265,13 +297,67 @@ public class App {
         }
     }
 
-    public static void opcio8(LlistaAssociacions associacionsInicials) {
+    public static void opcio8(LlistaAssociacions associacionsInicials, String fitxerAssociacions) {
         System.out.println("8. Alta d'un membre a una associació");
-        try {
-            associacionsInicials.
-        } catch (Exception e) {
-            // TODO: handle exception
+        System.out.println("\nNom de l'associacio a la que afegim el membre: ");
+        String nomAssociacio = teclat.next();
+        int i = 0;
+        boolean trobat = false;
+        try{
+            while(i<associacionsInicials.getNumAssociacions() && !trobat){
+                if(associacionsInicials.existeixAssociacio(nomAssociacio)){
+                    System.out.println("Professor (0) o alumne (1)?\nIntrodueix el numero correspondent al que es vol afegir: ");
+                    int qual = teclat.nextInt();
+                    if(qual == 0){
+                        System.out.println("\n\tNom: ");
+                        String nom = teclat.next();
+                        System.out.println("\n\tCorreu: ");
+                        String correu = teclat.next();
+                        System.out.println("\n\tDia: ");            
+                        int dia = teclat.nextInt();
+                        System.out.println("\n\tMes: ");
+                        int mes = teclat.nextInt();
+                        System.out.println("\n\tAny: ");
+                        int any = teclat.nextInt();
+                        System.out.println("\n\tEnsenyament de l'alumne: ");            
+                        String ensenyament = teclat.next();
+                        System.out.println("\n\tNombre d'anys en l'ETSE: ");
+                        int antiguitat = teclat.nextInt();
+                        System.out.println("\n\tEsta graduat? (Si/No) ");
+                        String graduatString = teclat.next();
+                        boolean graduat = false;
+                        if(graduatString.equalsIgnoreCase("Si")){
+                            graduat = true;
+                        }
+                        Alumnes a = new Alumnes(nom, correu, new Data(dia, mes, any), ensenyament, antiguitat, graduat);
+                        associacionsInicials.buscarAssociacio(nomAssociacio).assignarMembresALlistaMembres(a);
+                    } else{
+                        System.out.println("\n\tNom: ");
+                        String nom = teclat.next();
+                        System.out.println("\n\tCorreu: ");
+                        String correu = teclat.next();
+                        System.out.println("\n\tDia: ");            
+                        int dia = teclat.nextInt();
+                        System.out.println("\n\tMes: ");
+                        int mes = teclat.nextInt();
+                        System.out.println("\n\tAny: ");
+                        int any = teclat.nextInt();
+                        System.out.println("\n\t Departament del profesor: ");            
+                        String departament = teclat.next();
+                        System.out.println("\n\tDespatx: ");
+                        String despatx = teclat.next();
+                        Professsors p = new Professsors(nom, correu, new Data(dia, mes, any), departament, despatx);
+                        associacionsInicials.buscarAssociacio(nomAssociacio).assignarMembresALlistaMembres(p);
+                        associacionsInicials.crearFitxerBinari(fitxerAssociacions);
+                    }
+                } else{
+                    throw new InstanciaNoTrobada(nomAssociacio);
+                }
+            }
+        } catch (Exception InstanciaNoTrobada) {
+            opcio8(associacionsInicials, fitxerAssociacions);
         }
+        
     }
 
     public static void opcio9() {
@@ -333,7 +419,7 @@ public class App {
         String resposta = teclat.nextLine();
         if (resposta.equalsIgnoreCase("y")) {
             try {
-                GestorPersistencia.guardarDades("associacions.dat", "membres.txt", llistaAssociacions, llistaMembres);
+                GestorPersistencia.guardarDades("associacions.dat", "membres.txt", associacionsInicials, llistaMembres);
                 System.out.println("Dades guardades correctament.");
             } catch (IOException e) {
                 System.err.println("Error guardant les dades: " + e.getMessage());

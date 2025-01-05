@@ -2,11 +2,10 @@ package TestErrores.Associacions;
 
 import java.io.IOException;
 
-import TestErrores.Associacions.TestAssociacio.TestMembre;
 import Utilitats.Data;
 import dades.Associacions.Associacio;
 import dades.Associacions.LlistaAssociacions;
-import dades.Membres.Membres;
+import dades.Membres.Alumnes;
 
 /**
  * Classe TestLlistaAssociacio que representa els testes fer per comprovar que
@@ -33,8 +32,8 @@ public class TestLlistaAssociacions {
 
         System.out.println("Afegim una associacio:\n");
 
-        Membres membre1 = new TestMembre("Joan123", "joan@etse.com", new Data(10, 1, 2024));
-        Membres membre2 = new TestMembre("Marc321", "correu@exemple.com", new Data(1, 5, 2022));
+        Alumnes membre1 = new Alumnes("Joan123", "joan@etse.com", new Data(10, 1, 2024), "Informatica", 3, true);
+        Alumnes membre2 = new Alumnes("Marc321", "correu@exemple.com", new Data(1, 5, 2022), "Informatica", 3, true);
         Associacio asociacioPaelles = new Associacio("PaellersURV", "paellersurv@urv.cat", "GEI", membre1.copia(), membre1.copia(), membre1.copia());
         llistaAs.afegirAssociacio(asociacioPaelles);
         System.out.println(llistaAs.toString());
