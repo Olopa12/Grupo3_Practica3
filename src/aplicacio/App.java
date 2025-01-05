@@ -2,7 +2,7 @@ package aplicacio;
 
 import java.io.IOException;
 import java.util.Scanner;
-
+import dades.Accions.*;
 import dades.Associacions.LlistaAssociacions;
 import dades.Persistencia.GestorPersistencia;
 
@@ -20,6 +20,7 @@ public class App {
     static Scanner teclat = new Scanner(System.in);
     static LlistaAssociacions llistaAssociacions = new LlistaAssociacions(50);
     static LlistaMembres llistaMembres = new LlistaMembres("General", 100);
+    private static LlistaAccions llistaAccions = new LlistaAccions();
 
     /**
      * Punt d'entrada principal de l'aplicació.
@@ -32,6 +33,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         String fitxerAssociacions = "associacions.dat";
         String fitxerMembres = "membres.txt";
+        String fitxerAccions = "accions.txt";
 
         try {
             // Comprovar si els fitxers existeixen i crear-los si no és així
@@ -49,9 +51,16 @@ public class App {
                 GestorPersistencia.guardarMembres(fitxerMembres, membresInicials);
             }
 
+            java.io.File fileAccions = new java.io.File(fitxerAccions);
+            if (!fileAccions.exists()) {
+                System.out.println("El fitxer d'accions no existeix. Creant un nou fitxer...");
+                LlistaAccions accionsInicials = new LlistaAccions(50); // Constructor amb paràmetre
+                GestorPersistencia.guardarAccions(fitxerAccions, accionsInicials);
+            }
+
             // Càrrega inicial de les dades
             System.out.println("Carregant dades...");
-            GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, llistaAssociacions, llistaMembres);
+            GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, fitxerAccions, llistaAssociacions, llistaMembres, llistaAccions);
 
             // Executar el menú principal
             menuPrincipal();
@@ -189,9 +198,12 @@ public class App {
         // TODO: Implementar funcionalitat
     }
 
-    public static void opcio4() {
+    public static void opcio4() { 
         System.out.println("4. Mostrar les dades de la llista d'accions (amb filtre opcional)");
-        // TODO: Implementar funcionalitat
+        Accio[] accions = llistaAccions.getAccions();
+        for (Accio accio : accions) {
+            System.out.println(accio);
+        }
     }
 
     public static void opcio5() {
@@ -216,12 +228,97 @@ public class App {
 
     public static void opcio9() {
         System.out.println("9. Afegir una nova xerrada");
-        // TODO: Implementar funcionalitat
+        System.out.print("Introdueix el títol de la xerrada: ");
+        String titol = teclat.nextLine();
+        System.out.print("Introdueix el nom de l'associació: ");
+        String codiAssociacio = teclat.nextLine();
+        System.out.print("Introdueix el nom del responsable: ");
+        String responsable = teclat.nextLine();
+        System.out.print("Introdueix la data de la xerrada (format YYYY-MM-DD): ");
+        String dataStr = teclat.nextLine();
+        Data data = Data.parseData(dataStr);
+
+        Membres responsableMembre = new Membres(responsable, "email", new Data()) {
+            @Override
+            public Membres copia() {
+                return new Membres(this.getAlias(), this.getCorreuElectronic(), this.getDataAlta()) {
+                    @Override
+                    public Membres copia() {
+                        return this;
+                    }
+                };
+            }
+        };
+
+        Xerrada novaXerrada = new Xerrada(titol, new Associacio(codiAssociacio, "email", "GEI"),
+                responsableMembre, data);
+
+        System.out.print("Introdueix el nombre de valoracions: ");
+        int numValoracions = Integer.parseInt(teclat.nextLine());
+        for (int i = 0; i < numValoracions; i++) {
+            System.out.print("Introdueix la valoració " + (i + 1) + " (0-10): ");
+            int valoracio = Integer.parseInt(teclat.nextLine());
+            novaXerrada.afegirValoracio(valoracio);
+        }
+
+        try {
+            llistaAccions.afegirAccio(novaXerrada);
+            System.out.println("Xerrada afegida correctament.");
+            String fitxerAccions = "accions.txt";
+            System.out.println("Guardant la llista d'accions en " + fitxerAccions);
+            llistaAccions.guardarAccions(fitxerAccions);
+            System.out.println("Llista d'accions guardada en " + fitxerAccions);
+        } catch (AccioJaExisteix e) {
+            System.err.println("Error: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error guardant les accions: " + e.getMessage());
+        }
     }
 
     public static void opcio10() {
         System.out.println("10. Afegir una nova demostració");
-        // TODO: Implementar funcionalitat
+        System.out.print("Introdueix el títol de la demostració: ");
+        String titol = teclat.nextLine();
+        System.out.print("Introdueix el nom de l'associació: ");
+        String codiAssociacio = teclat.nextLine();
+        System.out.print("Introdueix el nom del responsable: ");
+        String responsable = teclat.nextLine();
+        System.out.print("Introdueix la data de disseny (format YYYY-MM-DD): ");
+        String dataStr = teclat.nextLine();
+        String dataDisseny = dataStr;
+        System.out.print("És vàlida la demostració? (true/false): ");
+        boolean esValida = Boolean.parseBoolean(teclat.nextLine());
+        System.out.print("Introdueix el cost dels materials: ");
+        double costMaterials = Double.parseDouble(teclat.nextLine());
+        Membres responsableMembre = new Membres(responsable, "email", new Data()) {
+            @Override
+            public Membres copia() {
+                return new Membres(this.getAlias(), this.getCorreuElectronic(), this.getDataAlta()) {
+                    @Override
+                    public Membres copia() {
+                        return this;
+                    }
+                };
+            }
+        };
+
+        Demostracio novaDemostracio = new Demostracio(titol, new Associacio(codiAssociacio, "email", "GEI"),
+                responsableMembre, dataDisseny, esValida, costMaterials);
+
+        try {
+            llistaAccions.afegirAccio(novaDemostracio);
+            System.out.println("Demostració ha sigut afegida correctament.");
+
+            // Guardar la llista d'accions en el fitxer accions.txt
+            String fitxerAccions = "accions.txt";
+            System.out.println("Guardant la llista d'accions en " + fitxerAccions);
+            llistaAccions.guardarAccions(fitxerAccions);
+            System.out.println("Llista d'accions guardada en " + fitxerAccions);
+        } catch (AccioJaExisteix e) {
+            System.err.println("Error: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error guardant les accions: " + e.getMessage());
+        }
     }
 
     public static void opcio11() {
@@ -246,7 +343,26 @@ public class App {
 
     public static void opcio15() {
         System.out.println("15. Consultar la xerrada millor valorada");
-        // TODO: Implementar funcionalitat
+        Xerrada millorXerrada = null;
+        int millorValoracio = 0;
+
+        Accio[] accions = llistaAccions.getAccions();
+        for (Accio accio : accions) {
+            if (accio instanceof Xerrada) {
+                Xerrada xerrada = (Xerrada) accio;
+                int valoracioTotal = xerrada.valoracionsSuma();
+                if (valoracioTotal > millorValoracio) {
+                    millorValoracio = valoracioTotal;
+                    millorXerrada = xerrada;
+                }
+            }
+        }
+
+        if (millorXerrada != null) {
+            System.out.println("La millor xerrada valorada és: " + millorXerrada);
+        } else {
+            System.out.println("No hi ha xerrades valorades.");
+        }
     }
 
     public static void opcio16() {
@@ -273,7 +389,7 @@ public class App {
         String resposta = teclat.nextLine();
         if (resposta.equalsIgnoreCase("y")) {
             try {
-                GestorPersistencia.guardarDades("associacions.dat", "membres.txt", llistaAssociacions, llistaMembres);
+                GestorPersistencia.guardarDades("associacions.dat", "membres.txt", "accions.txt", llistaAssociacions, llistaMembres, llistaAccions);
                 System.out.println("Dades guardades correctament.");
             } catch (IOException e) {
                 System.err.println("Error guardant les dades: " + e.getMessage());
