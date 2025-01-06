@@ -141,6 +141,8 @@ public class LlistaAssociacions {
         fitxer.close();
     }
 
+
+
     /**
      * Crea un fitxer binari que enmagatzema les associacions mediant serialitzacio.
      * @param fitxerOut El nom del fitxer binari creat.
