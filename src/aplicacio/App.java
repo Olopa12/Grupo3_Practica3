@@ -10,6 +10,7 @@ import dades.Associacions.Associacio;
 import dades.Associacions.LlistaAssociacions;
 import dades.Excepcions.AccioJaExisteix;
 import dades.Excepcions.InstanciaNoTrobada;
+import dades.Persistencia.DataManager;
 import dades.Persistencia.GestorPersistencia;
 import dades.Membres.*;
 
@@ -23,9 +24,9 @@ import dades.Membres.*;
  */
 public class App {
     static Scanner teclat = new Scanner(System.in);
-    static LlistaAssociacions associacionsInicials = new LlistaAssociacions(50);
-    static LlistaMembres llistaMembres = new LlistaMembres("General", 100);
-    static LlistaAccions llistaAccions = new LlistaAccions();
+    LlistaAssociacions associacions = DataManager.getInstance().associacionsInicials;
+    LlistaMembres membres = DataManager.getInstance().llistaMembres;
+    LlistaAccions accions = DataManager.getInstance().llistaAccions;
 
     /**
      * Punt d'entrada principal de l'aplicació.
@@ -311,7 +312,6 @@ public class App {
                 Membres[] membres = associacio.getLlistaMembres();
     
                 for (Membres membre : membres) {
-                    // Verificar si el membre és nul o inactiu
                     if (membre != null && membre.getDataBaixa() == null) {
                         switch (filtre) {
                             case 1: // Professors

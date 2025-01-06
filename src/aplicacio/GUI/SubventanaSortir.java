@@ -1,5 +1,8 @@
-package aplicacio;
+package aplicacio.GUI;
 import javax.swing.*;
+
+import aplicacio.App;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

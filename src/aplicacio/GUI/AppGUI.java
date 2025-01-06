@@ -1,10 +1,12 @@
-package aplicacio;
+package aplicacio.GUI;
 
 import javax.swing.*;
 
+import aplicacio.App;
 import dades.Accions.LlistaAccions;
 import dades.Associacions.LlistaAssociacions;
 import dades.Membres.LlistaMembres;
+import dades.Persistencia.DataManager;
 import dades.Persistencia.GestorPersistencia;
 
 import java.awt.*;
@@ -18,6 +20,9 @@ import java.io.IOException;
  * @author Paolo
  */
 public class AppGUI extends JFrame{
+    LlistaAssociacions associacions = DataManager.getInstance().associacionsInicials;
+    LlistaMembres membres = DataManager.getInstance().llistaMembres;
+    LlistaAccions accions = DataManager.getInstance().llistaAccions;
     public AppGUI() {
         setTitle("Gestió d'Associacions");
         setSize(400, 600);
@@ -87,7 +92,7 @@ public class AppGUI extends JFrame{
         public void actionPerformed(ActionEvent e) {
             switch (opcio) {
                 case 1:
-                    App.opcio1(App.associacionsInicials, "associacions.dat");
+                    App.opcio1(associacions, "associacions.dat");
                     break;
                 case 2:
                     App.opcio2();
@@ -96,10 +101,10 @@ public class AppGUI extends JFrame{
                     App.opcio3();
                     break;
                 case 7:
-                    App.opcio7(App.associacionsInicials, "associacions.dat"); // Afegir una nova associació
+                    App.opcio7(associacions, "associacions.dat"); // Afegir una nova associació
                     break;
                 case 8:
-                    App.opcio8(App.associacionsInicials, "associacions.dat"); // Alta d'un membre a una associació
+                    App.opcio8(associacions, "associacions.dat"); // Alta d'un membre a una associació
                     break;
                 // Afegir les altres opcions
                 case 18:
@@ -107,7 +112,7 @@ public class AppGUI extends JFrame{
                     sortirDialog.setVisible(true);
                     break;
                 default:
-                    JOptionPane.showMessageDialog(null, "Opció no implementada encara.", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    mostrarVentanaEmergente(new VentanaTrabajoEnProgreso(AppGUI.this));
             }
         }
     }
@@ -145,7 +150,23 @@ public class AppGUI extends JFrame{
 
         // Càrrega inicial de les dades
         System.out.println("Carregant dades...");
-        GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, fitxerAccions, App.associacionsInicials, App.llistaMembres, App.llistaAccions);
+        GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, fitxerAccions, associacions, membres, accions);
+    }
+
+    private void mostrarVentanaEmergente(JFrame ventanaEmergente) {
+        // Oculta la finestra principal
+        this.setVisible(false);
+    
+        // Mostra la finestra emergent
+        ventanaEmergente.setVisible(true);
+    
+        // Torna a mostrar la finestra principal quan es tanqui la emergent
+        ventanaEmergente.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                setVisible(true);
+            }
+        });
     }
 
     /**
