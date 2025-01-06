@@ -104,24 +104,4 @@ public class TestAssociacio{
         associacioPaelles.assignarTresorer(alumne);
         System.out.println(associacioPaelles.toString());
     }
-
-    /**
-     * Classe concreta per provar la classe abstracta Membres.
-     * Es proporciona una implementació mínima per al mètode abstracte `copia`.
-     * 
-     * Aixo es necessari per a que funcioni el codig degut a que necessita parts del codi d'un altre integrant
-     * del grup i per decisions de desenvolupament tinc aquest metode. Copiat de la seua part per a ser funcional.
-     * 
-     * @author Paolo
-     */
-    static class TestMembre extends Membres {
-        public TestMembre(String alias, String correuElectronic, Data dataAlta) {
-            super(alias, correuElectronic, dataAlta);
-        }
-
-        @Override
-        public Membres copia() {
-            return new TestMembre(this.getAlias(), this.getCorreuElectronic(), this.getDataAlta());
-        }
-    }
 }
