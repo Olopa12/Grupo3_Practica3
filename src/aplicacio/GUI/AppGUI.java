@@ -93,6 +93,7 @@ public class AppGUI extends JFrame{
             switch (opcio) {
                 case 1:
                     App.opcio1(associacions, "associacions.dat");
+
                     break;
                 case 2:
                     App.opcio2();
@@ -105,6 +106,7 @@ public class AppGUI extends JFrame{
                     break;
                 case 8:
                     App.opcio8(associacions, "associacions.dat"); // Alta d'un membre a una associació
+
                     break;
                 // Afegir les altres opcions
                 case 18:
@@ -167,8 +169,8 @@ public class AppGUI extends JFrame{
                 setVisible(true);
             }
         });
-    }
 
+    }
     /**
      * Punt d'entrada per a la GUI.
      */

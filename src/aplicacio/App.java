@@ -11,6 +11,7 @@ import dades.Associacions.LlistaAssociacions;
 import dades.Excepcions.AccioJaExisteix;
 import dades.Excepcions.InstanciaNoTrobada;
 import dades.Persistencia.DataManager;
+
 import dades.Persistencia.GestorPersistencia;
 import dades.Membres.*;
 
@@ -27,6 +28,7 @@ public class App {
     LlistaAssociacions associacions = DataManager.getInstance().associacionsInicials;
     LlistaMembres membres = DataManager.getInstance().llistaMembres;
     LlistaAccions accions = DataManager.getInstance().llistaAccions;
+
 
     /**
      * Punt d'entrada principal de l'aplicació.
