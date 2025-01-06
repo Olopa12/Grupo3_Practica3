@@ -26,10 +26,32 @@ public class AppGUI extends JFrame{
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         panel.add(titleLabel);
 
+        // Noms personalitzats per als botons
+        String[] botons = {
+            "Mostrar llista d'associacions",
+            "Mostrar membres d'una associació",
+            "Mostrar membres actius",
+            "Mostrar llista d'accions",
+            "Mostrar accions d'una associació",
+            "Mostrar xerrades en dates",
+            "Afegir nova associació",
+            "Alta d'un membre",
+            "Afegir nova xerrada",
+            "Afegir nova demostració",
+            "Consultar demostracions no actives",
+            "Calcular la persona més activa",
+            "Consultar xerrades amb molts assistents",
+            "Valorar una xerrada",
+            "Consultar millor xerrada",
+            "Mostrar xerrades d'una persona",
+            "Donar de baixa demostracions antigues",
+            "Sortir de l'aplicació"
+        };
+
         // Crear botons per a cada opció
-        for (int i = 1; i <= 18; i++) {
-            JButton button = new JButton("Opció " + i);
-            button.addActionListener(new ButtonClickListener(i));
+        for (int i = 0; i < botons.length; i++) {
+            JButton button = new JButton(botons[i]);
+            button.addActionListener(new ButtonClickListener(i + 1)); // Opcions comencen en 1
             panel.add(button);
         }
 
