@@ -106,13 +106,13 @@ public class App {
                         opcio2(associacions); // Mostrar les dades de membres d'una associació
                         break;
                     case 3:
-                        opcio3(); // Mostrar membres actius
+                        opcio3(associacions); // Mostrar membres actius
                         break;
                     case 4:
-                        opcio4(); // Mostrar la llista d'accions
+                        opcio4(accions); // Mostrar la llista d'accions
                         break;
                     case 5:
-                        opcio5(); // Mostrar accions d'una associació concreta
+                        opcio5(accions); // Mostrar accions d'una associació concreta
                         break;
                     case 6:
                         opcio6(); // Mostrar xerrades en una franja de dates
@@ -142,16 +142,16 @@ public class App {
                         opcio14(); // Valorar una xerrada
                         break;
                     case 15:
-                        opcio15(); // Consultar la xerrada millor valorada
+                        opcio15(accions); // Consultar la xerrada millor valorada
                         break;
                     case 16:
-                        opcio16(); // Mostrar les xerrades d'una persona concreta
+                        opcio16(accions); // Mostrar les xerrades d'una persona concreta
                         break;
                     case 17:
                         opcio17(); // Donar de baixa demostracions no actives
                         break;
                     case 18://S'ortir
-                        sortirAplicacio();
+                        sortirAplicacio(associacions, membres, accions);
                         break;
                     default:
                         System.out.println("Opció no vàlida. Si us plau, tria una opció entre 1 i 18.");
@@ -292,7 +292,7 @@ public class App {
      * @throws Exception Si es produeix un error inesperat durant l'execució.
      * @author Paolo
      */
-    public static void opcio3() {
+    public static void opcio3(LlistaAssociacions associacions) {
         System.out.println("3. Mostrar les dades de la llista de membres actius (filtre: professors, alumnes o ambdós)");
         try {
             System.out.println("Selecciona un filtre:");
@@ -310,8 +310,8 @@ public class App {
             boolean membresTrobats = false;
             System.out.println("\nMembres actius segons el filtre seleccionat:");
     
-            for (int i = 0; i < associacionsInicials.getNumAssociacions(); i++) {
-                Associacio associacio = associacionsInicials.copia()[i];
+            for (int i = 0; i < associacions.getNumAssociacions(); i++) {
+                Associacio associacio = associacions.copia()[i];
                 Membres[] membres = associacio.getLlistaMembres();
     
                 for (Membres membre : membres) {
@@ -348,17 +348,17 @@ public class App {
         }
     }
 
-    public static void opcio4() { 
+    public static void opcio4(LlistaAccions acciones) { 
         System.out.println("4. Mostrar les dades de la llista d'accions (amb filtre opcional)");
-        Accio[] accions = llistaAccions.getAccions();
+        Accio[] accions = acciones.getAccions();
         for (Accio accio : accions) {
             System.out.println(accio);
         }
     }
 
-    public static void opcio5() {
+    public static void opcio5(LlistaAccions acciones) {
         System.out.print("Introdueixi el nom de l'associació que desitges trobar: ");
-        Accio[] accions = llistaAccions.getAccions();
+        Accio[] accions = acciones.getAccions();
         String nomAssociacio = teclat.nextLine();
         boolean trobat = false;
         
@@ -698,12 +698,12 @@ public class App {
         // TODO: Implementar funcionalitat
     }
 
-    public static void opcio15() {
+    public static void opcio15(LlistaAccions acciones) {
         System.out.println("15. Consultar la xerrada millor valorada");
         Xerrada millorXerrada = null;
         int millorValoracio = 0;
 
-        Accio[] accions = llistaAccions.getAccions();
+        Accio[] accions = acciones.getAccions();
         for (Accio accio : accions) {
             if (accio instanceof Xerrada) {
                 Xerrada xerrada = (Xerrada) accio;
@@ -732,13 +732,13 @@ public class App {
      * @throws Exception Si es produeix un error inesperat durant l'execució.
      * @author Paolo
      */
-    public static void opcio16() {
+    public static void opcio16(LlistaAccions acciones) {
         System.out.println("16. Mostrar les xerrades d'una persona concreta");
         try {
             System.out.print("Introdueix l'alias de la persona: ");
             String alias = teclat.nextLine();
     
-            Accio[] accions = llistaAccions.getAccions();
+            Accio[] accions = acciones.getAccions();
     
             if (accions.length == 0) {
                 System.out.println("No hi ha xerrades registrades.");
@@ -786,12 +786,13 @@ public class App {
      * @throws IOException Si hi ha un error durant el procés de guardat de les dades.
      * @author Paolo
     */
-    public static void sortirAplicacio() {
+    public static void sortirAplicacio(LlistaAssociacions associacions, LlistaMembres membres, LlistaAccions accions) {
         System.out.print("Desitja guardar els canvis abans de sortir? (y/n): ");
         String resposta = teclat.nextLine();
         if (resposta.equalsIgnoreCase("y")) {
             try {
-                GestorPersistencia.guardarDades("associacions.dat", "membres.txt", "accions.txt", associacionsInicials, llistaMembres, llistaAccions);
+                GestorPersistencia.guardarDades("associacions.dat", "membres.txt", 
+                "accions.txt", associacions, membres, accions);
                 System.out.println("Dades guardades correctament.");
             } catch (IOException e) {
                 System.err.println("Error guardant les dades: " + e.getMessage());

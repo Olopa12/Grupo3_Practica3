@@ -96,10 +96,10 @@ public class AppGUI extends JFrame{
 
                     break;
                 case 2:
-                    App.opcio2();
+                    App.opcio2(associacions);
                     break;
                 case 3:
-                    App.opcio3();
+                    App.opcio3(associacions);
                     break;
                 case 7:
                     App.opcio7(associacions, "associacions.dat"); // Afegir una nova associació
@@ -110,7 +110,7 @@ public class AppGUI extends JFrame{
                     break;
                 // Afegir les altres opcions
                 case 18:
-                    SubventanaSortir sortirDialog = new SubventanaSortir(AppGUI.this);
+                    SubventanaSortir sortirDialog = new SubventanaSortir(AppGUI.this,associacions, membres, accions);
                     sortirDialog.setVisible(true);
                     break;
                 default:
