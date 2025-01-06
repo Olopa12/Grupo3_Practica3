@@ -87,13 +87,19 @@ public class AppGUI extends JFrame{
         public void actionPerformed(ActionEvent e) {
             switch (opcio) {
                 case 1:
-                    App.opcio1();
+                    App.opcio1(App.associacionsInicials, "associacions.dat");
                     break;
                 case 2:
                     App.opcio2();
                     break;
                 case 3:
                     App.opcio3();
+                    break;
+                case 7:
+                    App.opcio7(App.associacionsInicials, "associacions.dat"); // Afegir una nova associació
+                    break;
+                case 8:
+                    App.opcio8(App.associacionsInicials, "associacions.dat"); // Alta d'un membre a una associació
                     break;
                 // Afegir les altres opcions
                 case 18:
@@ -139,7 +145,7 @@ public class AppGUI extends JFrame{
 
         // Càrrega inicial de les dades
         System.out.println("Carregant dades...");
-        GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, fitxerAccions, App.llistaAssociacions, App.llistaMembres, App.llistaAccions);
+        GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, fitxerAccions, App.associacionsInicials, App.llistaMembres, App.llistaAccions);
     }
 
     /**
