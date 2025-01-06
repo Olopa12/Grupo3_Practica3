@@ -38,15 +38,15 @@ public class TestAssociacio{
 
     private static void comprovaConstructorV2(){
         System.out.println("\n\nValidem la segona versio del constructor amb president, secretari i tresorer.\n");
-        Membres membre = new TestMembre("Joan123", "joan@etse.com", new Data(10, 1, 2024));
+        Alumnes membre = new Alumnes("Joan123", "joan@etse.com", new Data(10, 1, 2024), "Informatica", 3, true);
         Associacio associacioPaelles = new Associacio("PaellersURV", "paellersurv@urv.cat", "GEI", membre.copia(), membre.copia(), membre.copia());
         System.out.println(associacioPaelles.toString());
     }
 
     private static void validacioGettersSetters() {
         System.out.println("\n\nValidem getters i setters\n");
-        Membres membre1 = new TestMembre("Joan123", "joan@etse.com", new Data(10, 1, 2024));
-        Membres membre2 = new TestMembre("Marc321", "correu@exemple.com", new Data(1, 5, 2022));
+        Alumnes membre1 = new Alumnes("Joan123", "joan@etse.com", new Data(10, 1, 2024), "Informatica", 3, true);
+        Alumnes membre2 = new Alumnes("Marc321", "correu@exemple.com", new Data(1, 5, 2022), "Informatica", 3, true);
         Associacio associacioPaelles = new Associacio("PaellersURV", "paellersurv@urv.cat", "GEI", membre1.copia(), membre1.copia(), membre1.copia());
         System.out.println("\nGetters: El contingut de la associacio asociacioPaelles es: " + associacioPaelles.getNomAsociacio() + "\n\t" + associacioPaelles.getCorreuAsociacio() + "\n\t" + associacioPaelles.getCarrera() + "\n\t" + associacioPaelles.getPresident() + "\n\t" + associacioPaelles.getSecretari() + "\n\t" + associacioPaelles.getTresorer());
         associacioPaelles.setNomAssociacio("nomAuxiliar123");
@@ -60,8 +60,8 @@ public class TestAssociacio{
 
     private static void validacioAssignarMembresALlistaMembres(){
         System.out.println("\n\nValidem assignar un membre a la llista de membres de Associacio que servira per comprovar si els presidents, secretaris i tresorers son alumnes i no profesors.\n");
-        Membres membre1 = new TestMembre("Joan123", "joan@etse.com", new Data(10, 1, 2024));
-        Membres membre2 = new TestMembre("Marc321", "correu@exemple.com", new Data(1, 5, 2022));
+        Alumnes membre1 = new Alumnes("Joan123", "joan@etse.com", new Data(10, 1, 2024), "Informatica", 3, true);
+        Alumnes membre2 = new Alumnes("Marc321", "correu@exemple.com", new Data(1, 5, 2022), "Informatica", 3, true);
         Associacio associacioPaelles = new Associacio("PaellersURV", "paellersurv@urv.cat", "GEI", membre1.copia(), membre1.copia(), membre1.copia());
         String aux = "";
         Membres[] llista = associacioPaelles.getLlistaMembres();
@@ -103,25 +103,5 @@ public class TestAssociacio{
         associacioPaelles.assignarMembresALlistaMembres(alumne);
         associacioPaelles.assignarTresorer(alumne);
         System.out.println(associacioPaelles.toString());
-    }
-
-    /**
-     * Classe concreta per provar la classe abstracta Membres.
-     * Es proporciona una implementació mínima per al mètode abstracte `copia`.
-     * 
-     * Aixo es necessari per a que funcioni el codig degut a que necessita parts del codi d'un altre integrant
-     * del grup i per decisions de desenvolupament tinc aquest metode. Copiat de la seua part per a ser funcional.
-     * 
-     * @author Paolo
-     */
-    static class TestMembre extends Membres {
-        public TestMembre(String alias, String correuElectronic, Data dataAlta) {
-            super(alias, correuElectronic, dataAlta);
-        }
-
-        @Override
-        public Membres copia() {
-            return new TestMembre(this.getAlias(), this.getCorreuElectronic(), this.getDataAlta());
-        }
     }
 }
