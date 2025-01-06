@@ -1,9 +1,16 @@
 package aplicacio;
 
 import javax.swing.*;
+
+import dades.Accions.LlistaAccions;
+import dades.Associacions.LlistaAssociacions;
+import dades.Membres.LlistaMembres;
+import dades.Persistencia.GestorPersistencia;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 /**
  * Classe per implementar la GUI de l'aplicació App.
  * Mostra un menú principal amb botons per executar cada opció.
@@ -20,6 +27,13 @@ public class AppGUI extends JFrame{
         // Crear el layout del menú
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0, 1, 10, 10));
+
+        try {
+            inicialitzarDades();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         // Títol
         JLabel titleLabel = new JLabel("Menú Principal", SwingConstants.CENTER);
@@ -90,6 +104,42 @@ public class AppGUI extends JFrame{
                     JOptionPane.showMessageDialog(null, "Opció no implementada encara.", "Info", JOptionPane.INFORMATION_MESSAGE);
             }
         }
+    }
+
+    /**
+     * Inicialitza les dades necessàries per a l'aplicació.
+     * @throws IOException Si es produeix un error al carregar o crear fitxers.
+     */
+    private void inicialitzarDades() throws IOException {
+        String fitxerAssociacions = "associacions.dat";
+        String fitxerMembres = "membres.txt";
+        String fitxerAccions = "accions.txt";
+
+        // Comprovar si els fitxers existeixen i crear-los si no és així
+        java.io.File fileAssociacions = new java.io.File(fitxerAssociacions);
+        if (!fileAssociacions.exists()) {
+            System.out.println("El fitxer d'associacions no existeix. Creant un nou fitxer...");
+            LlistaAssociacions associacionsInicials = new LlistaAssociacions(50);
+            GestorPersistencia.guardarAssociacions(fitxerAssociacions, associacionsInicials);
+        }
+
+        java.io.File fileMembres = new java.io.File(fitxerMembres);
+        if (!fileMembres.exists()) {
+            System.out.println("El fitxer de membres no existeix. Creant un nou fitxer...");
+            LlistaMembres membresInicials = new LlistaMembres("General", 100);
+            GestorPersistencia.guardarMembres(fitxerMembres, membresInicials);
+        }
+
+        java.io.File fileAccions = new java.io.File(fitxerAccions);
+        if (!fileAccions.exists()) {
+            System.out.println("El fitxer d'accions no existeix. Creant un nou fitxer...");
+            LlistaAccions accionsInicials = new LlistaAccions(50);
+            GestorPersistencia.guardarAccions(fitxerAccions, accionsInicials);
+        }
+
+        // Càrrega inicial de les dades
+        System.out.println("Carregant dades...");
+        GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, fitxerAccions, App.llistaAssociacions, App.llistaMembres, App.llistaAccions);
     }
 
     /**

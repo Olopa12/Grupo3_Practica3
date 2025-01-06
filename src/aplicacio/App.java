@@ -24,7 +24,7 @@ public class App {
     static Scanner teclat = new Scanner(System.in);
     static LlistaAssociacions llistaAssociacions = new LlistaAssociacions(50);
     static LlistaMembres llistaMembres = new LlistaMembres("General", 100);
-    private static LlistaAccions llistaAccions = new LlistaAccions();
+    static LlistaAccions llistaAccions = new LlistaAccions();
 
     /**
      * Punt d'entrada principal de l'aplicació.
