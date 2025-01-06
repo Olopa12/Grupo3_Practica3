@@ -22,13 +22,13 @@ public class Associacio implements Serializable{
     private Membres[] llistaM;
     private int nMembres;
 
-    private String[] carreras = {"GEB", "GEI", "GESST", "BioGEI", "DG GEB-GESST", "extern-ETSE"};
+    private static String[] carreras = {"GEB", "GEI", "GESST", "BioGEI", "DG GEB-GESST", "extern-ETSE"};
     private String carrera = null;
 
     
-    private Membres president;
-    private Membres secretari;
-    private Membres tresorer;
+    private Alumnes president;
+    private Alumnes secretari;
+    private Alumnes tresorer;
 
     /**
      * Primer constructor sense president, secretari i tresorer.
@@ -95,7 +95,7 @@ public class Associacio implements Serializable{
      * @throws CarreraNoExiste Si la carrera proporcionada no es troba dins de les carreres disponibles.
      * @author Alex Radu
      */
-    public Associacio (String nom, String correu, String carrera, Membres president, Membres secretari, Membres tresorer){
+    public Associacio (String nom, String correu, String carrera, Alumnes president, Alumnes secretari, Alumnes tresorer){
         if (nom == null) {
             throw new IllegalArgumentException("El nombre de la asociación no puede estar vacío.");
         }
@@ -177,15 +177,15 @@ public class Associacio implements Serializable{
         return carrera;
     }
 
-    public Membres getPresident(){
+    public Alumnes getPresident(){
         return president;
     }
 
-    public Membres getSecretari(){
+    public Alumnes getSecretari(){
         return secretari;
     }
 
-    public Membres getTresorer(){
+    public Alumnes getTresorer(){
         return tresorer;
     }
 
@@ -195,6 +195,10 @@ public class Associacio implements Serializable{
 
     public int getNumMembres(){
         return nMembres;
+    }
+
+    public static String[] getCarreras(){
+        return carreras;
     }
 
     /**
@@ -310,7 +314,7 @@ public class Associacio implements Serializable{
         while(i < nMembres && trobat == false){
             if(llistaM[i].getAlias().equalsIgnoreCase(membre.getAlias()) && llistaM[i] instanceof Alumnes){
                 trobat = true;
-                president = membre;
+                president = (Alumnes) membre;
             }
             else{
                 i++;
@@ -335,7 +339,7 @@ public class Associacio implements Serializable{
         while(i < nMembres && trobat == false){
             if(llistaM[i].getAlias().equalsIgnoreCase(membre.getAlias()) && llistaM[i] instanceof Alumnes){
                 trobat = true;
-                secretari = membre;
+                secretari = (Alumnes) membre;
             }
             else{
                 i++;
@@ -360,7 +364,7 @@ public class Associacio implements Serializable{
         while(i < nMembres && trobat == false){
             if(llistaM[i].getAlias().equalsIgnoreCase(membre.getAlias()) && llistaM[i] instanceof Alumnes){
                 trobat = true;
-                tresorer = membre;
+                tresorer = (Alumnes) membre;
             }
             else{
                 i++;
