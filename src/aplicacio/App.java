@@ -25,9 +25,7 @@ import dades.Membres.*;
  */
 public class App {
     static Scanner teclat = new Scanner(System.in);
-    LlistaAssociacions associacions = DataManager.getInstance().associacionsInicials;
-    LlistaMembres membres = DataManager.getInstance().llistaMembres;
-    LlistaAccions accions = DataManager.getInstance().llistaAccions;
+
 
 
     /**
@@ -42,6 +40,9 @@ public class App {
         String fitxerAssociacions = "associacions.dat";
         String fitxerMembres = "membres.txt";
         String fitxerAccions = "accions.txt";
+        LlistaAssociacions associacions = DataManager.getInstance().associacionsInicials;
+        LlistaMembres membres = DataManager.getInstance().llistaMembres;
+        LlistaAccions accions = DataManager.getInstance().llistaAccions;
 
         try {
             // Comprovar si els fitxers existeixen i crear-los si no és així
@@ -68,10 +69,10 @@ public class App {
 
             // Càrrega inicial de les dades
             System.out.println("Carregant dades...");
-            GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, fitxerAccions, associacionsInicials, llistaMembres, llistaAccions);
+            GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, fitxerAccions, associacions, membres, accions);
 
             // Executar el menú principal
-            menuPrincipal(fitxerAssociacions);
+            menuPrincipal(fitxerAssociacions, associacions, membres, accions);
 
         } catch (IOException e) {
             System.err.println("Error carregant o creant els fitxers inicials: " + e.getMessage());
@@ -87,7 +88,7 @@ public class App {
      * @throws NumberFormatException Si l'usuari introdueix un valor no vàlid per a una opció numèrica.
      * @author Paolo
      */
-    public static void menuPrincipal(String fitxerAssociacions) {
+    public static void menuPrincipal(String fitxerAssociacions, LlistaAssociacions associacions, LlistaMembres membres, LlistaAccions accions) {
         int opcio = 0;
 
         do {
@@ -99,10 +100,10 @@ public class App {
                 // Gestiona l'opció seleccionada amb un switch
                 switch (opcio) {
                     case 1:
-                        opcio1(associacionsInicials, fitxerAssociacions); // Mostrar les dades de la llista d'associacions
+                        opcio1(associacions, fitxerAssociacions); // Mostrar les dades de la llista d'associacions
                         break;
                     case 2:
-                        opcio2(); // Mostrar les dades de membres d'una associació
+                        opcio2(associacions); // Mostrar les dades de membres d'una associació
                         break;
                     case 3:
                         opcio3(); // Mostrar membres actius
@@ -117,22 +118,22 @@ public class App {
                         opcio6(); // Mostrar xerrades en una franja de dates
                         break;
                     case 7:
-                        opcio7(associacionsInicials, fitxerAssociacions); // Afegir una nova associació
+                        opcio7(associacions, fitxerAssociacions); // Afegir una nova associació
                         break;
                     case 8:
-                        opcio8(associacionsInicials, fitxerAssociacions); // Alta d'un membre a una associació
+                        opcio8(associacions, fitxerAssociacions); // Alta d'un membre a una associació
                         break;
                     case 9:
-                        opcio9(); // Afegir una nova xerrada
+                        opcio9(accions); // Afegir una nova xerrada
                         break;
                     case 10:
-                        opcio10(); // Afegir una nova demostració
+                        opcio10(accions); // Afegir una nova demostració
                         break;
                     case 11:
                         opcio11(); // Consultar demostracions no actives i calcular el cost total
                         break;
                     case 12:
-                        opcio12(); // Calcular la persona més activa
+                        opcio12(membres); // Calcular la persona més activa
                         break;
                     case 13:
                         opcio13(); // Consultar xerrades amb més assistents que un nombre determinat
@@ -218,13 +219,13 @@ public class App {
      * @throws Exception Si es produeix un error inesperat durant l'execució.
      * @author Paolo
      */
-    public static void opcio2() {
+    public static void opcio2(LlistaAssociacions associacions) {
         System.out.println("2. Mostrar les dades de la llista de membres d'una associació (filtre: professors, alumnes o ambdós)");
         try {
             System.out.print("Introdueix el nom de l'associació: ");
             String nomAssociacio = teclat.nextLine();
 
-            Associacio associacio = associacionsInicials.buscarAssociacio(nomAssociacio);
+            Associacio associacio = associacions.buscarAssociacio(nomAssociacio);
             if (associacio == null) {
                 System.out.println("No s'ha trobat cap associació amb el nom proporcionat.");
                 return;
@@ -552,7 +553,7 @@ public class App {
         
     }
 
-    public static void opcio9() {
+    public static void opcio9(LlistaAccions accions) {
         System.out.println("9. Afegir una nova xerrada");
         System.out.print("Introdueix el títol de la xerrada: ");
         String titol = teclat.nextLine();
@@ -588,11 +589,11 @@ public class App {
         }
 
         try {
-            llistaAccions.afegirAccio(novaXerrada);
+            accions.afegirAccio(novaXerrada);
             System.out.println("Xerrada afegida correctament.");
             String fitxerAccions = "accions.txt";
             System.out.println("Guardant la llista d'accions en " + fitxerAccions);
-            llistaAccions.guardarAccions(fitxerAccions);
+            accions.guardarAccions(fitxerAccions);
             System.out.println("Llista d'accions guardada en " + fitxerAccions);
         } catch (AccioJaExisteix e) {
             System.err.println("Error: " + e.getMessage());
@@ -601,7 +602,7 @@ public class App {
         }
     }
 
-    public static void opcio10() {
+    public static void opcio10(LlistaAccions accions) {
         System.out.println("10. Afegir una nova demostració");
         System.out.print("Introdueix el títol de la demostració: ");
         String titol = teclat.nextLine();
@@ -632,13 +633,13 @@ public class App {
                 responsableMembre, dataDisseny, esValida, costMaterials);
 
         try {
-            llistaAccions.afegirAccio(novaDemostracio);
+            accions.afegirAccio(novaDemostracio);
             System.out.println("Demostració ha sigut afegida correctament.");
 
             // Guardar la llista d'accions en el fitxer accions.txt
             String fitxerAccions = "accions.txt";
             System.out.println("Guardant la llista d'accions en " + fitxerAccions);
-            llistaAccions.guardarAccions(fitxerAccions);
+            accions.guardarAccions(fitxerAccions);
             System.out.println("Llista d'accions guardada en " + fitxerAccions);
         } catch (AccioJaExisteix e) {
             System.err.println("Error: " + e.getMessage());
@@ -658,10 +659,10 @@ public class App {
      * @throws NullPointerException Si llistaMembres o els seus membres són nuls.
      * @author Paolo
      */
-    public static void opcio12() {
+    public static void opcio12(LlistaMembres membres) {
         System.out.println("12. Calcular la persona més activa");
 
-        if (llistaMembres.numMembres() == 0) {
+        if (membres.numMembres() == 0) {
             System.out.println("No hi ha membres a la llista.");
             return;
         }
@@ -669,8 +670,8 @@ public class App {
         Membres membreMesActiu = null; 
         int maxParticipacions = -1;   
 
-        for (int i = 0; i < llistaMembres.numMembres(); i++) {
-            Membres membreActual = llistaMembres.copia()[i]; 
+        for (int i = 0; i < membres.numMembres(); i++) {
+            Membres membreActual = membres.copia()[i]; 
 
             if (membreActual != null && membreActual.getParticipacions() > maxParticipacions) {
                 membreMesActiu = membreActual; 
