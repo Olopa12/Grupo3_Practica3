@@ -13,7 +13,6 @@ import dades.Membres.Membres;
 import dades.Membres.Professsors;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener; 
 
 /**
  * Classe principal de l'aplicació que implementa un menú per gestionar associacions,
@@ -23,7 +22,7 @@ import java.awt.event.ActionListener;
  * @author Paolo, Nermin, Sara, Alexandru
  * @version 1.0
  */
-public class App extends JFrame implements ActionListener{
+public class App extends JFrame{
     private static final long serialVersionUID=1L;
     private JButton[] botons; // Array per guardar els botons.
     static Scanner teclat = new Scanner(System.in);
@@ -33,7 +32,7 @@ public class App extends JFrame implements ActionListener{
     /**
      * Punt d'entrada principal de l'aplicació.
      * Paolo: Mostra el menú i executa les opcions seleccionades per l'usuari.
-     * Alex: Apartat de finestra.
+     * Alex: Apartat de l'interfaç gràfica.
      * 
      * @param args Arguments de línia de comandes (no utilitzats).
      * @throws IOException Si es produeix un error inesperat durant l'execució.
@@ -42,8 +41,11 @@ public class App extends JFrame implements ActionListener{
     public static void main(String[] args) throws Exception {
         App finestra = new App();
         finestra.setTitle("PRAC3");
+        finestra.setSize(800, 600); // Assegura la mida
         finestra.setDefaultCloseOperation(EXIT_ON_CLOSE);
         finestra.setVisible(true);
+        finestra.iniBotonsAccions();
+
         
         String fitxerAssociacions = "associacions.dat";
         String fitxerMembres = "membres.txt";
@@ -66,58 +68,8 @@ public class App extends JFrame implements ActionListener{
 
             // Càrrega inicial de les dades
             System.out.println("Carregant dades...");
-            GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, llistaAssociacions, llistaMembres);
-
-            // Creacio de botons
-            finestra.iniBotonsAccions();
-
-            /**
-             * Afegix cada opcio al seu boto corresponen.
-             * @author Alex Radu
-             */
-            for (int i = 0; i < finestra.botons.length; i++) {
-                int opcio = i + 1;
-                finestra.botons[i].addActionListener(e -> {
-                    System.out.println("Boto " + opcio + " clickat");
-                    if (opcio == 1) {
-                        opcio1(associacionsInicials, "associacions.dat");
-                    } else if(opcio == 2){
-                        opcio2();
-                    } else if(opcio == 3){
-                        opcio3();
-                    } else if(opcio == 4){
-                        opcio4();
-                    } else if(opcio == 5){
-                        opcio5();
-                    } else if(opcio == 6){
-                        opcio6();
-                    } else if(opcio == 7){
-                        opcio7(associacionsInicials);
-                    } else if(opcio == 8){
-                        opcio8(associacionsInicials, fitxerAssociacions);
-                    } else if(opcio == 9){
-                        opcio9();
-                    } else if(opcio == 10){
-                        opcio10();
-                    } else if(opcio == 11){
-                        opcio11();
-                    } else if(opcio == 12){
-                        opcio12();
-                    } else if(opcio == 13){
-                        opcio13();
-                    } else if(opcio == 14){
-                        opcio14();
-                    } else if(opcio == 15){
-                        opcio15();
-                    } else if(opcio == 16){
-                        opcio16();
-                    } else if(opcio == 17){
-                        opcio17();
-                    } else{
-                        sortirAplicacio();
-                    }
-                });
-            }
+            GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, associacionsInicials, llistaMembres);
+            finestra.funcionalitatBotons(associacionsInicials, fitxerAssociacions);
             // Executar el menú principal
             menuPrincipal(fitxerAssociacions);
 
@@ -156,8 +108,11 @@ public class App extends JFrame implements ActionListener{
     public static void menuPrincipal(String fitxerAssociacions) {
         int opcio = 0;
 
-        associacionsInicials.llegirFitxerBinari(fitxerAssociacions);
-
+        try {
+            associacionsInicials.llegirFitxerBinari(fitxerAssociacions);
+        } catch (Exception e) {
+            System.out.println("Error carregant el fitxer binari...");
+        }
         do {
             try {
                 mostraMenu();
@@ -185,7 +140,7 @@ public class App extends JFrame implements ActionListener{
                         opcio6(); // Mostrar xerrades en una franja de dates
                         break;
                     case 7:
-                        opcio7(associacionsInicials); // Afegir una nova associació
+                        opcio7(associacionsInicials, fitxerAssociacions); // Afegir una nova associació
                         break;
                     case 8:
                         opcio8(associacionsInicials, fitxerAssociacions); // Alta d'un membre a una associació
@@ -267,8 +222,12 @@ public class App extends JFrame implements ActionListener{
      */
     public static void opcio1(LlistaAssociacions associacionsInicials, String fitxerAssociacions) {
         System.out.println("1. Mostrar les dades de la llista d'associacions");
-        associacionsInicials.llegirFitxerBinari(fitxerAssociacions);
-        associacionsInicials.toString();
+        try {
+            associacionsInicials.llegirFitxerBinari(fitxerAssociacions);
+            System.out.println(associacionsInicials);
+        } catch (Exception e) {
+            System.out.println("Error carregant el fitxer binari...");
+        }
     }
 
     public static void opcio2() {
@@ -300,7 +259,7 @@ public class App extends JFrame implements ActionListener{
      * @param associacionsInicials Llista de associacions.
      * @author Alex Radu
      */
-    public static void opcio7(LlistaAssociacions associacionsInicials) {
+    public static void opcio7(LlistaAssociacions associacionsInicials, String fitxerAssociacions) {
         System.out.println("7. Afegir una nova associació");
         System.out.println("\nIntrodueix les seguents dades:");
         System.out.println("\n\tNom associacio: ");
@@ -380,11 +339,19 @@ public class App extends JFrame implements ActionListener{
             Alumnes tresorer = new Alumnes(nomTresorer, correuTresorer, new Data(diaTresorer, mesTresorer, anyTresorer), ensenyamentTresorer, antiguitatTresorer, graduatTresorer);
             Associacio a = new Associacio(nom, correu, carrera, president, secretari, tresorer);
             associacionsInicials.afegirAssociacio(a);
-            associacionsInicials.crearFitxerBinari(graduatStringTresorer);
+            try {
+                associacionsInicials.crearFitxerBinari(fitxerAssociacions);
+            } catch (Exception e) {
+                System.out.println("Error creant el fitxer binari...");
+            }
         } else{
             Associacio a = new Associacio(nom, correu, carrera);
             associacionsInicials.afegirAssociacio(a);
-            associacionsInicials.crearFitxerBinari(resposta);
+            try {
+                associacionsInicials.crearFitxerBinari(fitxerAssociacions);
+            } catch (Exception e) {
+                System.out.println("Error creant el fitxer binari...");
+            }
         }
     }
 
@@ -403,7 +370,7 @@ public class App extends JFrame implements ActionListener{
         try{
             while(i<associacionsInicials.getNumAssociacions() && !trobat){
                 if(associacionsInicials.existeixAssociacio(nomAssociacio)){
-                    System.out.println("Professor (0) o alumne (1)?\nIntrodueix el numero correspondent al que es vol afegir: ");
+                    System.out.println("Alumne (0) o professor (1)?\nIntrodueix el numero correspondent al que es vol afegir: ");
                     int qual = teclat.nextInt();
                     if(qual == 0){
                         System.out.println("\n\tNom: ");
@@ -449,6 +416,7 @@ public class App extends JFrame implements ActionListener{
                     }
 
                     associacionsInicials.crearFitxerBinari(fitxerAssociacions);
+                    trobat = true;
                 } else{
                     throw new InstanciaNoTrobada(nomAssociacio);
                 }
@@ -503,6 +471,58 @@ public class App extends JFrame implements ActionListener{
         System.out.println("17. Donar de baixa demostracions no actives dissenyades abans d'una data");
         // TODO: Implementar funcionalitat
     }
+
+    /**
+     * Agrega les funcionalitats a cada boto i el actionListener que comprova si s'ha fet click en el boto en questio.
+     * @param associacionsInicials Llista d'associacions.
+     * @param fitxerAssociacions Nom del fitxer binari on es guarda i llegixen les associacions.
+     * @author Alex Radu
+     */
+    public void funcionalitatBotons(LlistaAssociacions associacionsInicials, String fitxerAssociacions){
+            for (int i = 0; i < botons.length; i++) {
+                int opcio = i + 1;
+                botons[i].addActionListener(e -> {
+                    System.out.println("Boto " + opcio + " clickat");
+                    if (opcio == 1) {
+                        opcio1(associacionsInicials, "associacions.dat");
+                    } else if(opcio == 2){
+                        opcio2();
+                    } else if(opcio == 3){
+                        opcio3();
+                    } else if(opcio == 4){
+                        opcio4();
+                    } else if(opcio == 5){
+                        opcio5();
+                    } else if(opcio == 6){
+                        opcio6();
+                    } else if(opcio == 7){
+                        opcio7(associacionsInicials, fitxerAssociacions);
+                    } else if(opcio == 8){
+                        opcio8(associacionsInicials, fitxerAssociacions);
+                    } else if(opcio == 9){
+                        opcio9();
+                    } else if(opcio == 10){
+                        opcio10();
+                    } else if(opcio == 11){
+                        opcio11();
+                    } else if(opcio == 12){
+                        opcio12();
+                    } else if(opcio == 13){
+                        opcio13();
+                    } else if(opcio == 14){
+                        opcio14();
+                    } else if(opcio == 15){
+                        opcio15();
+                    } else if(opcio == 16){
+                        opcio16();
+                    } else if(opcio == 17){
+                        opcio17();
+                    } else{
+                        sortirAplicacio();
+                    }
+                });
+            }
+    }
     
     /**
      * Mètode per gestionar la sortida de l'aplicació.
@@ -517,6 +537,7 @@ public class App extends JFrame implements ActionListener{
         System.out.print("Desitja guardar els canvis abans de sortir? (y/n): ");
         String resposta = teclat.nextLine();
         if (resposta.equalsIgnoreCase("y")) {
+            
             try {
                 GestorPersistencia.guardarDades("associacions.dat", "membres.txt", associacionsInicials, llistaMembres);
                 System.out.println("Dades guardades correctament.");

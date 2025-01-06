@@ -1,5 +1,7 @@
 package Utilitats;
 
+import java.io.Serializable;
+
 /**
  * Classe per guardar dates.
  * 
@@ -7,7 +9,7 @@ package Utilitats;
  *
  */
 
-public class Data {
+public class Data implements Serializable{
 	private int dia;
 	private int mes;
 	private int any;

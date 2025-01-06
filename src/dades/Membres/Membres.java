@@ -1,5 +1,7 @@
 package dades.Membres;
 
+import java.io.Serializable;
+
 import Utilitats.Data;
 
 /**
@@ -13,7 +15,7 @@ import Utilitats.Data;
  * @author Paolo
  * @version 1.0
  */
-public abstract class Membres {
+public abstract class Membres implements Serializable{
     private String alias; // Identificador únic del membre
     private String correuElectronic; // Correu electrònic del membre
     private Data dataAlta; // Data d'alta del membre a l'associació
