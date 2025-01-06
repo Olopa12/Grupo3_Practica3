@@ -38,8 +38,50 @@ public class LlistaAssociacions {
         return aux;
     }
 
+    public int getNumAssociacions(){
+        return numAssociacions;
+    }
+
     public Associacio[] copia(){
         return llista;
+    }
+
+    /**
+     * Busca la associacio amb el nom introduit en la llista d'associacions i la retorna.
+     * @param nomAssociacio Nom de la associacio en questio que es busca.
+     * @return Associacio encontrada, o null si no existeix.
+     * @author Alex Radu
+     */
+    public Associacio buscarAssociacio(String nomAssociacio){
+        int i = 0;
+        boolean trobat = false;
+        Associacio a = null;
+        while(i < numAssociacions && !trobat){
+            if(llista[i].getNomAsociacio().equalsIgnoreCase(nomAssociacio)){
+                a = llista[i];
+                trobat = true;
+            }
+            i++;
+        }
+        return a;
+    }
+
+    /**
+     * Comprova si existeix una associacio concreta passant el nom de l'associacio com a parametre.
+     * @param nomAssociacio Nom de la associacio en questio.
+     * @return True o False de si la associacio esta en la llista de associacions.
+     * @author Alex Radu
+     */
+    public boolean existeixAssociacio(String nomAssociacio){
+        int i = 0;
+        boolean trobat = false;
+        while(i < numAssociacions && !trobat){
+            if(llista[i].getNomAsociacio().equalsIgnoreCase(nomAssociacio)){
+                trobat = true;
+            }
+            i++;
+        }
+        return trobat;
     }
 
     /**
