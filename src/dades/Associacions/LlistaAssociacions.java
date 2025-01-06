@@ -38,8 +38,50 @@ public class LlistaAssociacions {
         return aux;
     }
 
+    public int getNumAssociacions(){
+        return numAssociacions;
+    }
+
     public Associacio[] copia(){
         return llista;
+    }
+
+    /**
+     * Busca la associacio amb el nom introduit en la llista d'associacions i la retorna.
+     * @param nomAssociacio Nom de la associacio en questio que es busca.
+     * @return Associacio encontrada, o null si no existeix.
+     * @author Alex Radu
+     */
+    public Associacio buscarAssociacio(String nomAssociacio){
+        int i = 0;
+        boolean trobat = false;
+        Associacio a = null;
+        while(i < numAssociacions && !trobat){
+            if(llista[i].getNomAsociacio().equalsIgnoreCase(nomAssociacio)){
+                a = llista[i];
+                trobat = true;
+            }
+            i++;
+        }
+        return a;
+    }
+
+    /**
+     * Comprova si existeix una associacio concreta passant el nom de l'associacio com a parametre.
+     * @param nomAssociacio Nom de la associacio en questio.
+     * @return True o False de si la associacio esta en la llista de associacions.
+     * @author Alex Radu
+     */
+    public boolean existeixAssociacio(String nomAssociacio){
+        int i = 0;
+        boolean trobat = false;
+        while(i < numAssociacions && !trobat){
+            if(llista[i].getNomAsociacio().equalsIgnoreCase(nomAssociacio)){
+                trobat = true;
+            }
+            i++;
+        }
+        return trobat;
     }
 
     /**
@@ -99,6 +141,8 @@ public class LlistaAssociacions {
         fitxer.close();
     }
 
+
+
     /**
      * Crea un fitxer binari que enmagatzema les associacions mediant serialitzacio.
      * @param fitxerOut El nom del fitxer binari creat.
@@ -112,32 +156,4 @@ public class LlistaAssociacions {
         }
         fSort.close();
     }
-
-    /**
-     * Busca una associació a la llista pel seu nom.
-     * 
-     * @param nom El nom de l'associació que es vol cercar.
-     * @return L'objecte `Associacio` que coincideix amb el nom especificat, 
-     *         o `null` si no es troba cap coincidència.
-     * @author Paolo
-     */
-    public Associacio buscarAssociacio(String nom) {
-        for (Associacio associacio : llista) {
-            if (associacio != null && associacio.getNomAsociacio().equalsIgnoreCase(nom)) {
-                return associacio;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Obté el nombre actual d'associacions a la llista.
-     * 
-     * @return El nombre total d'associacions actualment emmagatzemades.
-     * @author Paolo
-     */
-    public int getNumAssociacions() {
-        return numAssociacions;
-    }
-
 }
