@@ -109,10 +109,10 @@ public class App {
                         opcio3(associacions); // Mostrar membres actius
                         break;
                     case 4:
-                        opcio4(accions); // Mostrar la llista d'accions
+                        opcio4(); // Mostrar la llista d'accions
                         break;
                     case 5:
-                        opcio5(accions); // Mostrar accions d'una associació concreta
+                        opcio5(); // Mostrar accions d'una associació concreta
                         break;
                     case 6:
                         opcio6(); // Mostrar xerrades en una franja de dates
@@ -124,10 +124,10 @@ public class App {
                         opcio8(associacions, fitxerAssociacions); // Alta d'un membre a una associació
                         break;
                     case 9:
-                        opcio9(accions); // Afegir una nova xerrada
+                        opcio9(); // Afegir una nova xerrada
                         break;
                     case 10:
-                        opcio10(accions); // Afegir una nova demostració
+                        opcio10(); // Afegir una nova demostració
                         break;
                     case 11:
                         opcio11(); // Consultar demostracions no actives i calcular el cost total
@@ -142,10 +142,10 @@ public class App {
                         opcio14(); // Valorar una xerrada
                         break;
                     case 15:
-                        opcio15(accions); // Consultar la xerrada millor valorada
+                        opcio15(); // Consultar la xerrada millor valorada
                         break;
                     case 16:
-                        opcio16(accions); // Mostrar les xerrades d'una persona concreta
+                        opcio16(); // Mostrar les xerrades d'una persona concreta
                         break;
                     case 17:
                         opcio17(); // Donar de baixa demostracions no actives
@@ -347,6 +347,14 @@ public class App {
             System.err.println("S'ha produït un error inesperat: " + e.getMessage());
         }
     }
+    
+    /**
+     * Opció 4: Mostrar les dades de la llista d'accions (amb filtre opcional).
+     * 
+     * Aquest mètode mostra totes les accions disponibles en la llista.
+     * 
+     * @author Sara, Nermin
+     */
 
     public static void opcio4(LlistaAccions acciones) { 
         System.out.println("4. Mostrar les dades de la llista d'accions (amb filtre opcional)");
@@ -355,7 +363,13 @@ public class App {
             System.out.println(accio);
         }
     }
-
+    
+    /**
+     * Opció 5: Buscar accions per nom de l'associació.
+     * Aquest mètode permet a l'usuari introduir el nom d'una associació i mostrar les accions corresponents 
+     * @author Sara, Nermin
+     * 
+     */
     public static void opcio5(LlistaAccions acciones) {
         System.out.print("Introdueixi el nom de l'associació que desitges trobar: ");
         Accio[] accions = acciones.getAccions();
@@ -375,9 +389,63 @@ public class App {
             System.out.println("No s'ha trobat cap acció per a l'associació " + nomAssociacio);
         }
     }
+    
+     /**
+     * Opció 6: Mostrar les xerrades en una franja de dates.
+     * Aquest mètode permet a l'usuari introduir una franja de dates en el format dd-mm-yyyy i mostrar les
+     * xerrades que es troben dins d'aquest període.
+     * @author Sara, Nermin
+     */
+    
     public static void opcio6() {
         System.out.println("6. Mostrar les xerrades en una franja de dates");
-        // TODO: Implementar funcionalitat
+       System.out.print("Introdueix la data d'inici (format dd-mm-yyyy): ");
+        String dataIniciStr = teclat.nextLine();
+        Data dataInici = Data.parseData(dataIniciStr);
+
+ 
+        System.out.print("Introdueix la data de finalització (format dd-mm-yyyy): ");
+        String dataFinalStr = teclat.nextLine();
+        Data dataFinal = Data.parseData(dataFinalStr);
+
+
+        LlistaAccions llistaAccions = new LlistaAccions();
+        String fitxerAccions = "accions.txt";
+        try {
+            llistaAccions.carregarAccions(fitxerAccions);
+            System.out.println("Accions carregades correctament des de: " + fitxerAccions);
+
+
+            Accio[] xerradesFiltrades = new Accio[100]; 
+            int contador = 0;
+
+            for (Accio accio : llistaAccions.getAccions()) {
+                if (accio instanceof Xerrada) {
+                    Xerrada xerrada = (Xerrada) accio;
+                    Data dataXerrada = xerrada.getData();
+
+
+                    if (dataXerrada.esAnterior(dataFinal) && !dataXerrada.esAnterior(dataInici)) {
+                        xerradesFiltrades[contador] = xerrada;
+                        contador++;
+                    }
+                }
+            }
+
+
+            if (contador > 0) {
+                System.out.println("Xerrades entre " + dataInici + " i " + dataFinal + ":");
+                for (int i = 0; i < contador; i++) {
+                    System.out.println(xerradesFiltrades[i]); 
+                                                              
+                }
+            } else {
+                System.out.println("No s'han trobat xerrades en aquesta franja de dates.");
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error carregant les accions des del fitxer: " + e.getMessage());
+        }
     }
 
     /**
@@ -552,8 +620,12 @@ public class App {
         }
         
     }
-
-    public static void opcio9(LlistaAccions accions) {
+     /**
+     * Opció 9: Afegir una nova xerrada.
+     * Aquest mètode permet a l'usuari afegir una nova xerrada a l'arxiu d'accions.
+     * @author Sara, Nermin
+     */
+    public static void opcio9() {
         System.out.println("9. Afegir una nova xerrada");
         System.out.print("Introdueix el títol de la xerrada: ");
         String titol = teclat.nextLine();
@@ -601,8 +673,13 @@ public class App {
             System.err.println("Error guardant les accions: " + e.getMessage());
         }
     }
-
-    public static void opcio10(LlistaAccions accions) {
+    /**
+     * Opció 10: Afegir una nova demostració.
+     * Aquest mètode permet a l'usuari afegir una nova demostració a l'arxiu accions.
+     * Demana les dadas per teclat
+     * @author Sara, Nermin
+     */
+    public static void opcio10() {
         System.out.println("10. Afegir una nova demostració");
         System.out.print("Introdueix el títol de la demostració: ");
         String titol = teclat.nextLine();
@@ -692,13 +769,45 @@ public class App {
         System.out.println("13. Consultar xerrades amb més d'un cert nombre d'assistents");
         // TODO: Implementar funcionalitat
     }
-
+    /**
+     * Opció 14: Valorar una xerrada.
+     * Aquest mètode permet a l'usuari introduir el codi d'una xerrada i afegir una valoració.
+     * @author Sara, Nermin
+     */
     public static void opcio14() {
         System.out.println("14. Valorar una xerrada");
-        // TODO: Implementar funcionalitat
-    }
+        System.out.print("Introdueix el codi de la xerrada a valorar: ");
+        String codi = teclat.nextLine();
 
-    public static void opcio15(LlistaAccions acciones) {
+        // Buscar la xerrada per codi
+        Accio accio = llistaAccions.getAccioPerCodi(codi);
+        if (accio instanceof Xerrada) {
+            Xerrada xerrada = (Xerrada) accio;
+            System.out.print("Introdueix la valoració (1-5): ");
+            int valoracio = Integer.parseInt(teclat.nextLine());
+            xerrada.afegirValoracio(valoracio);
+            System.out.println("Valoració afegida correctament.");
+
+            // Guardar la llista d'accions en el fitxer accions.txt
+            String fitxerAccions = "accions.txt";
+            try {
+                System.out.println("Guardant la llista d'accions en " + fitxerAccions);
+                llistaAccions.guardarAccions(fitxerAccions);
+                System.out.println("Llista d'accions guardada en " + fitxerAccions);
+            } catch (IOException e) {
+                System.err.println("Error guardant les accions: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Xerrada no trobada o el codi no correspon a una xerrada.");
+        }
+    }
+    
+    /**
+     * Opció 15: Consultar la xerrada millor valorada.
+     * Aquest mètode permet a l'usuari consultar la xerrada amb la millor valoració total.
+     * @author Sara, Nermin
+     */
+    public static void opcio15() {
         System.out.println("15. Consultar la xerrada millor valorada");
         Xerrada millorXerrada = null;
         int millorValoracio = 0;
@@ -722,56 +831,29 @@ public class App {
         }
     }
 
-    /**
-     * Mostra les xerrades impartides per una persona concreta identificada pel seu alias.
-     * 
-     * Aquest mètode permet cercar totes les xerrades (accions de tipus Xerrada) registrades en la llista d'accions 
-     * on el membre especificat aparegui com a impartidor. Si no es troben xerrades o el membre no és un impartidor 
-     * de cap d'elles, es notifica a l'usuari.
-     * 
-     * @throws Exception Si es produeix un error inesperat durant l'execució.
-     * @author Paolo
-     */
+   /** 
+ * Opcio 16: Buscar accions per responsable.
+ * Busca les accions per responsable i mostra les dades de les accions trobades.
+ * @author Sara, Nermin
+ */
     public static void opcio16(LlistaAccions acciones) {
-        System.out.println("16. Mostrar les xerrades d'una persona concreta");
+        System.out.println("16. Buscar accions per responsable");
+        System.out.print("Introdueix el nom del responsable: ");
+        String responsable = teclat.nextLine();
+
+        LlistaAccions llistaAccions = new LlistaAccions();
+        String fitxerAccions = "accions.txt";
         try {
-            System.out.print("Introdueix l'alias de la persona: ");
-            String alias = teclat.nextLine();
-    
-            Accio[] accions = acciones.getAccions();
-    
-            if (accions.length == 0) {
-                System.out.println("No hi ha xerrades registrades.");
-                return;
-            }
-    
-            boolean xerradesTrobades = false;
-            System.out.println("\nXerrades impartides per: " + alias);
-    
-            for (Accio accio : accions) {
-                if (accio instanceof Xerrada) { 
-                    Xerrada xerrada = (Xerrada) accio;
-                    Membres[] impartidors = xerrada.getMembresImpartidors();
-    
-                    for (Membres membre : impartidors) {
-                        if (membre != null && membre.getAlias().equalsIgnoreCase(alias)) {
-                            System.out.println(xerrada);
-                            xerradesTrobades = true;
-                            break;
-                        }
-                    }
-                }
-            }
-    
-            if (!xerradesTrobades) {
-                System.out.println("No s'han trobat xerrades impartides per aquesta persona.");
-            }
-    
-        } catch (Exception e) {
-            System.err.println("S'ha produït un error: " + e.getMessage());
+            llistaAccions.carregarAccions(fitxerAccions);
+            System.out.println("Accions carregades correctament des de: " + fitxerAccions);
+
+           
+            LlistaAccions.mostrarAccionsPerResponsable(llistaAccions, responsable);
+
+        } catch (IOException e) {
+            System.err.println("Error carregant les accions des del fitxer: " + e.getMessage());
         }
     }
-
     public static void opcio17() {
         System.out.println("17. Donar de baixa demostracions no actives dissenyades abans d'una data");
         // TODO: Implementar funcionalitat
