@@ -28,6 +28,8 @@ public class Alumnes extends Membres{
      * @param antiguitat      - Nombre d'anys que l'alumne porta a l'ETSE.
      * @param graduat         - Indica si l'alumne està graduat.
      * @throws IllegalArgumentException Si l'ensenyament és nul o buit, o si l'antiguitat és negativa.
+     * 
+     * @author Paolo
      */
     public Alumnes(String alias, String correuElectronic, Data dataAlta, 
     String ensenyament, int antiguitat, boolean graduat) {
@@ -52,6 +54,8 @@ public class Alumnes extends Membres{
      * Getter per obtenir l'ensenyament de l'alumne.
      * 
      * @return El valor de l'ensenyament.
+     * 
+     * @author Paolo
      */
     public String getEnsenyament() {
         return ensenyament;
@@ -61,6 +65,8 @@ public class Alumnes extends Membres{
      * Getter per obtenir l'antiguitat de l'alumne.
      * 
      * @return El nombre d'anys que l'alumne porta a l'ETSE.
+     * 
+     * @author Paolo
      */
     public int getAntiguitat() {
         return antiguitat;
@@ -70,6 +76,8 @@ public class Alumnes extends Membres{
      * Getter per comprovar si l'alumne està graduat.
      * 
      * @return Cert si l'alumne està graduat, fals en cas contrari.
+     * 
+     * @author Paolo
      */
     public boolean isGraduat() {
         return graduat;
@@ -80,6 +88,8 @@ public class Alumnes extends Membres{
      * 
      * @param ensenyament - El nou valor de l'ensenyament.
      * @throws IllegalArgumentException Si l'ensenyament és nul o buit.
+     * 
+     * @author Paolo
      */
     public void setEnsenyament(String ensenyament) {
         try {
@@ -97,6 +107,8 @@ public class Alumnes extends Membres{
      * 
      * @param antiguitat - El nou valor d'antiguitat.
      * @throws IllegalArgumentException Si l'antiguitat és negativa.
+     * 
+     * @author Paolo
      */
     public void setAntiguitat(int antiguitat) {
         try {
@@ -113,6 +125,8 @@ public class Alumnes extends Membres{
      * Setter per modificar l'estat de graduació de l'alumne.
      * 
      * @param graduat - El nou estat de graduació (cert o fals).
+     * 
+     * @author Paolo
      */
     public void setGraduat(boolean graduat) {
         try {
@@ -127,6 +141,8 @@ public class Alumnes extends Membres{
      * 
      * @return Una cadena de text amb els detalls de l'alumne.ç
      * @throws RuntimeException Si es produeix un error en generar la representació.
+     * 
+     * @author Paolo
      */
     @Override
     public String toString() {
@@ -144,6 +160,8 @@ public class Alumnes extends Membres{
      * 
      * @return Una nova instància de l'objecte Alumnes amb els mateixos valors.
      * @throws RuntimeException Si es produeix un error durant la còpia.
+     * 
+     * @author Paolo
      */
     @Override
     public Alumnes copia() {

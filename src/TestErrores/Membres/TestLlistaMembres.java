@@ -21,6 +21,7 @@ public class TestLlistaMembres {
      * Crida a les funcions de test per validar el comportament de la classe LlistaMembres.
      * 
      * @param args Arguments de línia de comandes (no utilitzats).
+     * @author Paolo
      */
     public static void main(String[] args) {
         testAfegirMembre();
@@ -33,6 +34,7 @@ public class TestLlistaMembres {
     /**
      * Test per verificar l'afegit de membres a la llista.
      * Es comprova que es poden afegir membres i que el nombre total s'actualitza correctament.
+     * @author Paolo
      */
     static void testAfegirMembre() {
         System.out.println("=== TEST: Afegir Membres ===");
@@ -54,6 +56,7 @@ public class TestLlistaMembres {
     /**
      * Test per verificar la funcionalitat de guardar i carregar membres d'un fitxer.
      * Es comprova que la informació es guarda correctament en el fitxer i es pot carregar sense errors.
+     * @author Paolo
      */
     static void testGuardarICarregar() {
         System.out.println("=== TEST: Guardar i Carregar Membres ===");
@@ -97,6 +100,7 @@ public class TestLlistaMembres {
      /**
      * Test per verificar que la llista de membres es manté ordenada per alias.
      * Es comprova que els membres es col·loquin en l'ordre correcte.
+     * @author Paolo
      */
     static void testOrdenacio() {
         System.out.println("=== TEST: Ordenació de Membres ===");
@@ -117,6 +121,7 @@ public class TestLlistaMembres {
     /**
      * Test per verificar que no es poden afegir membres duplicats a la llista.
      * Es comprova que el nombre de membres no augmenta quan s'intenta afegir un duplicat.
+     * @author Paolo
      */
     static void testDuplicats() {
         System.out.println("=== TEST: Membres Duplicats ===");
@@ -134,6 +139,7 @@ public class TestLlistaMembres {
      * Test per verificar el mètode copia de la classe LlistaMembres.
      * Es comprova que la còpia sigui una nova instància i que els membres 
      * copien les referències correctament.
+     * @author Paolo
      */
     static void testCopia() {
         System.out.println("=== TEST: Còpia de Llista Membres ===");

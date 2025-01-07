@@ -17,6 +17,7 @@ public class TestProfessors {
      * Crida a les funcions de test per validar el comportament de la classe Professors.
      * 
      * @param args Arguments de línia de comandes (no utilitzats).
+     * @author Paolo
      */
     public static void main(String[] args) {
         testGetters();
@@ -28,6 +29,7 @@ public class TestProfessors {
     /**
      * Test per verificar els getters de la classe Professors.
      * Es comprova que cada getter retorni el valor correcte.
+     * @author Paolo
      */
     static void testGetters() {
         Professors professor = new Professors("Maria456", "maria@etse.com", new Data(10, 1, 2024), "DEIM", "D123");
@@ -43,6 +45,7 @@ public class TestProfessors {
     /**
      * Test per verificar els setters de la classe Professors.
      * Es comprova que els valors es modifiquen correctament.
+     * @author Paolo
      */
     static void testSetters() {
         Professors professor = new Professors("Maria456", "maria@etse.com", new Data(10, 1, 2024), "DEIM", "D123");
@@ -57,6 +60,7 @@ public class TestProfessors {
     /**
      * Test per verificar el mètode copia de la classe Professors.
      * Es comprova que la còpia sigui una nova instància amb els mateixos valors.
+     * @author Paolo
      */
     static void testCopia() {
         Professors professor = new Professors("Maria456", "maria@etse.com", new Data(10, 1, 2024), "DEIM", "D123");
@@ -78,6 +82,7 @@ public class TestProfessors {
     /**
      * Test per verificar el mètode toString de la classe Professors.
      * Es comprova que la representació textual sigui correcta.
+     * @author Paolo
      */
     static void testToString() {
         Professors professor = new Professors("Maria456", "maria@etse.com", new Data(10, 1, 2024), "DEIM", "D123");

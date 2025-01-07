@@ -30,6 +30,8 @@ public abstract class Membres implements Serializable{
      * @param correuElectronic - Correu electrònic del membre.
      * @param dataAlta         - Data en què el membre s'ha donat d'alta.
      * @throws IllegalArgumentException Si qualsevol dels paràmetres és invàlid.
+     * 
+     * @author Paolo
      */
     public Membres(String alias, String correuElectronic, Data dataAlta) {
         try {
@@ -50,6 +52,8 @@ public abstract class Membres implements Serializable{
      * 
      * @param alias - Nou valor per a l'alias del membre.
      * @throws IllegalArgumentException Si l'alias és buit o nul.
+     * 
+     * @author Paolo
      */
     public void setAlias(String alias) {
         try {
@@ -68,6 +72,8 @@ public abstract class Membres implements Serializable{
      * 
      * @param correuElectronic - Nou valor per al correu electrònic del membre.
      * @throws IllegalArgumentException Si el correu electrònic és buit o nul.
+     * 
+     * @author Paolo
      */
     public void setCorreuElectronic(String correuElectronic) {
         try {
@@ -86,6 +92,8 @@ public abstract class Membres implements Serializable{
      * 
      * @param dataAlta - Nou valor per a la data d'alta del membre.
      * @throws IllegalArgumentException Si la data d'alta és nul·la.
+     * 
+     * @author Paolo
      */
     public void setDataAlta(Data dataAlta) {
         try {
@@ -104,6 +112,8 @@ public abstract class Membres implements Serializable{
      * 
      * @param participacions - Nou valor per al rol del membre.
      * @throws IllegalArgumentException Si el rol és buit o nul.
+     * 
+     * @author Paolo
      */
     public void setParticipacions(int participacions) {
         try {
@@ -122,6 +132,8 @@ public abstract class Membres implements Serializable{
      * 
      * @param dataBaixa - Nou valor per a la data de baixa del membre.
      * @throws IllegalArgumentException Si la data de baixa és anterior a la data d'alta.
+     * 
+     * @author Paolo
      */
     public void setDataBaixa(Data dataBaixa) {
         try {
@@ -138,6 +150,8 @@ public abstract class Membres implements Serializable{
      * Getter per obtenir l'alias del membre.
      * 
      * @return El valor de l'alias del membre.
+     * 
+     * @author Paolo
      */
     public String getAlias() {
         return alias;
@@ -147,6 +161,8 @@ public abstract class Membres implements Serializable{
      * Getter per obtenir el correu electrònic del membre.
      * 
      * @return El valor del correu electrònic del membre.
+     * 
+     * @author Paolo
      */
     public String getCorreuElectronic() {
         return correuElectronic;
@@ -156,6 +172,8 @@ public abstract class Membres implements Serializable{
      * Getter per obtenir la data d'alta del membre.
      * 
      * @return El valor de la data d'alta.
+     * 
+     * @author Paolo
      */
     public Data getDataAlta() {
         return dataAlta;
@@ -165,6 +183,7 @@ public abstract class Membres implements Serializable{
      * Getter per obtenir la data de baixa del membre.
      * 
      * @return El valor de la data de baixa o null si el membre està actiu.
+     * @author Paolo
      */
     public Data getDataBaixa() {
         return dataBaixa;
@@ -174,6 +193,8 @@ public abstract class Membres implements Serializable{
      * Getter per obtenir el nombre de participacions del membre.
      * 
      * @return El valor del nombre de participacions.
+     * 
+     * @author Paolo
      */
     public int getParticipacions() {
         return participacions;
@@ -184,6 +205,8 @@ public abstract class Membres implements Serializable{
      * 
      * @return Una cadena de text amb els detalls del membre.
      * @throws RuntimeException Si es produeix un error durant la generació del text.
+     * 
+     * @author Paolo
      */
     @Override
     public String toString() {
@@ -204,6 +227,8 @@ public abstract class Membres implements Serializable{
      * de l'objecte actual.
      * 
      * @return Una nova instància del membre amb els mateixos valors.
+     * 
+     * @author Paolo
      */
     public abstract Membres copia();
 

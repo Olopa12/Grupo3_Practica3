@@ -24,6 +24,7 @@ public class GestorPersistencia {
      * @param llistaAccions Objecte LlistaAccions on carregar les accions.
      * @param fitxerAccions Nom del fitxer de text amb les accions.
      * @throws IOException Si hi ha un error en la lectura dels fitxers.
+     * @author Paolo
      */
     public static void carregarDades(String fitxerAssociacions, String fitxerMembres, String fitxerAccions,
                                      LlistaAssociacions llistaAssociacions, LlistaMembres llistaMembres, LlistaAccions llistaAccions) throws IOException {
@@ -48,6 +49,7 @@ public class GestorPersistencia {
      * @param llistaMembres Objecte LlistaMembres que conté els membres.
      * @param llistaAccions Objecte LlistaAccions que conté les accions.
      * @throws IOException Si hi ha un error en l'escriptura dels fitxers.
+     * @author Paolo
      */
     public static void guardarDades(String fitxerAssociacions, String fitxerMembres, String fitxerAccions,
                                     LlistaAssociacions llistaAssociacions, LlistaMembres llistaMembres, LlistaAccions llistaAccions) throws IOException {
@@ -68,6 +70,7 @@ public class GestorPersistencia {
      * @param fitxerAssociacions Nom del fitxer binari amb les associacions.
      * @param llistaAssociacions Objecte LlistaAssociacions on carregar les dades.
      * @throws IOException Si hi ha un error en la lectura del fitxer.
+     * @author Paolo
      */
     public static void carregarAssociacions(String fitxerAssociacions, LlistaAssociacions llistaAssociacions) throws IOException {
         try {
@@ -85,6 +88,7 @@ public class GestorPersistencia {
      * @param fitxerAssociacions Nom del fitxer binari on guardar les associacions.
      * @param llistaAssociacions Objecte LlistaAssociacions que conté les dades.
      * @throws IOException Si hi ha un error en l'escriptura del fitxer.
+     * @author Paolo
      */
     public static void guardarAssociacions(String fitxerAssociacions, LlistaAssociacions llistaAssociacions) throws IOException {
         try {
@@ -101,6 +105,7 @@ public class GestorPersistencia {
      * @param fitxerMembres Nom del fitxer de text amb els membres.
      * @param llistaMembres Objecte LlistaMembres on carregar les dades.
      * @throws IOException Si hi ha un error en la lectura del fitxer.
+     * @author Paolo
      */
     public static void carregarMembres(String fitxerMembres, LlistaMembres llistaMembres) {
         try {
@@ -116,6 +121,7 @@ public class GestorPersistencia {
      * @param fitxerMembres Nom del fitxer de text on guardar els membres.
      * @param llistaMembres Objecte LlistaMembres que conté les dades.
      * @throws IOException Si hi ha un error en l'escriptura del fitxer.
+     * @author Paolo
      */
     public static void guardarMembres(String fitxerMembres, LlistaMembres llistaMembres) {
         try {

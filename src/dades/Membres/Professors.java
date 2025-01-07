@@ -25,6 +25,8 @@ public class Professors extends Membres{
      * @param departament     - Departament al qual pertany el professor.
      * @param numDespatx      - Número de despatx del professor.
      * @throws IllegalArgumentException Si el departament no és vàlid o si el número de despatx és nul o buit.
+     * 
+     * @author Paolo
      */
     public Professors(String alias, String correuElectronic, Data dataAlta, 
     String departament, String numDespatx) {
@@ -49,6 +51,8 @@ public class Professors extends Membres{
      * 
      * @param departament - El nou valor del departament.
      * @throws IllegalArgumentException Si el departament no és vàlid.
+     * 
+     * @author Paolo
      */
     public void setDepartament(String departament) {
         try {
@@ -66,6 +70,8 @@ public class Professors extends Membres{
      * 
      * @param numDespatx - El nou valor del número de despatx.
      * @throws IllegalArgumentException Si el número de despatx és nul o buit.
+     * 
+     * @author Paolo
      */
     public void setNumDespatx(String numDespatx) {
         try {
@@ -82,6 +88,8 @@ public class Professors extends Membres{
      * Getter per obtenir el departament del professor.
      * 
      * @return El valor del departament.
+     * 
+     * @author Paolo
      */
     public String getDepartament() {
         return departament;
@@ -91,6 +99,8 @@ public class Professors extends Membres{
      * Getter per obtenir el número de despatx del professor.
      * 
      * @return El valor del número de despatx.
+     * 
+     * @author Paolo
      */
     public String getNumDespatx() {
         return numDespatx;
@@ -101,6 +111,8 @@ public class Professors extends Membres{
      * 
      * @return Una cadena de text amb els detalls del professor.
      * @throws RuntimeException Si es produeix un error durant la generació del text.
+     * 
+     * @author Paolo
      */
     @Override
     public String toString() {
@@ -118,6 +130,8 @@ public class Professors extends Membres{
      * 
      * @return Una nova instància de l'objecte Professors amb els mateixos valors.
      * @throws RuntimeException Si es produeix un error durant la còpia.
+     * 
+     * @author Paolo
      */
     @Override
     public Professors copia() {
@@ -129,8 +143,8 @@ public class Professors extends Membres{
                 this.departament,
                 this.numDespatx
             );
-            copia.setDataBaixa(this.getDataBaixa()); // Copiem la data de baixa si n'hi ha
-            copia.setParticipacions(this.getParticipacions()); // Copiem el nombre de participacions
+            copia.setDataBaixa(this.getDataBaixa()); 
+            copia.setParticipacions(this.getParticipacions()); 
             return copia;
         } catch (Exception e) {
             System.err.println("Error copiant l'objecte Professors: " + e.getMessage());

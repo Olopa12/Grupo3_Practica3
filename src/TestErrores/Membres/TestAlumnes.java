@@ -18,6 +18,7 @@ public class TestAlumnes {
      * Crida a les funcions de test per validar el comportament de la classe Alumnes.
      * 
      * @param args Arguments de línia de comandes (no utilitzats).
+     * @author Paolo
      */
     public static void main(String[] args) {
         testGetters();
@@ -29,6 +30,7 @@ public class TestAlumnes {
     /**
      * Test per verificar els getters de la classe Alumnes.
      * Es comprova que cada getter retorni el valor correcte.
+     * @author Paolo
      */
     static void testGetters() {
         Alumnes alumne = new Alumnes("Joan123", "joan@etse.com", new Data(10, 1, 2024), "GEI", 2, false);
@@ -45,6 +47,7 @@ public class TestAlumnes {
     /**
      * Test per verificar els setters de la classe Alumnes.
      * Es comprova que els valors es modifiquen correctament.
+     * @author Paolo
      */
     static void testSetters() {
         Alumnes alumne = new Alumnes("Joan123", "joan@etse.com", new Data(10, 1, 2024), "GEI", 2, false);
@@ -61,6 +64,7 @@ public class TestAlumnes {
     /**
      * Test per verificar el mètode copia.
      * Es comprova que la còpia sigui una nova instància amb els mateixos valors.
+     * @author Paolo
      */
     static void testCopia() {
         Alumnes alumne = new Alumnes("Joan123", "joan@etse.com", new Data(10, 1, 2024), "GEI", 2, false);
@@ -87,6 +91,7 @@ public class TestAlumnes {
     /**
      * Test per verificar el mètode toString.
      * Es comprova que la representació textual sigui correcta.
+     * @author Paolo
      */
     static void testToString() {
         Alumnes alumne = new Alumnes("Joan123", "joan@etse.com", new Data(10, 1, 2024), "GEI", 2, false);

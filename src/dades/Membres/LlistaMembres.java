@@ -28,6 +28,8 @@ public class LlistaMembres {
      * 
      * @param nom      - Nom de la llista.
      * @param dimensio - Nombre màxim de membres que pot contenir la llista.
+     * 
+     * @author Paolo
      */
     public LlistaMembres (String nom, int dimensio){
         this.nomLlista = "Llista de "+ nom;
@@ -39,6 +41,8 @@ public class LlistaMembres {
      * Ordena la llista de membres per alias.
      * 
      * @throws RuntimeException Si es produeix un error durant l'ordenació.
+     * 
+     * @author Paolo
      */
     private void ordenarLlista() {
         try {
@@ -54,6 +58,8 @@ public class LlistaMembres {
      * 
      * @param m - Membre que es vol afegir a la llista.
      * @throws IllegalStateException Si la llista està plena.
+     * 
+     * @author Paolo
      */
     public void afegirMembre(Membres m) {
         try {
@@ -75,6 +81,8 @@ public class LlistaMembres {
      * Obté el nombre actual de membres a la llista.
      * 
      * @return El nombre de membres actuals.
+     * 
+     * @author Paolo
      */
     public int numMembres(){
         return nMembres;
@@ -87,6 +95,8 @@ public class LlistaMembres {
      * @param m - Membre que es vol comprovar.
      * @return Cert si el membre ja està a la llista, fals en cas contrari.
      * @throws RuntimeException Si es produeix un error durant la comprovació.
+     * 
+     * @author Paolo
      */
     public boolean esta(Membres m) {
         try {
@@ -105,6 +115,8 @@ public class LlistaMembres {
      * Getter per obtenir el nom de la llista.
      * 
      * @return El nom de la llista.
+     * 
+     * @author Paolo
      */
     public String getNomLlista() {
         return nomLlista;
@@ -114,6 +126,8 @@ public class LlistaMembres {
      * Setter per modificar el nom de la llista.
      * 
      * @param nomLlista - El nou nom de la llista.
+     * 
+     * @author Paolo
      */
     public void setNomLlista(String nomLlista) {
         this.nomLlista = nomLlista;
@@ -124,6 +138,8 @@ public class LlistaMembres {
      * 
      * @param fitxer - Nom del fitxer on es guardarà la informació.
      * @throws IOException si hi ha un problema amb l'escriptura del fitxer.
+     * 
+     * @author Paolo
      */
     public void guardarEnFitxer(String fitxer) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fitxer))) {
@@ -172,6 +188,8 @@ public class LlistaMembres {
      * 
      * @param fitxer - Nom del fitxer d'on es carregarà la informació.
      * @throws IOException si hi ha un problema amb la lectura del fitxer.
+     * 
+     * @author Paolo
      */
     public void carregarDeFitxer(String fitxer) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(fitxer))) {
@@ -216,6 +234,8 @@ public class LlistaMembres {
      * @param atributs - Atributs separats de la línia del fitxer.
      * @return Una instància d'Alumnes o null si hi ha un error.
      * @throws IllegalArgumentException Si els atributs no són suficients o hi ha errors en el format.
+     * 
+     * @author Paolo
      */
     private Membres carregarAlumne(String[] atributs) {
         try {
@@ -248,6 +268,8 @@ public class LlistaMembres {
      * @param atributs - Atributs separats de la línia del fitxer.
      * @return Una instància de Professsors o null si hi ha un error.
      * @throws IllegalArgumentException Si els atributs no són suficients o hi ha errors en el format.
+     * 
+     * @author Paolo
      */
     private Membres carregarProfessor(String[] atributs) {
         try {
@@ -278,6 +300,8 @@ public class LlistaMembres {
      * Inclou només els membres actualment presents a la llista (exclou els espais buits).
      * 
      * @return Una còpia de l'array de membres actual.
+     * 
+     * @author Paolo
      */
     public Membres[] copia() {
         Membres[] copia = new Membres[nMembres];
@@ -291,6 +315,8 @@ public class LlistaMembres {
      * Retorna una representació textual de la llista amb tots els membres.
      * 
      * @return Una cadena de text amb els detalls de tots els membres.
+     * 
+     * @author Paolo
      */
     @Override
     public String toString() {

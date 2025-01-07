@@ -14,6 +14,7 @@ public class TestUtils {
      * @param expected - Valor esperat.
      * @param actual   - Valor actual.
      * @param testName - Nom del test.
+     * @author Paolo
      */
     public static void assertEqual(Object expected, Object actual, String testName) {
         if (expected == null && actual == null) {
@@ -30,6 +31,7 @@ public class TestUtils {
      * 
      * @param condition - Condició que s'ha de verificar.
      * @param testName  - Nom del test.
+     * @author Paolo
      */
     public static void assertTrue(boolean condition, String testName) {
         if (!condition) {
@@ -44,6 +46,7 @@ public class TestUtils {
      * 
      * @param condition - Condició que s'ha de verificar.
      * @param testName  - Nom del test.
+     * @author Paolo
      */
     public static void assertFalse(boolean condition, String testName) {
         assertTrue(!condition, testName);

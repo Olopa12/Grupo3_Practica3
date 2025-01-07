@@ -17,6 +17,7 @@ public class TestMembres {
      * Crida a les funcions de test per validar el comportament de la classe Membres.
      * 
      * @param args Arguments de línia de comandes (no utilitzats).
+     * @author Paolo
      */
     public static void main(String[] args) {
         testGetters();
@@ -28,6 +29,7 @@ public class TestMembres {
     /**
      * Test per verificar els getters de la classe Membres.
      * Es comprova que cada getter retorni el valor correcte.
+     * @author Paolo
      */
     static void testGetters() {
         Membres membre = new TestMembre("Joan123", "joan@etse.com", new Data(10, 1, 2024));
@@ -42,6 +44,7 @@ public class TestMembres {
     /**
      * Test per verificar els setters de la classe Membres.
      * Es comprova que els valors es modifiquen correctament.
+     * @author Paolo
      */
     static void testSetters() {
         Membres membre = new TestMembre("Joan123", "joan@etse.com", new Data(10, 1, 2024));
@@ -62,6 +65,7 @@ public class TestMembres {
     /**
      * Test per verificar el mètode toString de la classe Membres.
      * Es comprova que la representació textual sigui correcta.
+     * @author Paolo
      */
     static void testToString() {
         Membres membre = new TestMembre("Joan123", "joan@etse.com", new Data(10, 1, 2024));
@@ -75,6 +79,7 @@ public class TestMembres {
     /**
      * Test per verificar el mètode copia de la classe Membres.
      * Es comprova que la còpia sigui una nova instància amb els mateixos valors.
+     * @author Paolo
      */
     static void testCopia() {
         Membres membreOriginal = new TestMembre("Joan123", "joan@etse.com", new Data(10, 1, 2024));
@@ -101,6 +106,7 @@ public class TestMembres {
     /**
      * Classe concreta per provar la classe abstracta Membres.
      * Es proporciona una implementació mínima per al mètode abstracte `copia`.
+     * @author Paolo
      */
     static class TestMembre extends Membres {
         public TestMembre(String alias, String correuElectronic, Data dataAlta) {

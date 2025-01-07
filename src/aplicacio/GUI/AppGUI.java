@@ -2,7 +2,6 @@ package aplicacio.GUI;
 
 import javax.swing.*;
 
-import aplicacio.App;
 import dades.Accions.LlistaAccions;
 import dades.Associacions.LlistaAssociacions;
 import dades.Membres.LlistaMembres;
@@ -23,29 +22,31 @@ public class AppGUI extends JFrame{
     LlistaAssociacions associacions = DataManager.getInstance().associacionsInicials;
     LlistaMembres membres = DataManager.getInstance().llistaMembres;
     LlistaAccions accions = DataManager.getInstance().llistaAccions;
+    /**
+     * Constructor principal de la classe AppGUI.
+     * Configura la interfície gràfica, inicialitza les dades i crea els botons.
+     * 
+     * @author Paolo
+     */
     public AppGUI() {
         setTitle("Gestió d'Associacions");
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Crear el layout del menú
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0, 1, 10, 10));
 
         try {
             inicialitzarDades();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        // Títol
         JLabel titleLabel = new JLabel("Menú Principal", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         panel.add(titleLabel);
 
-        // Noms personalitzats per als botons
         String[] botons = {
             "Mostrar llista d'associacions",
             "Mostrar membres d'una associació",
@@ -67,53 +68,55 @@ public class AppGUI extends JFrame{
             "Sortir de l'aplicació"
         };
 
-        // Crear botons per a cada opció
         for (int i = 0; i < botons.length; i++) {
             JButton button = new JButton(botons[i]);
             button.addActionListener(new ButtonClickListener(i + 1)); // Opcions comencen en 1
             panel.add(button);
         }
 
-        // Afegir el panell a la finestra
         add(panel);
     }
 
     /**
      * Classe per gestionar els clics dels botons.
+     * 
+     * @author Paolo
      */
     private class ButtonClickListener implements ActionListener {
         private final int opcio;
 
+        /**
+         * Constructor que assigna el número d'opció al listener.
+         * @param opcio Número de l'opció seleccionada.
+         * @author Paolo
+         */
         public ButtonClickListener(int opcio) {
             this.opcio = opcio;
         }
 
+        /**
+         * Mètode que es crida quan es prem un botó.
+         * Executa l'acció corresponent segons el número de l'opció.
+         * @author Paolo
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             switch (opcio) {
-                case 1:
-                    App.opcio1(associacions, "associacions.dat");
-
-                    break;
                 case 2:
-                    App.opcio2(associacions);
+                    // Mostra la GUI per a l'opció 2
+                    mostrarVentanaEmergente(new Opcio2GUI(associacions, AppGUI.this));
                     break;
                 case 3:
-                    App.opcio3(associacions);
+                    // Mostra la GUI per a l'opció 3
+                    mostrarVentanaEmergente(new Opcio3GUI(AppGUI.this));
                     break;
-                case 7:
-                    App.opcio7(associacions, "associacions.dat"); // Afegir una nova associació
-                    break;
-                case 8:
-                    App.opcio8(associacions, "associacions.dat"); // Alta d'un membre a una associació
-
-                    break;
-                // Afegir les altres opcions
                 case 18:
-                    SubventanaSortir sortirDialog = new SubventanaSortir(AppGUI.this,associacions, membres, accions);
+                    // Mostra la finestra de confirmació per sortir
+                    SubventanaSortir sortirDialog = new SubventanaSortir(AppGUI.this, associacions, membres, accions);
                     sortirDialog.setVisible(true);
                     break;
                 default:
+                    // Per a opcions no implementades, mostra un missatge de "treball en progrés"
                     mostrarVentanaEmergente(new VentanaTrabajoEnProgreso(AppGUI.this));
             }
         }
@@ -122,13 +125,15 @@ public class AppGUI extends JFrame{
     /**
      * Inicialitza les dades necessàries per a l'aplicació.
      * @throws IOException Si es produeix un error al carregar o crear fitxers.
+     * 
+     * @author Paolo
      */
     private void inicialitzarDades() throws IOException {
         String fitxerAssociacions = "associacions.dat";
         String fitxerMembres = "membres.txt";
         String fitxerAccions = "accions.txt";
 
-        // Comprovar si els fitxers existeixen i crear-los si no és així
+        // Comprovar o crear el fitxer d'associacions
         java.io.File fileAssociacions = new java.io.File(fitxerAssociacions);
         if (!fileAssociacions.exists()) {
             System.out.println("El fitxer d'associacions no existeix. Creant un nou fitxer...");
@@ -136,6 +141,7 @@ public class AppGUI extends JFrame{
             GestorPersistencia.guardarAssociacions(fitxerAssociacions, associacionsInicials);
         }
 
+        // Comprovar o crear el fitxer de membres
         java.io.File fileMembres = new java.io.File(fitxerMembres);
         if (!fileMembres.exists()) {
             System.out.println("El fitxer de membres no existeix. Creant un nou fitxer...");
@@ -143,6 +149,7 @@ public class AppGUI extends JFrame{
             GestorPersistencia.guardarMembres(fitxerMembres, membresInicials);
         }
 
+        // Comprovar o crear el fitxer d'accions
         java.io.File fileAccions = new java.io.File(fitxerAccions);
         if (!fileAccions.exists()) {
             System.out.println("El fitxer d'accions no existeix. Creant un nou fitxer...");
@@ -150,11 +157,17 @@ public class AppGUI extends JFrame{
             GestorPersistencia.guardarAccions(fitxerAccions, accionsInicials);
         }
 
-        // Càrrega inicial de les dades
+        // Carregar dades des dels fitxers
         System.out.println("Carregant dades...");
         GestorPersistencia.carregarDades(fitxerAssociacions, fitxerMembres, fitxerAccions, associacions, membres, accions);
     }
 
+    /**
+     * Mostra una finestra emergent i oculta la finestra principal mentre aquesta està oberta.
+     * @param ventanaEmergente Finestra emergent que es vol mostrar.
+     * 
+     * @author Paolo
+     */
     private void mostrarVentanaEmergente(JFrame ventanaEmergente) {
         // Oculta la finestra principal
         this.setVisible(false);
@@ -171,8 +184,12 @@ public class AppGUI extends JFrame{
         });
 
     }
+
     /**
-     * Punt d'entrada per a la GUI.
+     * Punt d'entrada principal per a la GUI.
+     * Inicialitza i mostra la finestra principal de l'aplicació.
+     * 
+     * @author Paolo
      */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

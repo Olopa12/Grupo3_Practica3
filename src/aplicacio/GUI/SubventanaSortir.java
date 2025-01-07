@@ -26,6 +26,7 @@ public class SubventanaSortir extends JDialog{
      * @param associacions La llista d'associacions actual.
      * @param membres La llista de membres actual.
      * @param accions La llista d'accions actual.
+     *  @author Paolo
      */
 	public SubventanaSortir(JFrame parent, LlistaAssociacions associacions, LlistaMembres membres, LlistaAccions accions) {
         super(parent, "Sortir de l'Aplicació", true);
@@ -37,6 +38,7 @@ public class SubventanaSortir extends JDialog{
 
     /**
      * Configura els components de la finestra.
+     *  @author Paolo
      */
     @SuppressWarnings("unused")
     private void configurarVentana() {
@@ -68,6 +70,7 @@ public class SubventanaSortir extends JDialog{
 
     /**
      * Guarda les dades i tanca l'aplicació.
+     *  @author Paolo
      */
     private void guardarICerrar() {
         final String FITXER_ASSOCIACIONS = "associacions.dat";
@@ -85,6 +88,7 @@ public class SubventanaSortir extends JDialog{
 
     /**
      * Tanca l'aplicació sense guardar.
+     *  @author Paolo
      */
     private void sortirSenseGuardar() {
         JOptionPane.showMessageDialog(this, "Sortint sense guardar els canvis.", "Sortir", JOptionPane.INFORMATION_MESSAGE);
