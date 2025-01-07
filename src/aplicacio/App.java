@@ -139,7 +139,7 @@ public class App {
                         opcio13(); // Consultar xerrades amb més assistents que un nombre determinat
                         break;
                     case 14:
-                        opcio14(); // Valorar una xerrada
+                        opcio14(accions); // Valorar una xerrada
                         break;
                     case 15:
                         opcio15(accions); // Consultar la xerrada millor valorada
@@ -773,13 +773,13 @@ public class App {
      * Aquest mètode permet a l'usuari introduir el codi d'una xerrada i afegir una valoració.
      * @author Sara, Nermin
      */
-    public static void opcio14() {
+    public static void opcio14(LlistaAccions acciones) {
         System.out.println("14. Valorar una xerrada");
         System.out.print("Introdueix el codi de la xerrada a valorar: ");
         String codi = teclat.nextLine();
 
         // Buscar la xerrada per codi
-        Accio accio = llistaAccions.getAccioPerCodi(codi);
+        Accio accio = acciones.getAccioPerCodi(codi);
         if (accio instanceof Xerrada) {
             Xerrada xerrada = (Xerrada) accio;
             System.out.print("Introdueix la valoració (1-5): ");
@@ -791,7 +791,7 @@ public class App {
             String fitxerAccions = "accions.txt";
             try {
                 System.out.println("Guardant la llista d'accions en " + fitxerAccions);
-                llistaAccions.guardarAccions(fitxerAccions);
+                acciones.guardarAccions(fitxerAccions);
                 System.out.println("Llista d'accions guardada en " + fitxerAccions);
             } catch (IOException e) {
                 System.err.println("Error guardant les accions: " + e.getMessage());
