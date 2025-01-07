@@ -109,10 +109,10 @@ public class App {
                         opcio3(associacions); // Mostrar membres actius
                         break;
                     case 4:
-                        opcio4(); // Mostrar la llista d'accions
+                        opcio4(accions); // Mostrar la llista d'accions
                         break;
                     case 5:
-                        opcio5(); // Mostrar accions d'una associació concreta
+                        opcio5(accions); // Mostrar accions d'una associació concreta
                         break;
                     case 6:
                         opcio6(); // Mostrar xerrades en una franja de dates
@@ -124,10 +124,10 @@ public class App {
                         opcio8(associacions, fitxerAssociacions); // Alta d'un membre a una associació
                         break;
                     case 9:
-                        opcio9(); // Afegir una nova xerrada
+                        opcio9(accions); // Afegir una nova xerrada
                         break;
                     case 10:
-                        opcio10(); // Afegir una nova demostració
+                        opcio10(accions); // Afegir una nova demostració
                         break;
                     case 11:
                         opcio11(); // Consultar demostracions no actives i calcular el cost total
@@ -142,10 +142,10 @@ public class App {
                         opcio14(); // Valorar una xerrada
                         break;
                     case 15:
-                        opcio15(); // Consultar la xerrada millor valorada
+                        opcio15(accions); // Consultar la xerrada millor valorada
                         break;
                     case 16:
-                        opcio16(); // Mostrar les xerrades d'una persona concreta
+                        opcio16(accions); // Mostrar les xerrades d'una persona concreta
                         break;
                     case 17:
                         opcio17(); // Donar de baixa demostracions no actives
@@ -625,9 +625,9 @@ public class App {
      * Aquest mètode permet a l'usuari afegir una nova xerrada a l'arxiu d'accions.
      * @author Sara, Nermin
      */
-    public static void opcio9() {
+    public static void opcio9(LlistaAccions accions) {
         System.out.println("9. Afegir una nova xerrada");
-        System.out.print("Introdueix el títol de la xerrada: ");
+       System.out.print("Introdueix el títol de la xerrada: ");
         String titol = teclat.nextLine();
         System.out.print("Introdueix el nom de l'associació: ");
         String codiAssociacio = teclat.nextLine();
@@ -636,7 +636,7 @@ public class App {
         System.out.print("Introdueix la data de la xerrada (format YYYY-MM-DD): ");
         String dataStr = teclat.nextLine();
         Data data = Data.parseData(dataStr);
-
+    
         Membres responsableMembre = new Membres(responsable, "email", new Data()) {
             @Override
             public Membres copia() {
@@ -648,10 +648,10 @@ public class App {
                 };
             }
         };
-
+    
         Xerrada novaXerrada = new Xerrada(titol, new Associacio(codiAssociacio, "email", "GEI"),
                 responsableMembre, data);
-
+    
         System.out.print("Introdueix el nombre de valoracions: ");
         int numValoracions = Integer.parseInt(teclat.nextLine());
         for (int i = 0; i < numValoracions; i++) {
@@ -659,7 +659,7 @@ public class App {
             int valoracio = Integer.parseInt(teclat.nextLine());
             novaXerrada.afegirValoracio(valoracio);
         }
-
+    
         try {
             accions.afegirAccio(novaXerrada);
             System.out.println("Xerrada afegida correctament.");
@@ -679,9 +679,8 @@ public class App {
      * Demana les dadas per teclat
      * @author Sara, Nermin
      */
-    public static void opcio10() {
-        System.out.println("10. Afegir una nova demostració");
-        System.out.print("Introdueix el títol de la demostració: ");
+    public static void opcio10(LlistaAccions accions) {
+      System.out.print("Introdueix el títol de la demostració: ");
         String titol = teclat.nextLine();
         System.out.print("Introdueix el nom de l'associació: ");
         String codiAssociacio = teclat.nextLine();
@@ -705,14 +704,14 @@ public class App {
                 };
             }
         };
-
+    
         Demostracio novaDemostracio = new Demostracio(titol, new Associacio(codiAssociacio, "email", "GEI"),
                 responsableMembre, dataDisseny, esValida, costMaterials);
-
+    
         try {
             accions.afegirAccio(novaDemostracio);
             System.out.println("Demostració ha sigut afegida correctament.");
-
+    
             // Guardar la llista d'accions en el fitxer accions.txt
             String fitxerAccions = "accions.txt";
             System.out.println("Guardant la llista d'accions en " + fitxerAccions);
@@ -807,9 +806,9 @@ public class App {
      * Aquest mètode permet a l'usuari consultar la xerrada amb la millor valoració total.
      * @author Sara, Nermin
      */
-    public static void opcio15() {
+    public static void opcio15(LlistaAccions acciones) {
         System.out.println("15. Consultar la xerrada millor valorada");
-        Xerrada millorXerrada = null;
+       Xerrada millorXerrada = null;
         int millorValoracio = 0;
 
         Accio[] accions = acciones.getAccions();
