@@ -54,6 +54,45 @@ public class LlistaAccions {
             }
         }
     }
+    
+    /**
+     * Busca les accions que tenen un responsable amb el nom especificat.
+     *
+     * @param alias L'alias del responsable a buscar.
+     * @return Un array amb les accions que tenen el responsable. 
+     */
+    
+    public Accio[] buscarAccionsPerResponsable(String alias) {
+        Accio[] accionsEncontradas = new Accio[numAccions];
+        int count = 0;
+        for (int i = 0; i < numAccions; i++) {
+            if (accions[i].getResponsable().getAlias().equals(alias)) {
+                accionsEncontradas[count++] = accions[i];
+            }
+        }
+        Accio[] result = new Accio[count];
+        System.arraycopy(accionsEncontradas, 0, result, 0, count);
+        return result;
+    }
+    
+    /**
+     * Mostra les accions que tenen un responsable amb el nom especificat.
+     * 
+     * @param llistaAccions
+     * @param responsable
+     */
+    public static void mostrarAccionsPerResponsable(LlistaAccions llistaAccions, String responsable) {
+        Accio[] accionsPerResponsable = llistaAccions.buscarAccionsPerResponsable(responsable);
+    
+        if (accionsPerResponsable.length > 0) {
+            System.out.println("Accions per al responsable " + responsable + ":");
+            for (Accio accio : accionsPerResponsable) {
+                System.out.println(accio);
+            }
+        } else {
+            System.out.println("No s'han trobat accions per al responsable: " + responsable);
+        }
+    }
 
     /**
      * Elimina una acció de la llista pel seu codi.
