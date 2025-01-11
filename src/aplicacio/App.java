@@ -498,26 +498,51 @@ public class App {
                     if(qual == 0){
                         System.out.println("\n\tNom: ");
                         String nom = teclat.next();
-                        System.out.println("\n\tCorreu: ");
-                        String correu = teclat.next();
-                        System.out.println("\n\tDia: ");            
-                        int dia = teclat.nextInt();
-                        System.out.println("\n\tMes: ");
-                        int mes = teclat.nextInt();
-                        System.out.println("\n\tAny: ");
-                        int any = teclat.nextInt();
-                        System.out.println("\n\tEnsenyament de l'alumne: ");            
-                        String ensenyament = teclat.next();
-                        System.out.println("\n\tNombre d'anys en l'ETSE: ");
-                        int antiguitat = teclat.nextInt();
-                        System.out.println("\n\tEsta graduat? (Si/No) ");
-                        String graduatString = teclat.next();
-                        boolean graduat = false;
-                        if(graduatString.equalsIgnoreCase("Si")){
-                            graduat = true;
+                        int j = 0;
+                        boolean alumneTrobatPerBucle = false;
+                        int numAssociacioDeLlista = 0;
+                        int numMembreDeLlista = 0;
+                        while(j < associacionsInicials.getNumAssociacions() && !alumneTrobatPerBucle){
+                            int k = 0;
+                            while(k < associacionsInicials.associacioEnPossicioDeLlista(j).getNumMembres() && !alumneTrobatPerBucle){
+                                Membres[] llistaAuxiliarDeMembres = associacionsInicials.associacioEnPossicioDeLlista(j).getLlistaMembres();
+                                if(llistaAuxiliarDeMembres[k].getAlias().equalsIgnoreCase(nom) && llistaAuxiliarDeMembres[k] instanceof Alumnes){
+                                    alumneTrobatPerBucle = true;
+                                    numAssociacioDeLlista = j;
+                                    numMembreDeLlista = k;
+                                }
+                                k++;
+                            }
+                            j++;
                         }
-                        Alumnes a = new Alumnes(nom, correu, new Data(dia, mes, any), ensenyament, antiguitat, graduat);
-                        associacionsInicials.buscarAssociacio(nomAssociacio).assignarMembresALlistaMembres(a);
+                        if(alumneTrobatPerBucle){
+                            Membres[] llistaAuxiliarMembresTrobat = associacionsInicials.associacioEnPossicioDeLlista(numAssociacioDeLlista).getLlistaMembres();
+                            Associacio associacioAuxiliar = associacionsInicials.associacioEnPossicioDeLlista(numAssociacioDeLlista);
+                            associacionsInicials.buscarAssociacio(associacioAuxiliar.getNomAsociacio()).assignarMembresALlistaMembres(llistaAuxiliarMembresTrobat[numMembreDeLlista]);
+                        } else{
+                            if(!trobat){
+                                System.out.println("\n\tCorreu: ");
+                                String correu = teclat.next();
+                                System.out.println("\n\tDia: ");            
+                                int dia = teclat.nextInt();
+                                System.out.println("\n\tMes: ");
+                                int mes = teclat.nextInt();
+                                System.out.println("\n\tAny: ");
+                                int any = teclat.nextInt();
+                                System.out.println("\n\tEnsenyament de l'alumne: ");            
+                                String ensenyament = teclat.next();
+                                System.out.println("\n\tNombre d'anys en l'ETSE: ");
+                                int antiguitat = teclat.nextInt();
+                                System.out.println("\n\tEsta graduat? (Si/No) ");
+                                String graduatString = teclat.next();
+                                boolean graduat = false;
+                                if(graduatString.equalsIgnoreCase("Si")){
+                                    graduat = true;
+                                }
+                                Alumnes a = new Alumnes(nom, correu, new Data(dia, mes, any), ensenyament, antiguitat, graduat);
+                                associacionsInicials.buscarAssociacio(nomAssociacio).assignarMembresALlistaMembres(a);
+                            }
+                        }
                     } else{
                         System.out.println("\n\tNom: ");
                         String nom = teclat.next();

@@ -84,6 +84,11 @@ public class LlistaAssociacions {
         return trobat;
     }
 
+    
+    public Associacio associacioEnPossicioDeLlista(int i){
+        return llista[i];
+    }
+
     /**
      * Metode que afegix una associacio a la llista de associacions.
      * @param a Associacio que s'afegix.
