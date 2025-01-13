@@ -517,8 +517,7 @@ public class App {
                         }
                         if(alumneTrobatPerBucle){
                             Membres[] llistaAuxiliarMembresTrobat = associacionsInicials.associacioEnPossicioDeLlista(numAssociacioDeLlista).getLlistaMembres();
-                            Associacio associacioAuxiliar = associacionsInicials.associacioEnPossicioDeLlista(numAssociacioDeLlista);
-                            associacionsInicials.buscarAssociacio(associacioAuxiliar.getNomAsociacio()).assignarMembresALlistaMembres(llistaAuxiliarMembresTrobat[numMembreDeLlista]);
+                            associacionsInicials.associacioEnPossicioDeLlista(numAssociacioDeLlista).assignarMembresALlistaMembres(llistaAuxiliarMembresTrobat[numMembreDeLlista]);
                         } else{
                             if(!trobat){
                                 System.out.println("\n\tCorreu: ");
